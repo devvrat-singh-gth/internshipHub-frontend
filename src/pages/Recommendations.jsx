@@ -25,7 +25,7 @@ const Recommendations = () => {
   const handleApply = async (id) => {
     try {
       await API.post(
-        `https://internshiphub-backend.onrender.com/internships/${id}/apply`
+        `https://internshiphub-backend.onrender.com/api/internships/${id}/apply`
       );
       alert("Applied successfully!");
     } catch (err) {
@@ -37,7 +37,7 @@ const Recommendations = () => {
   const handleSave = async (id) => {
     try {
       await API.post(
-        `https://internshiphub-backend.onrender.com/internships/${id}/save`
+        `https://internshiphub-backend.onrender.com/api/internships/${id}/save`
       );
       alert("Saved successfully!");
     } catch (err) {

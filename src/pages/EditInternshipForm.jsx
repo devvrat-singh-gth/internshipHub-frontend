@@ -21,7 +21,7 @@ const EditInternshipForm = () => {
     const fetchInternship = async () => {
       try {
         const { data } = await API.get(
-          `https://internshiphub-backend.onrender.com/internships/${id}`
+          `https://internshiphub-backend.onrender.com/api/internships/${id}`
         );
 
         // ✅ Pick only required fields
@@ -48,7 +48,7 @@ const EditInternshipForm = () => {
     e.preventDefault();
     try {
       await API.put(
-        `https://internshiphub-backend.onrender.com/internships/${id}`,
+        `https://internshiphub-backend.onrender.com/api/internships/${id}`,
         formData
       );
       toast.success("Internship updated successfully!");

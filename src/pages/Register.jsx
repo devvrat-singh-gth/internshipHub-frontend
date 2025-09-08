@@ -14,7 +14,7 @@ const Register = () => {
     e.preventDefault();
     try {
       const { data } = await API.post(
-        "https://internshiphub-backend.onrender.com/auth/register",
+        "https://internshiphub-backend.onrender.com/api/auth/register",
         {
           name,
           email,

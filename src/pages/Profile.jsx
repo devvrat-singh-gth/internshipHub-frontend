@@ -31,7 +31,7 @@ const Profile = () => {
     const fetchProfile = async () => {
       try {
         const { data } = await API.get(
-          "https://internshiphub-backend.onrender.com/users/me"
+          "https://internshiphub-backend.onrender.com/api/users/me"
         );
         setProfile({
           education: data.education || "",
@@ -63,7 +63,7 @@ const Profile = () => {
     e.preventDefault();
     try {
       await API.put(
-        "https://internshiphub-backend.onrender.com/users/me",
+        "https://internshiphub-backend.onrender.com/api/users/me",
         profile
       );
       alert("Profile updated!");

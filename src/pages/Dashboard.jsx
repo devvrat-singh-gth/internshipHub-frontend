@@ -19,7 +19,7 @@ const Dashboard = () => {
 
         // Fetch profile with saved & applied
         const { data } = await API.get(
-          "https://internshiphub-backend.onrender.com/users/me",
+          "https://internshiphub-backend.onrender.com/api/users/me",
           {
             headers: { Authorization: `Bearer ${token}` },
           }
@@ -32,7 +32,7 @@ const Dashboard = () => {
 
         // Fetch recommendations
         const rec = await API.get(
-          "https://internshiphub-backend.onrender.com/internships/recommendations",
+          "https://internshiphub-backend.onrender.com/api/internships/recommendations",
           {
             headers: { Authorization: `Bearer ${token}` },
           }

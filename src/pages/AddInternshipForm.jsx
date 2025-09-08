@@ -24,7 +24,7 @@ const AddInternshipForm = () => {
       const token = localStorage.getItem("token"); // ✅ get token
 
       await API.post(
-        "https://internshiphub-backend.onrender.com/internships",
+        "https://internshiphub-backend.onrender.com/api/internships",
         formData,
         {
           headers: {

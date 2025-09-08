@@ -24,7 +24,7 @@ const Internships = () => {
       try {
         const token = localStorage.getItem("token");
         const { data } = await API.get(
-          "https://internshiphub-backend.onrender.com/internships",
+          "https://internshiphub-backend.onrender.com/api/internships",
           {
             headers: { Authorization: `Bearer ${token}` },
           }

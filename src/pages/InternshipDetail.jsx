@@ -15,7 +15,7 @@ const InternshipDetail = () => {
       try {
         const token = localStorage.getItem("token");
         const { data } = await API.get(
-          `https://internshiphub-backend.onrender.com/internships/${id}`,
+          `https://internshiphub-backend.onrender.com/api/internships/${id}`,
           {
             headers: { Authorization: `Bearer ${token}` },
           }
@@ -35,7 +35,7 @@ const InternshipDetail = () => {
     try {
       const token = localStorage.getItem("token");
       await API.post(
-        `https://internshiphub-backend.onrender.com/internships/${id}/apply`,
+        `https://internshiphub-backend.onrender.com/api/internships/${id}/apply`,
         {},
         { headers: { Authorization: `Bearer ${token}` } }
       );
