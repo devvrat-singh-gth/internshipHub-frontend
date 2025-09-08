@@ -20,7 +20,9 @@ const Navbar = () => {
     const token = localStorage.getItem("token");
     if (token) {
       try {
-        const { data } = await API.get("/users/me");
+        const { data } = await API.get(
+          "https://internshiphub-backend.onrender.com/api/users/me"
+        );
         setIsLoggedIn(true);
         setUserName(data.name || "User");
         setIsAdmin(data.type === "admin");
