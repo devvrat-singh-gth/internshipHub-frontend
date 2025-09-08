@@ -11,7 +11,10 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const { data } = await API.post("/auth/login", { email, password });
+      const { data } = await API.post(
+        "https://internshiphub-backend.onrender.com/auth/login",
+        { email, password }
+      );
 
       // ✅ Only proceed if backend returned a token
       if (!data?.token) {

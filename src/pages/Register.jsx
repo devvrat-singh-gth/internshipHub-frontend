@@ -13,12 +13,15 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const { data } = await API.post("/auth/register", {
-        name,
-        email,
-        password,
-        type,
-      });
+      const { data } = await API.post(
+        "https://internshiphub-backend.onrender.com/auth/register",
+        {
+          name,
+          email,
+          password,
+          type,
+        }
+      );
       localStorage.setItem("token", data.token);
       window.dispatchEvent(new Event("authChange")); // 👈 match Navbar
       toast.success("Registration successful!");

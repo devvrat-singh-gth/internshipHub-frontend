@@ -23,9 +23,12 @@ const Internships = () => {
     const fetchInternships = async () => {
       try {
         const token = localStorage.getItem("token");
-        const { data } = await API.get("/internships", {
-          headers: { Authorization: `Bearer ${token}` },
-        });
+        const { data } = await API.get(
+          "https://internshiphub-backend.onrender.com/internships",
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
         setInternships(data);
       } catch (err) {
         console.error("Error fetching internships:", err);

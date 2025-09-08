@@ -20,7 +20,9 @@ const EditInternshipForm = () => {
   useEffect(() => {
     const fetchInternship = async () => {
       try {
-        const { data } = await API.get(`/internships/${id}`);
+        const { data } = await API.get(
+          `https://internshiphub-backend.onrender.com/internships/${id}`
+        );
 
         // ✅ Pick only required fields
         setFormData({
@@ -45,7 +47,10 @@ const EditInternshipForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await API.put(`/internships/${id}`, formData);
+      await API.put(
+        `https://internshiphub-backend.onrender.com/internships/${id}`,
+        formData
+      );
       toast.success("Internship updated successfully!");
       navigate("/admin");
     } catch (err) {

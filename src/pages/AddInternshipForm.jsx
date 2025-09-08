@@ -23,11 +23,15 @@ const AddInternshipForm = () => {
     try {
       const token = localStorage.getItem("token"); // ✅ get token
 
-      await API.post("/internships", formData, {
-        headers: {
-          Authorization: `Bearer ${token}`, // ✅ send token
-        },
-      });
+      await API.post(
+        "https://internshiphub-backend.onrender.com/internships",
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`, // ✅ send token
+          },
+        }
+      );
 
       alert("✅ Internship added successfully!");
       navigate("/admin");

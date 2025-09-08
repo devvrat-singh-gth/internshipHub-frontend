@@ -10,7 +10,9 @@ const Admin = () => {
   // ✅ Fetch internships
   const fetchInternships = async () => {
     try {
-      const { data } = await API.get("/internships");
+      const { data } = await API.get(
+        "https://internshiphub-backend.onrender.com/internships"
+      );
       setInternships(data);
     } catch (err) {
       console.error("Error fetching internships", err);
@@ -27,7 +29,9 @@ const Admin = () => {
       return;
 
     try {
-      await API.delete(`/internships/${id}`);
+      await API.delete(
+        `https://internshiphub-backend.onrender.com/internships/${id}`
+      );
       setInternships(internships.filter((i) => i._id !== id));
       alert("Internship deleted successfully!");
     } catch (err) {

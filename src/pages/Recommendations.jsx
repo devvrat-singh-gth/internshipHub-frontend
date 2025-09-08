@@ -10,7 +10,9 @@ const Recommendations = () => {
   useEffect(() => {
     const fetchRecommendations = async () => {
       try {
-        const { data } = await API.get("/internships/recommendations");
+        const { data } = await API.get(
+          "https://internshiphub-backend.onrender.com/internships/recommendations"
+        );
         setRecommendations(data);
       } catch (err) {
         console.error("Failed to load recommendations:", err);

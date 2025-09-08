@@ -18,9 +18,12 @@ const Dashboard = () => {
         if (!token) return;
 
         // Fetch profile with saved & applied
-        const { data } = await API.get("/users/me", {
-          headers: { Authorization: `Bearer ${token}` },
-        });
+        const { data } = await API.get(
+          "https://internshiphub-backend.onrender.com/users/me",
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
         setProfile(data);
         setSavedInternships(data.savedInternships || []);
         setAppliedInternships(
@@ -28,9 +31,12 @@ const Dashboard = () => {
         );
 
         // Fetch recommendations
-        const rec = await API.get("/internships/recommendations", {
-          headers: { Authorization: `Bearer ${token}` },
-        });
+        const rec = await API.get(
+          "https://internshiphub-backend.onrender.com/internships/recommendations",
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
         setRecommendations(rec.data || []);
       } catch (err) {
         console.error("❌ Failed to fetch dashboard data:", err);

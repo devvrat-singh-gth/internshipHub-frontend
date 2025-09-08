@@ -30,7 +30,9 @@ const Profile = () => {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const { data } = await API.get("/users/me");
+        const { data } = await API.get(
+          "https://internshiphub-backend.onrender.com/users/me"
+        );
         setProfile({
           education: data.education || "",
           skills: data.skills || [],
