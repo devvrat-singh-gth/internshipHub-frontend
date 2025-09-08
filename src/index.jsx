@@ -3,7 +3,7 @@ import ReactDOM from "react-dom/client";
 import "./index.css"; // Tailwind CSS here
 
 import App from "./App";
-import { AuthProvider } from "./AuthContext";
+import { AuthProvider } from "./context/AuthContext";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>

@@ -1,9 +1,17 @@
-import React, { createContext, useState, useContext } from "react";
+import React, { createContext, useState, useContext, useEffect } from "react";
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null);
+
+  // Load user from localStorage on first load
+  useEffect(() => {
+    const storedUser = localStorage.getItem("currentUser");
+    if (storedUser) {
+      setCurrentUser(JSON.parse(storedUser));
+    }
+  }, []);
 
   const login = (email, password) => {
     const userType = email.includes("admin") ? "admin" : "student";
@@ -14,9 +22,13 @@ export const AuthProvider = ({ children }) => {
       type: userType,
     };
     setCurrentUser(user);
+    localStorage.setItem("currentUser", JSON.stringify(user)); // Save to localStorage
   };
 
-  const logout = () => setCurrentUser(null);
+  const logout = () => {
+    setCurrentUser(null);
+    localStorage.removeItem("currentUser"); // Remove from localStorage
+  };
 
   return (
     <AuthContext.Provider value={{ currentUser, login, logout }}>
