@@ -62,7 +62,10 @@ const Profile = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await API.put("/users/me", profile);
+      await API.put(
+        "https://internshiphub-backend.onrender.com/users/me",
+        profile
+      );
       alert("Profile updated!");
     } catch (err) {
       alert(err.response?.data?.message || "Failed to update profile");

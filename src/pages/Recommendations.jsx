@@ -24,7 +24,9 @@ const Recommendations = () => {
   // Apply function
   const handleApply = async (id) => {
     try {
-      await API.post(`/internships/${id}/apply`);
+      await API.post(
+        `https://internshiphub-backend.onrender.com/internships/${id}/apply`
+      );
       alert("Applied successfully!");
     } catch (err) {
       alert(err.response?.data?.message || "Failed to apply");
@@ -34,7 +36,9 @@ const Recommendations = () => {
   // Save function
   const handleSave = async (id) => {
     try {
-      await API.post(`/internships/${id}/save`);
+      await API.post(
+        `https://internshiphub-backend.onrender.com/internships/${id}/save`
+      );
       alert("Saved successfully!");
     } catch (err) {
       alert(err.response?.data?.message || "Failed to save");
