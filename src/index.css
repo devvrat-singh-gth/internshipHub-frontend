@@ -1,0 +1,59 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* --- Custom Components Layer --- */
+@layer components {
+  /* Buttons */
+  .btn {
+    @apply inline-flex items-center justify-center px-4 py-2 rounded-lg font-semibold transition;
+  }
+
+  .btn--primary {
+    @apply bg-primary text-white hover:bg-primary-dark;
+  }
+
+  .btn--secondary {
+    @apply bg-secondary text-white hover:bg-secondary-dark;
+  }
+
+  .btn--outline {
+    @apply border border-primary text-primary hover:bg-primary hover:text-white;
+  }
+
+  /* Cards */
+  .card {
+    @apply bg-surface-light dark:bg-surface-dark rounded-xl shadow-card p-6;
+  }
+}
+
+/* Add in index.css */
+.nav-link {
+  @apply text-gray-700 dark:text-gray-300 transition;
+}
+.animate-fade-in {
+  animation: fadeIn 0.2s ease-in-out;
+}
+.animate-slide-down {
+  animation: slideDown 0.3s ease-in-out;
+}
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
