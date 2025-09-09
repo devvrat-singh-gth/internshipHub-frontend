@@ -2,12 +2,13 @@
 import React, { useEffect, useState, useRef } from "react";
 import { Link } from "react-router-dom";
 
+// Circle percentage animation
 const CircleStat = ({ label, target, trigger }) => {
   const [value, setValue] = useState(0);
 
   useEffect(() => {
     if (!trigger) {
-      setValue(0); // reset when not visible
+      setValue(0);
       return;
     }
 
@@ -80,20 +81,48 @@ const Home = () => {
     <div className="bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200">
       {/* Hero Section */}
       <section className="bg-gradient-to-r from-teal-500 to-blue-600 text-white py-20">
-        <div className="max-w-6xl mx-auto px-6 text-center">
-          <h1 className="text-4xl md:text-5xl font-bold mb-4">
-            Find Your Dream Internship
-          </h1>
-          <p className="text-lg mb-8">
-            Discover amazing opportunities from top companies across India.
-            Start your career journey today.
-          </p>
-          <Link
-            to="/internships"
-            className="px-6 py-3 bg-white text-teal-600 font-semibold rounded-md shadow hover:bg-gray-100 transition"
-          >
-            Search Internships
-          </Link>
+        <div className="max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-10 items-center">
+          {/* Left content */}
+          <div>
+            <h1 className="text-4xl md:text-5xl font-bold mb-4">
+              Find Your Dream Internship
+            </h1>
+            <p className="text-lg mb-6">
+              Explore internships, recommended courses, scholarships, and
+              special opportunities like{" "}
+              <span className="font-semibold">PM Internships</span>. Start your
+              career journey today with InternshipHub.
+            </p>
+            <div className="flex flex-wrap gap-4">
+              <Link
+                to="/internships"
+                className="px-6 py-3 bg-white text-teal-600 font-semibold rounded-md shadow hover:bg-gray-100 transition"
+              >
+                Explore Internships
+              </Link>
+              <Link
+                to="/courses"
+                className="px-6 py-3 bg-teal-700 text-white font-semibold rounded-md shadow hover:bg-teal-800 transition hidden sm:inline-block"
+              >
+                Explore Courses
+              </Link>
+              <Link
+                to="/scholarships"
+                className="px-6 py-3 bg-blue-600 text-white font-semibold rounded-md shadow hover:bg-blue-700 transition hidden md:inline-block"
+              >
+                Scholarships
+              </Link>
+            </div>
+          </div>
+
+          {/* Right image */}
+          <div className="hidden md:block">
+            <img
+              src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=900&q=80"
+              alt="Internship"
+              className="rounded-lg shadow-lg"
+            />
+          </div>
         </div>
       </section>
 
@@ -114,33 +143,24 @@ const Home = () => {
           Featured Internships
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
-          <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow hover:shadow-lg transition">
-            <h3 className="text-xl font-semibold text-gray-800 dark:text-gray-100">
-              Software Developer Intern
-            </h3>
-            <p className="text-gray-600 dark:text-gray-400">ABC Tech Pvt Ltd</p>
-            <button className="mt-4 px-4 py-2 bg-teal-600 text-white rounded-md hover:bg-teal-700 transition">
-              View Details
-            </button>
-          </div>
-          <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow hover:shadow-lg transition">
-            <h3 className="text-xl font-semibold text-gray-800 dark:text-gray-100">
-              Marketing Intern
-            </h3>
-            <p className="text-gray-600 dark:text-gray-400">XYZ Solutions</p>
-            <button className="mt-4 px-4 py-2 bg-teal-600 text-white rounded-md hover:bg-teal-700 transition">
-              View Details
-            </button>
-          </div>
-          <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow hover:shadow-lg transition">
-            <h3 className="text-xl font-semibold text-gray-800 dark:text-gray-100">
-              UI/UX Design Intern
-            </h3>
-            <p className="text-gray-600 dark:text-gray-400">Creative Studio</p>
-            <button className="mt-4 px-4 py-2 bg-teal-600 text-white rounded-md hover:bg-teal-700 transition">
-              View Details
-            </button>
-          </div>
+          {[
+            "Software Developer Intern",
+            "Marketing Intern",
+            "UI/UX Design Intern",
+          ].map((role, i) => (
+            <div
+              key={i}
+              className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow hover:shadow-lg transition"
+            >
+              <h3 className="text-xl font-semibold text-gray-800 dark:text-gray-100">
+                {role}
+              </h3>
+              <p className="text-gray-600 dark:text-gray-400">Company XYZ</p>
+              <button className="mt-4 px-4 py-2 bg-teal-600 text-white rounded-md hover:bg-teal-700 transition">
+                View Details
+              </button>
+            </div>
+          ))}
         </div>
         <div className="text-center mt-10">
           <Link
@@ -156,7 +176,7 @@ const Home = () => {
       <section className="py-20 bg-gray-50 dark:bg-gray-800">
         <div className="max-w-6xl mx-auto px-6">
           <h2 className="text-3xl font-bold mb-8 text-center">Top Courses</h2>
-          <div className="flex space-x-6 overflow-x-auto scrollbar-hide snap-x">
+          <div className="flex space-x-6 overflow-x-auto scrollbar-hide">
             {[
               {
                 title: "Full-Stack Web Development",
@@ -176,7 +196,7 @@ const Home = () => {
             ].map((course, i) => (
               <div
                 key={i}
-                className="min-w-[280px] sm:min-w-[350px] snap-center p-6 bg-white dark:bg-gray-900 rounded-lg shadow hover:shadow-lg transition"
+                className="min-w-[280px] sm:min-w-[350px] p-6 bg-white dark:bg-gray-900 rounded-lg shadow hover:shadow-lg transition"
               >
                 <img
                   src={course.img}
@@ -187,14 +207,19 @@ const Home = () => {
                 <p className="text-gray-600 dark:text-gray-400">
                   {course.desc}
                 </p>
-                <Link
-                  to="/courses"
-                  className="mt-4 inline-block px-4 py-2 bg-teal-600 text-white rounded-md hover:bg-teal-700 transition"
-                >
-                  Explore Courses
-                </Link>
+                <p className="mt-2 text-sm text-teal-600 cursor-pointer">
+                  Look More →
+                </p>
               </div>
             ))}
+          </div>
+          <div className="text-center mt-10">
+            <Link
+              to="/courses"
+              className="px-6 py-3 bg-teal-600 text-white font-semibold rounded-md shadow hover:bg-teal-700 transition"
+            >
+              Explore Courses
+            </Link>
           </div>
         </div>
       </section>
@@ -205,7 +230,7 @@ const Home = () => {
           <h2 className="text-3xl font-bold mb-8 text-center">
             Scholarships You Can Apply For
           </h2>
-          <div className="flex space-x-6 overflow-x-auto scrollbar-hide snap-x">
+          <div className="flex space-x-6 overflow-x-auto scrollbar-hide">
             {[
               {
                 title: "Google Scholarship",
@@ -225,7 +250,7 @@ const Home = () => {
             ].map((scholar, i) => (
               <div
                 key={i}
-                className="min-w-[280px] sm:min-w-[350px] snap-center p-6 bg-white dark:bg-gray-800 rounded-lg shadow hover:shadow-lg transition"
+                className="min-w-[280px] sm:min-w-[350px] p-6 bg-white dark:bg-gray-800 rounded-lg shadow hover:shadow-lg transition"
               >
                 <img
                   src={scholar.img}
@@ -236,14 +261,19 @@ const Home = () => {
                 <p className="text-gray-600 dark:text-gray-400">
                   {scholar.desc}
                 </p>
-                <Link
-                  to="/scholarships"
-                  className="mt-4 inline-block px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition"
-                >
-                  View Scholarships
-                </Link>
+                <p className="mt-2 text-sm text-blue-600 cursor-pointer">
+                  Look More →
+                </p>
               </div>
             ))}
+          </div>
+          <div className="text-center mt-10">
+            <Link
+              to="/scholarships"
+              className="px-6 py-3 bg-blue-600 text-white font-semibold rounded-md shadow hover:bg-blue-700 transition"
+            >
+              View Scholarships
+            </Link>
           </div>
         </div>
       </section>
