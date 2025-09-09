@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import API from "../utils/api"; // <-- Make sure this is correctly configured
+import API from "../utils/api"; // Make sure this is correctly configured
 
 const AddCourseForm = () => {
   const navigate = useNavigate();
@@ -14,9 +14,9 @@ const AddCourseForm = () => {
   });
 
   const [imagePreview, setImagePreview] = useState("");
-  const [manualImage, setManualImage] = useState(false); // Track if user manually uploads image
+  const [manualImage, setManualImage] = useState(false); // Track if user manually uploads or pastes image URL
 
-  // Auto-generate image from Unsplash when title changes
+  // Auto-generate image from Unsplash when title changes and no manual image set
   useEffect(() => {
     if (!manualImage && formData.title.trim() !== "") {
       const timeout = setTimeout(() => {
@@ -24,7 +24,7 @@ const AddCourseForm = () => {
         const url = `https://source.unsplash.com/800x600/?${keyword},online,course`;
         setFormData((prev) => ({ ...prev, image: url }));
         setImagePreview(url);
-      }, 1000); // Debounce for 1s
+      }, 1000); // debounce 1s
 
       return () => clearTimeout(timeout);
     }
@@ -34,7 +34,7 @@ const AddCourseForm = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  // Manual image upload (file)
+  // Handle file upload
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -43,7 +43,20 @@ const AddCourseForm = () => {
       setFormData((prev) => ({ ...prev, image: previewUrl }));
       setImagePreview(previewUrl);
 
-      // 📌 Later you can upload file to server or Cloudinary
+      // TODO: Upload file to server/cloud storage if needed
+    }
+  };
+
+  // Handle manual URL paste
+  const handleImageURLChange = (e) => {
+    const url = e.target.value.trim();
+    setFormData((prev) => ({ ...prev, image: url }));
+    if (url) {
+      setManualImage(true);
+      setImagePreview(url);
+    } else {
+      setManualImage(false);
+      setImagePreview("");
     }
   };
 
@@ -51,6 +64,10 @@ const AddCourseForm = () => {
     e.preventDefault();
     try {
       const token = localStorage.getItem("token");
+
+      // If image is a local object URL (file upload preview), you'd normally upload it and replace it with a real URL.
+      // For now, we assume the backend can accept the preview URL or you handle upload separately.
+
       await API.post(
         "https://internshiphub-backend.onrender.com/api/courses",
         formData,
@@ -128,17 +145,31 @@ const AddCourseForm = () => {
             className="w-full p-3 rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900"
           />
 
-          {/* Optional Image Upload */}
-          <div>
-            <label className="block mb-2 font-medium text-gray-800 dark:text-gray-200">
-              Upload Image (optional)
-            </label>
-            <input
-              type="file"
-              accept="image/*"
-              onChange={handleImageUpload}
-              className="w-full p-2 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-600 rounded"
-            />
+          {/* Image Upload and URL Input */}
+          <div className="flex flex-col md:flex-row md:space-x-6">
+            <div className="flex-1 mb-4 md:mb-0">
+              <label className="block mb-2 font-medium text-gray-800 dark:text-gray-200">
+                Upload Image (optional)
+              </label>
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleImageUpload}
+                className="w-full p-2 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-600 rounded"
+              />
+            </div>
+            <div className="flex-1">
+              <label className="block mb-2 font-medium text-gray-800 dark:text-gray-200">
+                Or Paste Image URL
+              </label>
+              <input
+                type="text"
+                placeholder="Image URL"
+                value={formData.image && manualImage ? formData.image : ""}
+                onChange={handleImageURLChange}
+                className="w-full p-3 rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900"
+              />
+            </div>
           </div>
 
           {/* Image Preview */}
