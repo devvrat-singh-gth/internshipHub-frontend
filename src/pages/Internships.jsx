@@ -41,7 +41,7 @@ const Internships = () => {
   }, []);
 
   const renderFilters = () => (
-    <aside className="w-full md:w-[280px] lg:w-[300px] xl:w-[320px] bg-white dark:bg-gray-800 rounded-lg shadow p-6 shrink-0">
+    <aside className="w-full md:w-[350px] lg:w-[400px] xl:w-[450px] bg-white dark:bg-gray-800 rounded-lg shadow p-6 shrink-0">
       <div className="flex justify-between items-center mb-6">
         <h3 className="text-lg font-semibold">Filters</h3>
         <button className="text-sm text-blue-600 hover:underline">
