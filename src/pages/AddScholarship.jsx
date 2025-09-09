@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import API from "../utils/api"; // Make sure this points to your axios config
+import API from "../utils/api";
 
 const AddScholarshipForm = () => {
   const navigate = useNavigate();
@@ -13,20 +13,30 @@ const AddScholarshipForm = () => {
     image: "",
   });
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
+  const [imagePreview, setImagePreview] = useState("");
+  const [manualImage, setManualImage] = useState(false);
 
-  // 🔁 Optional: Auto-generate image URL using Unsplash
-  const fetchRandomImage = async (query) => {
-    try {
-      const res = await fetch(
-        `https://source.unsplash.com/800x600/?${encodeURIComponent(query)}`
-      );
-      return res.url;
-    } catch (err) {
-      console.error("Error fetching image:", err);
-      return "";
+  // Auto-fetch image on title change if no manual URL entered
+  useEffect(() => {
+    if (!manualImage && formData.title.trim() !== "") {
+      const timeout = setTimeout(() => {
+        const keyword = encodeURIComponent(formData.title.trim());
+        const url = `https://source.unsplash.com/800x600/?${keyword},scholarship,education`;
+        setFormData((prev) => ({ ...prev, image: url }));
+        setImagePreview(url);
+      }, 1000);
+
+      return () => clearTimeout(timeout);
+    }
+  }, [formData.title, manualImage]);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+
+    if (name === "image") {
+      setManualImage(!!value.trim());
+      setImagePreview(value.trim());
     }
   };
 
@@ -34,19 +44,8 @@ const AddScholarshipForm = () => {
     e.preventDefault();
 
     try {
-      let imageUrl = formData.image;
-
-      if (!imageUrl) {
-        imageUrl = await fetchRandomImage(formData.title || "scholarship");
-      }
-
-      const payload = {
-        ...formData,
-        image: imageUrl,
-      };
-
       const token = localStorage.getItem("token");
-      await API.post("/scholarships", payload, {
+      await API.post("/api/scholarships", formData, {
         headers: { Authorization: `Bearer ${token}` },
       });
 
@@ -122,6 +121,15 @@ const AddScholarshipForm = () => {
             onChange={handleChange}
             className="w-full p-3 rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900"
           />
+
+          {/* Image Preview */}
+          {imagePreview && (
+            <img
+              src={imagePreview}
+              alt="Scholarship preview"
+              className="w-full h-64 object-cover rounded mt-4"
+            />
+          )}
 
           <button
             type="submit"

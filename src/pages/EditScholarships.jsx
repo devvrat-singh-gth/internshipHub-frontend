@@ -41,6 +41,18 @@ const EditScholarshipForm = () => {
     };
     fetchScholarship();
   }, [id]);
+  useEffect(() => {
+    if (!formData.image && formData.title) {
+      const timeout = setTimeout(() => {
+        const keyword = encodeURIComponent(formData.title);
+        setFormData((prev) => ({
+          ...prev,
+          image: `https://source.unsplash.com/800x600/?${keyword},scholarship`,
+        }));
+      }, 1000);
+      return () => clearTimeout(timeout);
+    }
+  }, [formData.title]);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });

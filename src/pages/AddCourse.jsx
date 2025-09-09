@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import API from "../utils/api"; // <-- Make sure this is correctly configured
 
 const AddCourseForm = () => {
   const navigate = useNavigate();
@@ -11,20 +12,21 @@ const AddCourseForm = () => {
     duration: "",
     image: "",
   });
-  const [imagePreview, setImagePreview] = useState("");
-  const [manualImage, setManualImage] = useState(false); // Track manual image upload
 
-  // Auto-fetch image from Unsplash based on title
+  const [imagePreview, setImagePreview] = useState("");
+  const [manualImage, setManualImage] = useState(false); // Track if user manually uploads image
+
+  // Auto-generate image from Unsplash when title changes
   useEffect(() => {
     if (!manualImage && formData.title.trim() !== "") {
       const timeout = setTimeout(() => {
         const keyword = encodeURIComponent(formData.title.trim());
-        const url = `https://source.unsplash.com/800x600/?${keyword}`;
+        const url = `https://source.unsplash.com/800x600/?${keyword},online,course`;
         setFormData((prev) => ({ ...prev, image: url }));
         setImagePreview(url);
-      }, 1000);
+      }, 1000); // Debounce for 1s
 
-      return () => clearTimeout(timeout); // Debounce
+      return () => clearTimeout(timeout);
     }
   }, [formData.title, manualImage]);
 
@@ -32,25 +34,39 @@ const AddCourseForm = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  // When user uploads an image manually
+  // Manual image upload (file)
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
     if (file) {
       const previewUrl = URL.createObjectURL(file);
       setManualImage(true);
-      setImagePreview(previewUrl);
       setFormData((prev) => ({ ...prev, image: previewUrl }));
+      setImagePreview(previewUrl);
 
-      // 📝 You can later upload this file to Cloudinary or your backend
+      // 📌 Later you can upload file to server or Cloudinary
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Submitted Course:", formData);
+    try {
+      const token = localStorage.getItem("token");
+      await API.post(
+        "https://internshiphub-backend.onrender.com/api/courses",
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
-    alert("Course added (mock)");
-    navigate("/admin");
+      alert("Course added successfully!");
+      navigate("/admin");
+    } catch (err) {
+      console.error("Failed to add course:", err);
+      alert("Failed to add course. Please try again.");
+    }
   };
 
   return (
@@ -67,7 +83,7 @@ const AddCourseForm = () => {
             value={formData.title}
             onChange={(e) => {
               handleChange(e);
-              setManualImage(false); // Reset image fetch on title change
+              setManualImage(false); // Reset auto-fetch if title changes
             }}
             required
             className="w-full p-3 rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900"
@@ -112,7 +128,7 @@ const AddCourseForm = () => {
             className="w-full p-3 rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900"
           />
 
-          {/* File Upload Input */}
+          {/* Optional Image Upload */}
           <div>
             <label className="block mb-2 font-medium text-gray-800 dark:text-gray-200">
               Upload Image (optional)

@@ -12,6 +12,7 @@ const EditCourseForm = () => {
   const [formData, setFormData] = useState({
     title: "",
     provider: "",
+    description: "",
     duration: "",
     link: "",
     image: "",
@@ -24,6 +25,7 @@ const EditCourseForm = () => {
         setFormData({
           title: data.title || "",
           provider: data.provider || "",
+          description: data.description || "",
           duration: data.duration || "",
           link: data.link || "",
           image: data.image || "",
@@ -35,6 +37,18 @@ const EditCourseForm = () => {
     };
     fetchCourse();
   }, [id]);
+  useEffect(() => {
+    if (!formData.image && formData.title) {
+      const timeout = setTimeout(() => {
+        const keyword = encodeURIComponent(formData.title);
+        setFormData((prev) => ({
+          ...prev,
+          image: `https://source.unsplash.com/800x600/?${keyword},online,course`,
+        }));
+      }, 1000);
+      return () => clearTimeout(timeout);
+    }
+  }, [formData.title]);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -43,7 +57,10 @@ const EditCourseForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await API.put(`/api/courses/${id}`, formData);
+      await API.put(`/api/courses/${id}`, {
+        ...formData,
+        image: formData.image || DEFAULT_COURSE_IMAGE,
+      });
       toast.success("Course updated successfully");
       navigate("/admin");
     } catch (err) {
@@ -75,6 +92,16 @@ const EditCourseForm = () => {
           required
         />
 
+        <textarea
+          name="description"
+          value={formData.description}
+          onChange={handleChange}
+          placeholder="Course Description"
+          rows={4}
+          className="w-full border px-3 py-2 rounded dark:bg-gray-700 dark:text-white"
+          required
+        />
+
         <select
           name="duration"
           value={formData.duration}
@@ -99,7 +126,6 @@ const EditCourseForm = () => {
           required
         />
 
-        {/* Image URL */}
         <input
           type="text"
           name="image"
