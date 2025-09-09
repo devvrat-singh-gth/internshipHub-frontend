@@ -40,7 +40,7 @@ const Internships = () => {
   }, []);
 
   const renderFilters = () => (
-    <aside className="min-w-[350px] md:min-w-[400px] lg:min-w-[500px] w-full bg-white dark:bg-gray-800 rounded-lg shadow p-6 shrink-0">
+    <aside className="min-w-[350px] md:min-w-[200px] lg:min-w-[300px] w-full bg-white dark:bg-gray-800 rounded-lg shadow p-6 shrink-0">
       <div className="flex justify-between items-center mb-6">
         <h3 className="text-lg font-semibold">Filters</h3>
         <button className="text-sm text-blue-600 hover:underline">
@@ -89,27 +89,16 @@ const Internships = () => {
           Search Internships
         </h1>
 
-        {/* 🔽 Mobile Filter Toggle */}
-        <div className="md:hidden mb-6">
-          <button
-            onClick={() => setShowMobileFilters(!showMobileFilters)}
-            className="px-4 py-2 bg-blue-600 text-white rounded-md shadow font-semibold w-full"
-          >
-            {showMobileFilters ? "Hide Filters" : "Show Filters"}
-          </button>
-          {showMobileFilters && <div className="mt-4">{renderFilters()}</div>}
-        </div>
-
         <div className="flex flex-col md:flex-row gap-8">
           {/* 🖥️ Desktop Filters */}
           <div className="hidden md:block">{renderFilters()}</div>
 
           {/* Main Content */}
           <main className="flex-1">
-            {/* Search Bar */}
+            {/* 🔍 Search Bar */}
             <form
               onSubmit={(e) => e.preventDefault()}
-              className="flex flex-col sm:flex-row gap-2 mb-6"
+              className="flex flex-col sm:flex-row gap-2 mb-4"
             >
               <input
                 type="text"
@@ -124,7 +113,20 @@ const Internships = () => {
               </button>
             </form>
 
-            {/* Internship Cards or Loading or Empty */}
+            {/* 🔽 Mobile Filter Toggle (Moved Below Search) */}
+            <div className="md:hidden mb-6">
+              <button
+                onClick={() => setShowMobileFilters(!showMobileFilters)}
+                className="px-4 py-2 bg-blue-600 text-white rounded-md shadow font-semibold w-full"
+              >
+                {showMobileFilters ? "Hide Filters" : "Show Filters"}
+              </button>
+              {showMobileFilters && (
+                <div className="mt-4">{renderFilters()}</div>
+              )}
+            </div>
+
+            {/* 📦 Internship Cards */}
             {loading ? (
               <div className="flex justify-center items-center h-28 gap-4">
                 <div className="w-12 h-12 border-4 border-blue-500 border-dashed rounded-full animate-spin"></div>

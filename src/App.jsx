@@ -28,9 +28,9 @@ import Scholarships from "./pages/Scholarships";
 // Admin Add/Edit Forms
 import AddInternshipForm from "./pages/AddInternshipForm";
 import EditInternshipForm from "./pages/EditInternshipForm";
-import AddCourseForm from "./pages/AddCourseForm";
+import AddCourseForm from "./pages/AddCourse";
 import EditCourses from "./pages/EditCourses";
-import AddScholarshipForm from "./pages/AddScholarshipForm";
+import AddScholarshipForm from "./pages/AddScholarship";
 import EditScholarships from "./pages/EditScholarships";
 
 // Components
