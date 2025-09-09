@@ -3,6 +3,8 @@ import { useNavigate, useParams } from "react-router-dom";
 import API from "../utils/api";
 import { toast } from "react-toastify";
 
+const DEFAULT_IMAGE = "https://source.unsplash.com/featured/?internship,job";
+
 const EditInternshipForm = () => {
   const { id } = useParams();
   const [formData, setFormData] = useState({
@@ -11,7 +13,8 @@ const EditInternshipForm = () => {
     location: "",
     stipend: "",
     description: "",
-    duration: "", // Track duration properly
+    duration: "",
+    image: "",
   });
 
   const navigate = useNavigate();
@@ -22,15 +25,14 @@ const EditInternshipForm = () => {
         const { data } = await API.get(
           `https://internshiphub-backend.onrender.com/api/internships/${id}`
         );
-        // Trim to avoid mismatch due to extra spaces or weird dashes
-        const trimmedDuration = (data.duration || "").trim();
         setFormData({
           title: data.title || "",
           company: data.company || "",
           location: data.location || "",
           stipend: data.stipend || "",
           description: data.description || "",
-          duration: trimmedDuration,
+          duration: (data.duration || "").trim(),
+          image: data.image || "",
         });
       } catch (err) {
         console.error("Error fetching internship", err);
@@ -47,9 +49,14 @@ const EditInternshipForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      const payload = {
+        ...formData,
+        image: formData.image || DEFAULT_IMAGE,
+      };
+
       await API.put(
         `https://internshiphub-backend.onrender.com/api/internships/${id}`,
-        formData
+        payload
       );
       toast.success("Internship updated successfully!");
       navigate("/admin");
@@ -62,6 +69,16 @@ const EditInternshipForm = () => {
   return (
     <div className="max-w-xl mx-auto mt-8 bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
       <h2 className="text-2xl font-bold mb-4 text-teal-600">Edit Internship</h2>
+
+      {/* 🖼️ Image Preview */}
+      <div className="mb-4">
+        <img
+          src={formData.image || DEFAULT_IMAGE}
+          alt="Internship"
+          className="w-32 h-20 object-cover rounded border border-gray-300"
+        />
+      </div>
+
       <form onSubmit={handleSubmit} className="space-y-4">
         <input
           type="text"
@@ -69,8 +86,8 @@ const EditInternshipForm = () => {
           placeholder="Internship Title"
           value={formData.title}
           onChange={handleChange}
-          className="w-full border px-3 py-2 rounded text-gray-900 dark:text-white bg-white dark:bg-gray-700 placeholder-gray-400 dark:placeholder-gray-300"
           required
+          className="form-input"
         />
         <input
           type="text"
@@ -78,8 +95,8 @@ const EditInternshipForm = () => {
           placeholder="Company Name"
           value={formData.company}
           onChange={handleChange}
-          className="w-full border px-3 py-2 rounded text-gray-900 dark:text-white bg-white dark:bg-gray-700 placeholder-gray-400 dark:placeholder-gray-300"
           required
+          className="form-input"
         />
         <input
           type="text"
@@ -87,7 +104,7 @@ const EditInternshipForm = () => {
           placeholder="Location"
           value={formData.location}
           onChange={handleChange}
-          className="w-full border px-3 py-2 rounded text-gray-900 dark:text-white bg-white dark:bg-gray-700 placeholder-gray-400 dark:placeholder-gray-300"
+          className="form-input"
         />
         <input
           type="text"
@@ -95,16 +112,15 @@ const EditInternshipForm = () => {
           placeholder="Stipend"
           value={formData.stipend}
           onChange={handleChange}
-          className="w-full border px-3 py-2 rounded text-gray-900 dark:text-white bg-white dark:bg-gray-700 placeholder-gray-400 dark:placeholder-gray-300"
+          className="form-input"
         />
 
-        {/* Duration Dropdown with updated values */}
         <select
           name="duration"
           value={formData.duration}
           onChange={handleChange}
           required
-          className="w-full border px-3 py-2 rounded text-gray-900 dark:text-white bg-white dark:bg-gray-700"
+          className="form-input"
         >
           <option value="">Select Duration</option>
           <option value="1 month">1 month</option>
@@ -118,10 +134,19 @@ const EditInternshipForm = () => {
           placeholder="Job Description"
           value={formData.description}
           onChange={handleChange}
-          className="w-full border px-3 py-2 rounded text-gray-900 dark:text-white bg-white dark:bg-gray-700 placeholder-gray-400 dark:placeholder-gray-300"
           rows="4"
           required
+          className="form-input"
         ></textarea>
+
+        <input
+          type="text"
+          name="image"
+          placeholder="Image URL (optional)"
+          value={formData.image}
+          onChange={handleChange}
+          className="form-input"
+        />
 
         <button
           type="submit"

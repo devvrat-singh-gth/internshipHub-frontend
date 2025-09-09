@@ -1,7 +1,8 @@
-// src/pages/AddInternshipForm.jsx
 import React, { useState } from "react";
 import API from "../utils/api";
 import { useNavigate } from "react-router-dom";
+
+const DEFAULT_IMAGE = "https://source.unsplash.com/featured/?internship,job";
 
 const AddInternshipForm = () => {
   const [formData, setFormData] = useState({
@@ -10,7 +11,8 @@ const AddInternshipForm = () => {
     location: "",
     stipend: "",
     description: "",
-    duration: "", // ✅ Added duration
+    duration: "",
+    image: "",
   });
 
   const navigate = useNavigate();
@@ -21,12 +23,18 @@ const AddInternshipForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    const payload = {
+      ...formData,
+      image: formData.image || DEFAULT_IMAGE,
+    };
+
     try {
       const token = localStorage.getItem("token");
 
       await API.post(
         "https://internshiphub-backend.onrender.com/api/internships",
-        formData,
+        payload,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -48,6 +56,16 @@ const AddInternshipForm = () => {
   return (
     <div className="max-w-xl mx-auto mt-8 bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
       <h2 className="text-2xl font-bold mb-4 text-teal-600">Add Internship</h2>
+
+      {/* 🖼️ Image Preview */}
+      <div className="mb-4">
+        <img
+          src={formData.image || DEFAULT_IMAGE}
+          alt="Internship"
+          className="w-32 h-20 object-cover rounded border border-gray-300"
+        />
+      </div>
+
       <form onSubmit={handleSubmit} className="space-y-4">
         <input
           type="text"
@@ -55,8 +73,8 @@ const AddInternshipForm = () => {
           placeholder="Internship Title"
           value={formData.title}
           onChange={handleChange}
-          className="w-full border px-3 py-2 rounded text-gray-900 dark:text-white bg-white dark:bg-gray-700 placeholder-gray-500 dark:placeholder-gray-300"
           required
+          className="form-input"
         />
         <input
           type="text"
@@ -64,8 +82,8 @@ const AddInternshipForm = () => {
           placeholder="Company Name"
           value={formData.company}
           onChange={handleChange}
-          className="w-full border px-3 py-2 rounded text-gray-900 dark:text-white bg-white dark:bg-gray-700 placeholder-gray-500 dark:placeholder-gray-300"
           required
+          className="form-input"
         />
         <input
           type="text"
@@ -73,8 +91,8 @@ const AddInternshipForm = () => {
           placeholder="Location"
           value={formData.location}
           onChange={handleChange}
-          className="w-full border px-3 py-2 rounded text-gray-900 dark:text-white bg-white dark:bg-gray-700 placeholder-gray-500 dark:placeholder-gray-300"
           required
+          className="form-input"
         />
         <input
           type="text"
@@ -82,17 +100,16 @@ const AddInternshipForm = () => {
           placeholder="Stipend"
           value={formData.stipend}
           onChange={handleChange}
-          className="w-full border px-3 py-2 rounded text-gray-900 dark:text-white bg-white dark:bg-gray-700 placeholder-gray-500 dark:placeholder-gray-300"
           required
+          className="form-input"
         />
 
-        {/* ✅ Duration Dropdown */}
         <select
           name="duration"
           value={formData.duration}
           onChange={handleChange}
           required
-          className="w-full border px-3 py-2 rounded text-gray-900 dark:text-white bg-white dark:bg-gray-700"
+          className="form-input"
         >
           <option value="">Select Duration</option>
           <option value="1 month">1 month</option>
@@ -106,10 +123,19 @@ const AddInternshipForm = () => {
           placeholder="Job Description"
           value={formData.description}
           onChange={handleChange}
-          className="w-full border px-3 py-2 rounded text-gray-900 dark:text-white bg-white dark:bg-gray-700 placeholder-gray-500 dark:placeholder-gray-300"
           rows="4"
           required
+          className="form-input"
         ></textarea>
+
+        <input
+          type="text"
+          name="image"
+          placeholder="Image URL (optional)"
+          value={formData.image}
+          onChange={handleChange}
+          className="form-input"
+        />
 
         <button
           type="submit"

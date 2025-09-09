@@ -26,6 +26,8 @@ import AddInternshipForm from "./pages/AddInternshipForm";
 import EditInternshipForm from "./pages/EditInternshipForm";
 import Courses from "./pages/Courses";
 import Scholarships from "./pages/Scholarships";
+import AddCourseForm from "./pages/AddCourseForm";
+import AddScholarshipForm from "./pages/AddScholarshipForm";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 
@@ -71,6 +73,11 @@ const App = () => {
           <Route path="/internships/:id" element={<InternshipDetail />} />
           <Route path="/courses" element={<Courses />} />
           <Route path="/scholarships" element={<Scholarships />} />
+          <Route path="/admin/add-course" element={<AddCourseForm />} />
+          <Route
+            path="/admin/add-scholarship"
+            element={<AddScholarshipForm />}
+          />
 
           {/* 🔐 More Protected Routes */}
           <Route
