@@ -87,7 +87,8 @@ const Navbar = () => {
       <nav className="max-w-7xl mx-auto px-6">
         <div className="flex justify-between items-center py-4">
           {/* Brand */}
-          <h1 className="text-2xl font-bold text-teal-600 dark:text-teal-400">
+          <h1 className="text-xl sm:text-2xl font-bold text-teal-600 dark:text-teal-400">
+            {" "}
             <Link
               to={isLoggedIn ? "/home" : "/"}
               className="hover:text-teal-700 dark:hover:text-teal-300 transition"
@@ -169,11 +170,11 @@ const Navbar = () => {
                 <button
                   className="px-4 py-2 text-sm rounded-md border border-gray-300 dark:border-gray-600 
              text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 
-             transition flex items-center gap-2"
+             transition flex items-center gap-1 whitespace-nowrap"
                   onClick={() => setShowDropdown((prev) => !prev)}
                 >
                   <UserCheck className="w-4 h-4" />
-                  <span>Hi, {userName} ▼</span>
+                  <span className="truncate">Hi, {userName} ▼</span>
                 </button>
 
                 {showDropdown && (

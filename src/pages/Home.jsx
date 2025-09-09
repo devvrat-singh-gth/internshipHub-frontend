@@ -118,7 +118,7 @@ const Home = () => {
           {/* Right image */}
           <div className="hidden md:block">
             <img
-              src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=900&q=80"
+              src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=900&q=80"
               alt="Internship"
               className="rounded-lg shadow-lg"
             />
@@ -129,7 +129,7 @@ const Home = () => {
       {/* Stats Section */}
       <section
         ref={statsRef}
-        className="py-16 px-6 max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8"
+        className="py-16 px-6 max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8"
       >
         <CircleStat label="Active Internships" target={1000} trigger={inView} />
         <CircleStat label="Partner Companies" target={500} trigger={inView} />
@@ -142,23 +142,38 @@ const Home = () => {
         <h2 className="text-3xl font-bold mb-8 text-center">
           Featured Internships
         </h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
+        <div className="flex space-x-6 overflow-x-auto scrollbar-hide">
           {[
-            "Software Developer Intern",
-            "Marketing Intern",
-            "UI/UX Design Intern",
-          ].map((role, i) => (
+            {
+              title: "Software Developer Intern",
+              desc: "Work with cutting-edge tech stacks.",
+              img: "https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=800&q=80",
+            },
+            {
+              title: "Marketing Intern",
+              desc: "Learn digital campaigns & branding.",
+              img: "https://images.unsplash.com/photo-1508830524289-0adcbe822b40?auto=format&fit=crop&w=800&q=80",
+            },
+            {
+              title: "UI/UX Design Intern",
+              desc: "Contribute to real-world product design.",
+              img: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80",
+            },
+          ].map((intern, i) => (
             <div
               key={i}
-              className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow hover:shadow-lg transition"
+              className="min-w-[280px] sm:min-w-[350px] p-6 bg-white dark:bg-gray-800 rounded-lg shadow hover:shadow-lg transition flex flex-col justify-between"
             >
-              <h3 className="text-xl font-semibold text-gray-800 dark:text-gray-100">
-                {role}
-              </h3>
-              <p className="text-gray-600 dark:text-gray-400">Company XYZ</p>
-              <button className="mt-4 px-4 py-2 bg-teal-600 text-white rounded-md hover:bg-teal-700 transition">
-                View Details
-              </button>
+              <img
+                src={intern.img}
+                alt={intern.title}
+                className="rounded-md mb-4 w-full h-48 object-cover"
+              />
+              <h3 className="text-xl font-semibold mb-2">{intern.title}</h3>
+              <p className="text-gray-600 dark:text-gray-400">{intern.desc}</p>
+              <p className="mt-auto text-base font-semibold text-teal-600 cursor-pointer hover:underline">
+                Look More →
+              </p>
             </div>
           ))}
         </div>
@@ -181,22 +196,22 @@ const Home = () => {
               {
                 title: "Full-Stack Web Development",
                 desc: "Learn MERN stack development from scratch.",
-                img: "https://images.unsplash.com/photo-1581090700227-4c4f50d6ca9e?auto=format&fit=crop&w=800&q=80",
+                img: "https://images.unsplash.com/photo-1517430816045-df4b7de11d1d?auto=format&fit=crop&w=800&q=80",
               },
               {
                 title: "Data Science & AI",
                 desc: "Master ML, AI, and advanced analytics.",
-                img: "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=800&q=80",
+                img: "https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?auto=format&fit=crop&w=800&q=80",
               },
               {
                 title: "UI/UX Design",
                 desc: "Create stunning interfaces with real-world projects.",
-                img: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80",
+                img: "https://images.unsplash.com/photo-1581291518835-938a62a8b490?auto=format&fit=crop&w=800&q=80",
               },
             ].map((course, i) => (
               <div
                 key={i}
-                className="min-w-[280px] sm:min-w-[350px] p-6 bg-white dark:bg-gray-900 rounded-lg shadow hover:shadow-lg transition"
+                className="min-w-[280px] sm:min-w-[350px] p-6 bg-white dark:bg-gray-900 rounded-lg shadow hover:shadow-lg transition flex flex-col justify-between"
               >
                 <img
                   src={course.img}
@@ -207,7 +222,7 @@ const Home = () => {
                 <p className="text-gray-600 dark:text-gray-400">
                   {course.desc}
                 </p>
-                <p className="mt-2 text-sm text-teal-600 cursor-pointer">
+                <p className="mt-auto text-base font-semibold text-teal-600 cursor-pointer hover:underline">
                   Look More →
                 </p>
               </div>
@@ -235,22 +250,22 @@ const Home = () => {
               {
                 title: "Google Scholarship",
                 desc: "For CS undergrads excelling in academics.",
-                img: "https://images.unsplash.com/photo-1596495577886-d920f1fb7238?auto=format&fit=crop&w=800&q=80",
+                img: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&w=800&q=80",
               },
               {
                 title: "Microsoft Research Fellowship",
                 desc: "Graduate students focusing on AI/ML.",
-                img: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=800&q=80",
+                img: "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&w=800&q=80",
               },
               {
                 title: "Women in Tech Scholarship",
                 desc: "Supporting female students in STEM fields.",
-                img: "https://images.unsplash.com/photo-1590402494682-4072c1a9a91e?auto=format&fit=crop&w=800&q=80",
+                img: "https://images.unsplash.com/photo-1558021212-51b6ecfa0db9?auto=format&fit=crop&w=800&q=80",
               },
             ].map((scholar, i) => (
               <div
                 key={i}
-                className="min-w-[280px] sm:min-w-[350px] p-6 bg-white dark:bg-gray-800 rounded-lg shadow hover:shadow-lg transition"
+                className="min-w-[280px] sm:min-w-[350px] p-6 bg-white dark:bg-gray-800 rounded-lg shadow hover:shadow-lg transition flex flex-col justify-between"
               >
                 <img
                   src={scholar.img}
@@ -261,7 +276,7 @@ const Home = () => {
                 <p className="text-gray-600 dark:text-gray-400">
                   {scholar.desc}
                 </p>
-                <p className="mt-2 text-sm text-blue-600 cursor-pointer">
+                <p className="mt-auto text-base font-semibold text-blue-600 cursor-pointer hover:underline">
                   Look More →
                 </p>
               </div>
