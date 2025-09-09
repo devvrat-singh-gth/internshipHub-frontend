@@ -41,7 +41,7 @@ const Internships = () => {
   }, []);
 
   const renderFilters = () => (
-    <aside className="w-full md:w-[350px] lg:w-[400px] xl:w-[450px] bg-white dark:bg-gray-800 rounded-lg shadow p-6 shrink-0">
+    <aside className="w-full md:w-[350px] lg:w-[450px] xl:w-[500px] bg-white dark:bg-gray-800 rounded-lg shadow p-6 shrink-0">
       <div className="flex justify-between items-center mb-6">
         <h3 className="text-lg font-semibold">Filters</h3>
         <button className="text-sm text-blue-600 hover:underline">
@@ -90,7 +90,7 @@ const Internships = () => {
           Search Internships
         </h1>
 
-        {/* 🔽 Mobile Filter Toggle */}
+        {/* Mobile Filter Toggle */}
         <div className="md:hidden mb-6">
           <button
             onClick={() => setShowMobileFilters(!showMobileFilters)}
@@ -102,7 +102,7 @@ const Internships = () => {
         </div>
 
         <div className="flex flex-col md:flex-row gap-8">
-          {/* 🖥️ Desktop Filters */}
+          {/* Desktop Filters */}
           <div className="hidden md:block">{renderFilters()}</div>
 
           {/* Main Content */}
