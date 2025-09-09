@@ -22,7 +22,9 @@ const EditInternshipForm = () => {
   useEffect(() => {
     const fetchInternship = async () => {
       try {
-        const { data } = await API.get(`/api/internships/${id}`);
+        const { data } = await API.get(
+          `https://internshiphub-backend.onrender.com/api/internships/${id}`
+        );
         setFormData({
           title: data.title || "",
           company: data.company || "",
@@ -65,7 +67,10 @@ const EditInternshipForm = () => {
         image: formData.image || DEFAULT_IMAGE,
       };
 
-      await API.put(`/api/internships/${id}`, payload);
+      await API.put(
+        `https://internshiphub-backend.onrender.com/api/internships/${id}`,
+        payload
+      );
       toast.success("Internship updated successfully!");
       navigate("/admin");
     } catch (err) {

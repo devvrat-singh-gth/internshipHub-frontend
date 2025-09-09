@@ -23,7 +23,9 @@ const EditScholarshipForm = () => {
   useEffect(() => {
     const fetchScholarship = async () => {
       try {
-        const { data } = await API.get(`/api/scholarships/${id}`);
+        const { data } = await API.get(
+          `https://internshiphub-backend.onrender.com/api/scholarships/${id}`
+        );
         setFormData({
           title: data.title || "",
           organization: data.organization || "",
@@ -62,7 +64,10 @@ const EditScholarshipForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await API.put(`/api/scholarships/${id}`, formData);
+      await API.put(
+        `https://internshiphub-backend.onrender.com/api/scholarships/${id}`,
+        formData
+      );
       toast.success("Scholarship updated");
       navigate("/admin");
     } catch (err) {

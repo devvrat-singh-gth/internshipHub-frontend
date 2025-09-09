@@ -12,7 +12,9 @@ const Admin = () => {
   // Fetch functions
   const fetchInternships = async () => {
     try {
-      const { data } = await API.get("/api/internships");
+      const { data } = await API.get(
+        "https://internshiphub-backend.onrender.com/api/internships"
+      );
       setInternships(data);
     } catch (err) {
       console.error("Error fetching internships", err);
@@ -21,7 +23,9 @@ const Admin = () => {
 
   const fetchCourses = async () => {
     try {
-      const { data } = await API.get("/api/courses");
+      const { data } = await API.get(
+        "https://internshiphub-backend.onrender.com/api/courses"
+      );
       setCourses(data);
     } catch (err) {
       console.error("Error fetching courses", err);
@@ -30,7 +34,9 @@ const Admin = () => {
 
   const fetchScholarships = async () => {
     try {
-      const { data } = await API.get("/api/scholarships");
+      const { data } = await API.get(
+        "https://internshiphub-backend.onrender.com/api/scholarships"
+      );
       setScholarships(data);
     } catch (err) {
       console.error("Error fetching scholarships", err);
@@ -48,7 +54,9 @@ const Admin = () => {
     if (!window.confirm("Are you sure you want to delete this internship?"))
       return;
     try {
-      await API.delete(`/api/internships/${id}`);
+      await API.delete(
+        `https://internshiphub-backend.onrender.com/api/internships/${id}`
+      );
       setInternships((prev) => prev.filter((item) => item._id !== id));
       alert("Internship deleted!");
     } catch (err) {
@@ -61,7 +69,9 @@ const Admin = () => {
   const handleDeleteCourse = async (id) => {
     if (!window.confirm("Are you sure you want to delete this course?")) return;
     try {
-      await API.delete(`/api/courses/${id}`);
+      await API.delete(
+        `https://internshiphub-backend.onrender.com/api/courses/${id}`
+      );
       setCourses((prev) => prev.filter((item) => item._id !== id));
       alert("Course deleted!");
     } catch (err) {
@@ -75,7 +85,9 @@ const Admin = () => {
     if (!window.confirm("Are you sure you want to delete this scholarship?"))
       return;
     try {
-      await API.delete(`/api/scholarships/${id}`);
+      await API.delete(
+        `https://internshiphub-backend.onrender.com/api/scholarships/${id}`
+      );
       setScholarships((prev) => prev.filter((item) => item._id !== id));
       alert("Scholarship deleted!");
     } catch (err) {

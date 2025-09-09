@@ -21,7 +21,9 @@ const EditCourseForm = () => {
   useEffect(() => {
     const fetchCourse = async () => {
       try {
-        const { data } = await API.get(`/api/courses/${id}`);
+        const { data } = await API.get(
+          `https://internshiphub-backend.onrender.com/api/courses/${id}`
+        );
         setFormData({
           title: data.title || "",
           provider: data.provider || "",
@@ -58,10 +60,13 @@ const EditCourseForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await API.put(`/api/courses/${id}`, {
-        ...formData,
-        image: formData.image || DEFAULT_COURSE_IMAGE,
-      });
+      await API.put(
+        `https://internshiphub-backend.onrender.com/api/courses/${id}`,
+        {
+          ...formData,
+          image: formData.image || DEFAULT_COURSE_IMAGE,
+        }
+      );
       toast.success("Course updated successfully");
       navigate("/admin");
     } catch (err) {
