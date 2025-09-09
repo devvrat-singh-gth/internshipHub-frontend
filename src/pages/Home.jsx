@@ -132,12 +132,12 @@ const Home = () => {
       <section className="py-20 bg-gray-50 dark:bg-gray-800">
         <div className="max-w-6xl mx-auto px-6">
           <h2 className="text-3xl font-bold mb-8 text-center">Top Courses</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
             <div className="p-6 bg-white dark:bg-gray-900 rounded-lg shadow hover:shadow-lg transition">
               <img
-                src="https://source.unsplash.com/400x250/?coding"
-                alt="Course"
-                className="rounded-md mb-4"
+                src="https://images.unsplash.com/photo-1581090700227-4c4f50d6ca9e?auto=format&fit=crop&w=800&q=80"
+                alt="Full Stack"
+                className="rounded-md mb-4 w-full h-48 object-cover"
               />
               <h3 className="text-xl font-semibold mb-2">
                 Full-Stack Web Development
@@ -154,9 +154,9 @@ const Home = () => {
             </div>
             <div className="p-6 bg-white dark:bg-gray-900 rounded-lg shadow hover:shadow-lg transition">
               <img
-                src="https://source.unsplash.com/400x250/?data"
-                alt="Course"
-                className="rounded-md mb-4"
+                src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=800&q=80"
+                alt="Data Science"
+                className="rounded-md mb-4 w-full h-48 object-cover"
               />
               <h3 className="text-xl font-semibold mb-2">Data Science & AI</h3>
               <p className="text-gray-600 dark:text-gray-400">
@@ -171,9 +171,9 @@ const Home = () => {
             </div>
             <div className="p-6 bg-white dark:bg-gray-900 rounded-lg shadow hover:shadow-lg transition">
               <img
-                src="https://source.unsplash.com/400x250/?design"
-                alt="Course"
-                className="rounded-md mb-4"
+                src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80"
+                alt="UI UX Design"
+                className="rounded-md mb-4 w-full h-48 object-cover"
               />
               <h3 className="text-xl font-semibold mb-2">UI/UX Design</h3>
               <p className="text-gray-600 dark:text-gray-400">
@@ -196,12 +196,12 @@ const Home = () => {
           <h2 className="text-3xl font-bold mb-8 text-center">
             Scholarships You Can Apply For
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
             <div className="p-6 bg-white dark:bg-gray-800 rounded-lg shadow hover:shadow-lg transition">
               <img
-                src="https://source.unsplash.com/400x250/?scholarship,students"
-                alt="Scholarship"
-                className="rounded-md mb-4"
+                src="https://images.unsplash.com/photo-1596495577886-d920f1fb7238?auto=format&fit=crop&w=800&q=80"
+                alt="Google Scholarship"
+                className="rounded-md mb-4 w-full h-48 object-cover"
               />
               <h3 className="text-xl font-semibold mb-2">Google Scholarship</h3>
               <p className="text-gray-600 dark:text-gray-400">
@@ -216,9 +216,9 @@ const Home = () => {
             </div>
             <div className="p-6 bg-white dark:bg-gray-800 rounded-lg shadow hover:shadow-lg transition">
               <img
-                src="https://source.unsplash.com/400x250/?college"
-                alt="Scholarship"
-                className="rounded-md mb-4"
+                src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=800&q=80"
+                alt="Microsoft Research"
+                className="rounded-md mb-4 w-full h-48 object-cover"
               />
               <h3 className="text-xl font-semibold mb-2">
                 Microsoft Research Fellowship
@@ -235,9 +235,9 @@ const Home = () => {
             </div>
             <div className="p-6 bg-white dark:bg-gray-800 rounded-lg shadow hover:shadow-lg transition">
               <img
-                src="https://source.unsplash.com/400x250/?women,tech"
-                alt="Scholarship"
-                className="rounded-md mb-4"
+                src="https://images.unsplash.com/photo-1590402494682-4072c1a9a91e?auto=format&fit=crop&w=800&q=80"
+                alt="Women in Tech"
+                className="rounded-md mb-4 w-full h-48 object-cover"
               />
               <h3 className="text-xl font-semibold mb-2">
                 Women in Tech Scholarship
