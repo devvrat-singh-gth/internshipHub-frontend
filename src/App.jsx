@@ -29,6 +29,11 @@ import Scholarships from "./pages/Scholarships";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 
+const PrivateRoute = ({ children }) => {
+  const isLoggedIn = !!localStorage.getItem("token");
+  return isLoggedIn ? children : <Navigate to="/" replace />;
+};
+
 const App = () => {
   const isLoggedIn = !!localStorage.getItem("token");
 
@@ -39,28 +44,86 @@ const App = () => {
         <ToastContainer position="top-right" autoClose={3000} />
 
         <Routes>
-          {/* Root route decides based on login */}
+          {/* Root route — public entry point */}
           <Route
             path="/"
             element={isLoggedIn ? <Navigate to="/home" replace /> : <Landing />}
           />
-          <Route path="/home" element={<Home />} />
+
+          {/* 🔐 Protected Home page */}
+          <Route
+            path="/home"
+            element={
+              <PrivateRoute>
+                <Home />
+              </PrivateRoute>
+            }
+          />
+
+          {/* Public Pages */}
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
-          <Route path="/internships" element={<Internships />} />
-          <Route path="/internships/:id" element={<InternshipDetail />} />
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/admin" element={<Admin />} />
-          <Route path="/admin/add" element={<AddInternshipForm />} />
-          <Route path="/admin/edit/:id" element={<EditInternshipForm />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/recommendations" element={<Recommendations />} />
+
+          {/* Semi-Protected (optional): Protect if needed */}
+          <Route path="/internships" element={<Internships />} />
+          <Route path="/internships/:id" element={<InternshipDetail />} />
           <Route path="/courses" element={<Courses />} />
           <Route path="/scholarships" element={<Scholarships />} />
 
-          {/* Fallback for unknown routes */}
+          {/* 🔐 More Protected Routes */}
+          <Route
+            path="/dashboard"
+            element={
+              <PrivateRoute>
+                <Dashboard />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/profile"
+            element={
+              <PrivateRoute>
+                <Profile />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/recommendations"
+            element={
+              <PrivateRoute>
+                <Recommendations />
+              </PrivateRoute>
+            }
+          />
+
+          <Route
+            path="/admin"
+            element={
+              <PrivateRoute>
+                <Admin />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/admin/add"
+            element={
+              <PrivateRoute>
+                <AddInternshipForm />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/admin/edit/:id"
+            element={
+              <PrivateRoute>
+                <EditInternshipForm />
+              </PrivateRoute>
+            }
+          />
+
+          {/* Catch-all route */}
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
 
