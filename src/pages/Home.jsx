@@ -1,6 +1,58 @@
 // src/pages/Home.jsx
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+
+const CircleStat = ({ label, target }) => {
+  const [value, setValue] = useState(0);
+
+  useEffect(() => {
+    let start = 0;
+    const interval = setInterval(() => {
+      start += Math.ceil(target / 100);
+      if (start >= target) {
+        setValue(target);
+        clearInterval(interval);
+      } else {
+        setValue(start);
+      }
+    }, 20);
+    return () => clearInterval(interval);
+  }, [target]);
+
+  return (
+    <div className="flex flex-col items-center justify-center p-6 bg-gray-100 dark:bg-gray-800 rounded-lg shadow">
+      <div className="relative w-28 h-28">
+        <svg className="w-full h-full -rotate-90">
+          <circle
+            cx="56"
+            cy="56"
+            r="50"
+            stroke="gray"
+            strokeWidth="6"
+            fill="transparent"
+          />
+          <circle
+            cx="56"
+            cy="56"
+            r="50"
+            stroke="teal"
+            strokeWidth="6"
+            strokeDasharray={2 * Math.PI * 50}
+            strokeDashoffset={
+              2 * Math.PI * 50 - (value / target) * 2 * Math.PI * 50
+            }
+            fill="transparent"
+            className="transition-all duration-300"
+          />
+        </svg>
+        <span className="absolute inset-0 flex items-center justify-center font-bold text-lg text-gray-800 dark:text-gray-100">
+          {value}+
+        </span>
+      </div>
+      <p className="mt-3 text-gray-600 dark:text-gray-400">{label}</p>
+    </div>
+  );
+};
 
 const Home = () => {
   return (
@@ -24,38 +76,12 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Stats Section */}
+      {/* Stats Section with Circle Animation */}
       <section className="py-16 px-6 max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
-        <div className="bg-gray-100 dark:bg-gray-800 rounded-lg p-6 shadow text-center">
-          <h3 className="text-3xl font-bold text-gray-800 dark:text-gray-100">
-            1000+
-          </h3>
-          <p className="mt-2 text-gray-600 dark:text-gray-400">
-            Active Internships
-          </p>
-        </div>
-        <div className="bg-gray-100 dark:bg-gray-800 rounded-lg p-6 shadow text-center">
-          <h3 className="text-3xl font-bold text-gray-800 dark:text-gray-100">
-            500+
-          </h3>
-          <p className="mt-2 text-gray-600 dark:text-gray-400">
-            Partner Companies
-          </p>
-        </div>
-        <div className="bg-gray-100 dark:bg-gray-800 rounded-lg p-6 shadow text-center">
-          <h3 className="text-3xl font-bold text-gray-800 dark:text-gray-100">
-            50,000+
-          </h3>
-          <p className="mt-2 text-gray-600 dark:text-gray-400">
-            Students Placed
-          </p>
-        </div>
-        <div className="bg-gray-100 dark:bg-gray-800 rounded-lg p-6 shadow text-center">
-          <h3 className="text-3xl font-bold text-gray-800 dark:text-gray-100">
-            95%
-          </h3>
-          <p className="mt-2 text-gray-600 dark:text-gray-400">Success Rate</p>
-        </div>
+        <CircleStat label="Active Internships" target={1000} />
+        <CircleStat label="Partner Companies" target={500} />
+        <CircleStat label="Students Placed" target={50000} />
+        <CircleStat label="Success Rate (%)" target={95} />
       </section>
 
       {/* Featured Internships */}
@@ -99,6 +125,134 @@ const Home = () => {
           >
             View All Internships
           </Link>
+        </div>
+      </section>
+
+      {/* Courses Section */}
+      <section className="py-20 bg-gray-50 dark:bg-gray-800">
+        <div className="max-w-6xl mx-auto px-6">
+          <h2 className="text-3xl font-bold mb-8 text-center">Top Courses</h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="p-6 bg-white dark:bg-gray-900 rounded-lg shadow hover:shadow-lg transition">
+              <img
+                src="https://source.unsplash.com/400x250/?coding"
+                alt="Course"
+                className="rounded-md mb-4"
+              />
+              <h3 className="text-xl font-semibold mb-2">
+                Full-Stack Web Development
+              </h3>
+              <p className="text-gray-600 dark:text-gray-400">
+                Learn MERN stack development from scratch.
+              </p>
+              <Link
+                to="/courses"
+                className="mt-4 inline-block px-4 py-2 bg-teal-600 text-white rounded-md hover:bg-teal-700 transition"
+              >
+                Explore Courses
+              </Link>
+            </div>
+            <div className="p-6 bg-white dark:bg-gray-900 rounded-lg shadow hover:shadow-lg transition">
+              <img
+                src="https://source.unsplash.com/400x250/?data"
+                alt="Course"
+                className="rounded-md mb-4"
+              />
+              <h3 className="text-xl font-semibold mb-2">Data Science & AI</h3>
+              <p className="text-gray-600 dark:text-gray-400">
+                Master ML, AI, and advanced analytics.
+              </p>
+              <Link
+                to="/courses"
+                className="mt-4 inline-block px-4 py-2 bg-teal-600 text-white rounded-md hover:bg-teal-700 transition"
+              >
+                Explore Courses
+              </Link>
+            </div>
+            <div className="p-6 bg-white dark:bg-gray-900 rounded-lg shadow hover:shadow-lg transition">
+              <img
+                src="https://source.unsplash.com/400x250/?design"
+                alt="Course"
+                className="rounded-md mb-4"
+              />
+              <h3 className="text-xl font-semibold mb-2">UI/UX Design</h3>
+              <p className="text-gray-600 dark:text-gray-400">
+                Create stunning interfaces with real-world projects.
+              </p>
+              <Link
+                to="/courses"
+                className="mt-4 inline-block px-4 py-2 bg-teal-600 text-white rounded-md hover:bg-teal-700 transition"
+              >
+                Explore Courses
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Scholarships Section */}
+      <section className="py-20">
+        <div className="max-w-6xl mx-auto px-6">
+          <h2 className="text-3xl font-bold mb-8 text-center">
+            Scholarships You Can Apply For
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="p-6 bg-white dark:bg-gray-800 rounded-lg shadow hover:shadow-lg transition">
+              <img
+                src="https://source.unsplash.com/400x250/?scholarship,students"
+                alt="Scholarship"
+                className="rounded-md mb-4"
+              />
+              <h3 className="text-xl font-semibold mb-2">Google Scholarship</h3>
+              <p className="text-gray-600 dark:text-gray-400">
+                For CS undergrads excelling in academics.
+              </p>
+              <Link
+                to="/scholarships"
+                className="mt-4 inline-block px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition"
+              >
+                View Scholarships
+              </Link>
+            </div>
+            <div className="p-6 bg-white dark:bg-gray-800 rounded-lg shadow hover:shadow-lg transition">
+              <img
+                src="https://source.unsplash.com/400x250/?college"
+                alt="Scholarship"
+                className="rounded-md mb-4"
+              />
+              <h3 className="text-xl font-semibold mb-2">
+                Microsoft Research Fellowship
+              </h3>
+              <p className="text-gray-600 dark:text-gray-400">
+                Graduate students focusing on AI/ML.
+              </p>
+              <Link
+                to="/scholarships"
+                className="mt-4 inline-block px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition"
+              >
+                View Scholarships
+              </Link>
+            </div>
+            <div className="p-6 bg-white dark:bg-gray-800 rounded-lg shadow hover:shadow-lg transition">
+              <img
+                src="https://source.unsplash.com/400x250/?women,tech"
+                alt="Scholarship"
+                className="rounded-md mb-4"
+              />
+              <h3 className="text-xl font-semibold mb-2">
+                Women in Tech Scholarship
+              </h3>
+              <p className="text-gray-600 dark:text-gray-400">
+                Supporting female students in STEM fields.
+              </p>
+              <Link
+                to="/scholarships"
+                className="mt-4 inline-block px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition"
+              >
+                View Scholarships
+              </Link>
+            </div>
+          </div>
         </div>
       </section>
     </div>

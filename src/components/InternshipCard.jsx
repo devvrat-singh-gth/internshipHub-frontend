@@ -8,7 +8,7 @@ const InternshipCard = ({ internship, onSave }) => {
                  border border-gray-200 dark:border-gray-700 rounded-lg 
                  shadow-sm hover:shadow-md transition p-6 h-full"
     >
-      {/* Top Content */}
+      {/* Main Info */}
       <div className="flex-grow">
         <h4 className="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-2">
           {internship.title}
@@ -22,6 +22,9 @@ const InternshipCard = ({ internship, onSave }) => {
         <p className="text-gray-700 dark:text-gray-300">
           <strong>Duration:</strong> {internship.duration || "N/A"}
         </p>
+        <p className="text-gray-700 dark:text-gray-300">
+          <strong>Stipend:</strong> {internship.stipend || "N/A"}
+        </p>
       </div>
 
       {/* Save Button */}
@@ -33,7 +36,7 @@ const InternshipCard = ({ internship, onSave }) => {
                        dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-600 
                        whitespace-nowrap"
             onClick={(e) => {
-              e.preventDefault(); // ✅ prevent navigation when wrapped in Link
+              e.preventDefault(); // prevent navigation
               onSave(internship._id);
             }}
           >
@@ -42,7 +45,7 @@ const InternshipCard = ({ internship, onSave }) => {
         </div>
       )}
 
-      {/* Hover line */}
+      {/* Hover Text */}
       <p
         className="mt-3 text-sm italic text-gray-500 dark:text-gray-400 
                    group-hover:text-blue-600 transition"
@@ -50,7 +53,7 @@ const InternshipCard = ({ internship, onSave }) => {
         Click to know more →
       </p>
 
-      {/* ✅ Issued on (always at bottom) */}
+      {/* Date at Bottom */}
       <p className="mt-auto text-sm font-medium text-blue-600 dark:text-blue-400">
         Issued on: {new Date(internship.createdAt).toLocaleDateString()}
       </p>

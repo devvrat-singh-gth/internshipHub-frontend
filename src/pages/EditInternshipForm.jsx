@@ -1,4 +1,3 @@
-// src/pages/EditInternshipForm.jsx
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import API from "../utils/api";
@@ -12,25 +11,26 @@ const EditInternshipForm = () => {
     location: "",
     stipend: "",
     description: "",
+    duration: "", // Track duration properly
   });
 
   const navigate = useNavigate();
 
-  // ✅ Fetch internship details
   useEffect(() => {
     const fetchInternship = async () => {
       try {
         const { data } = await API.get(
           `https://internshiphub-backend.onrender.com/api/internships/${id}`
         );
-
-        // ✅ Pick only required fields
+        // Trim to avoid mismatch due to extra spaces or weird dashes
+        const trimmedDuration = (data.duration || "").trim();
         setFormData({
           title: data.title || "",
           company: data.company || "",
           location: data.location || "",
           stipend: data.stipend || "",
           description: data.description || "",
+          duration: trimmedDuration,
         });
       } catch (err) {
         console.error("Error fetching internship", err);
@@ -69,10 +69,7 @@ const EditInternshipForm = () => {
           placeholder="Internship Title"
           value={formData.title}
           onChange={handleChange}
-          className="w-full border px-3 py-2 rounded 
-             text-gray-900 dark:text-white 
-             bg-white dark:bg-gray-700 
-             placeholder-gray-400 dark:placeholder-gray-300"
+          className="w-full border px-3 py-2 rounded text-gray-900 dark:text-white bg-white dark:bg-gray-700 placeholder-gray-400 dark:placeholder-gray-300"
           required
         />
         <input
@@ -81,10 +78,7 @@ const EditInternshipForm = () => {
           placeholder="Company Name"
           value={formData.company}
           onChange={handleChange}
-          className="w-full border px-3 py-2 rounded 
-             text-gray-900 dark:text-white 
-             bg-white dark:bg-gray-700 
-             placeholder-gray-400 dark:placeholder-gray-300"
+          className="w-full border px-3 py-2 rounded text-gray-900 dark:text-white bg-white dark:bg-gray-700 placeholder-gray-400 dark:placeholder-gray-300"
           required
         />
         <input
@@ -93,10 +87,7 @@ const EditInternshipForm = () => {
           placeholder="Location"
           value={formData.location}
           onChange={handleChange}
-          className="w-full border px-3 py-2 rounded 
-             text-gray-900 dark:text-white 
-             bg-white dark:bg-gray-700 
-             placeholder-gray-400 dark:placeholder-gray-300"
+          className="w-full border px-3 py-2 rounded text-gray-900 dark:text-white bg-white dark:bg-gray-700 placeholder-gray-400 dark:placeholder-gray-300"
         />
         <input
           type="text"
@@ -104,20 +95,30 @@ const EditInternshipForm = () => {
           placeholder="Stipend"
           value={formData.stipend}
           onChange={handleChange}
-          className="w-full border px-3 py-2 rounded 
-             text-gray-900 dark:text-white 
-             bg-white dark:bg-gray-700 
-             placeholder-gray-400 dark:placeholder-gray-300"
+          className="w-full border px-3 py-2 rounded text-gray-900 dark:text-white bg-white dark:bg-gray-700 placeholder-gray-400 dark:placeholder-gray-300"
         />
+
+        {/* Duration Dropdown with updated values */}
+        <select
+          name="duration"
+          value={formData.duration}
+          onChange={handleChange}
+          required
+          className="w-full border px-3 py-2 rounded text-gray-900 dark:text-white bg-white dark:bg-gray-700"
+        >
+          <option value="">Select Duration</option>
+          <option value="1 month">1 month</option>
+          <option value="1 to 3 months">1 to 3 months</option>
+          <option value="3 to 6 months">3 to 6 months</option>
+          <option value="6+ months">6+ months</option>
+        </select>
+
         <textarea
           name="description"
           placeholder="Job Description"
           value={formData.description}
           onChange={handleChange}
-          className="w-full border px-3 py-2 rounded 
-             text-gray-900 dark:text-white 
-             bg-white dark:bg-gray-700 
-             placeholder-gray-400 dark:placeholder-gray-300"
+          className="w-full border px-3 py-2 rounded text-gray-900 dark:text-white bg-white dark:bg-gray-700 placeholder-gray-400 dark:placeholder-gray-300"
           rows="4"
           required
         ></textarea>

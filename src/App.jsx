@@ -24,6 +24,8 @@ import Profile from "./pages/Profile";
 import Recommendations from "./pages/Recommendations";
 import AddInternshipForm from "./pages/AddInternshipForm";
 import EditInternshipForm from "./pages/EditInternshipForm";
+import Courses from "./pages/Courses";
+import Scholarships from "./pages/Scholarships";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 
@@ -59,6 +61,8 @@ const App = () => {
           <Route path="/register" element={<Register />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/recommendations" element={<Recommendations />} />
+          <Route path="/courses" element={<Courses />} />
+          <Route path="/scholarships" element={<Scholarships />} />
         </Routes>
 
         <Footer />

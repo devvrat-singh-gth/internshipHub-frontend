@@ -17,8 +17,8 @@ const STIPENDS = ["Unpaid", "0–5k", "5k–10k", "10k+"];
 
 const Internships = () => {
   const [internships, setInternships] = useState([]);
+  const [loading, setLoading] = useState(true); // ✅ Loading state
 
-  // ✅ Fetch internships
   useEffect(() => {
     const fetchInternships = async () => {
       try {
@@ -32,6 +32,8 @@ const Internships = () => {
         setInternships(data);
       } catch (err) {
         console.error("Error fetching internships:", err);
+      } finally {
+        setLoading(false); // ✅ Set loading to false once done
       }
     };
     fetchInternships();
@@ -85,8 +87,8 @@ const Internships = () => {
               <h4 className="font-medium mb-2">Duration</h4>
               <select className="w-full rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 px-3 py-2">
                 <option value="">Any Duration</option>
-                <option value="1-3 months">1–3 months</option>
-                <option value="3-6 months">3–6 months</option>
+                <option value="1 to 3 months">1 to 3 months</option>
+                <option value="3 to 6 months">3 to 6 months</option>
                 <option value="6+ months">6+ months</option>
               </select>
             </div>
@@ -112,18 +114,31 @@ const Internships = () => {
               </button>
             </form>
 
-            {/* Internship Cards */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch">
-              {internships.map((internship) => (
-                <Link
-                  key={internship._id}
-                  to={`/internships/${internship._id}`} // ✅ Clickable card links to detail page
-                  className="h-full"
-                >
-                  <InternshipCard internship={internship} />
-                </Link>
-              ))}
-            </div>
+            {/* Internship Cards or Loading or Empty */}
+            {loading ? (
+              <div className="flex justify-center items-center h-28 gap-4">
+                <div className="w-12 h-12 border-4 border-blue-500 border-dashed rounded-full animate-spin"></div>
+                <span className="text-2xl text-black dark:text-white">
+                  Loading...
+                </span>
+              </div>
+            ) : internships.length === 0 ? (
+              <p className="text-gray-600 dark:text-gray-400">
+                No internships available right now.
+              </p>
+            ) : (
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch">
+                {internships.map((internship) => (
+                  <Link
+                    key={internship._id}
+                    to={`/internships/${internship._id}`}
+                    className="h-full"
+                  >
+                    <InternshipCard internship={internship} />
+                  </Link>
+                ))}
+              </div>
+            )}
           </main>
         </div>
       </div>

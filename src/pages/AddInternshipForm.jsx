@@ -10,6 +10,7 @@ const AddInternshipForm = () => {
     location: "",
     stipend: "",
     description: "",
+    duration: "", // ✅ Added duration
   });
 
   const navigate = useNavigate();
@@ -21,14 +22,14 @@ const AddInternshipForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const token = localStorage.getItem("token"); // ✅ get token
+      const token = localStorage.getItem("token");
 
       await API.post(
         "https://internshiphub-backend.onrender.com/api/internships",
         formData,
         {
           headers: {
-            Authorization: `Bearer ${token}`, // ✅ send token
+            Authorization: `Bearer ${token}`,
           },
         }
       );
@@ -54,9 +55,7 @@ const AddInternshipForm = () => {
           placeholder="Internship Title"
           value={formData.title}
           onChange={handleChange}
-          className="w-full border px-3 py-2 rounded text-gray-900 dark:text-white 
-             bg-white dark:bg-gray-700 
-             placeholder-gray-500 dark:placeholder-gray-300"
+          className="w-full border px-3 py-2 rounded text-gray-900 dark:text-white bg-white dark:bg-gray-700 placeholder-gray-500 dark:placeholder-gray-300"
           required
         />
         <input
@@ -65,9 +64,7 @@ const AddInternshipForm = () => {
           placeholder="Company Name"
           value={formData.company}
           onChange={handleChange}
-          className="w-full border px-3 py-2 rounded text-gray-900 dark:text-white 
-             bg-white dark:bg-gray-700 
-             placeholder-gray-500 dark:placeholder-gray-300"
+          className="w-full border px-3 py-2 rounded text-gray-900 dark:text-white bg-white dark:bg-gray-700 placeholder-gray-500 dark:placeholder-gray-300"
           required
         />
         <input
@@ -76,9 +73,7 @@ const AddInternshipForm = () => {
           placeholder="Location"
           value={formData.location}
           onChange={handleChange}
-          className="w-full border px-3 py-2 rounded text-gray-900 dark:text-white 
-             bg-white dark:bg-gray-700 
-             placeholder-gray-500 dark:placeholder-gray-300"
+          className="w-full border px-3 py-2 rounded text-gray-900 dark:text-white bg-white dark:bg-gray-700 placeholder-gray-500 dark:placeholder-gray-300"
           required
         />
         <input
@@ -87,19 +82,31 @@ const AddInternshipForm = () => {
           placeholder="Stipend"
           value={formData.stipend}
           onChange={handleChange}
-          className="w-full border px-3 py-2 rounded text-gray-900 dark:text-white 
-             bg-white dark:bg-gray-700 
-             placeholder-gray-500 dark:placeholder-gray-300"
+          className="w-full border px-3 py-2 rounded text-gray-900 dark:text-white bg-white dark:bg-gray-700 placeholder-gray-500 dark:placeholder-gray-300"
           required
         />
+
+        {/* ✅ Duration Dropdown */}
+        <select
+          name="duration"
+          value={formData.duration}
+          onChange={handleChange}
+          required
+          className="w-full border px-3 py-2 rounded text-gray-900 dark:text-white bg-white dark:bg-gray-700"
+        >
+          <option value="">Select Duration</option>
+          <option value="1 month">1 month</option>
+          <option value="1 to 3 months">1 to 3 months</option>
+          <option value="3 to 6 months">3 to 6 months</option>
+          <option value="6+ months">6+ months</option>
+        </select>
+
         <textarea
           name="description"
           placeholder="Job Description"
           value={formData.description}
           onChange={handleChange}
-          className="w-full border px-3 py-2 rounded text-gray-900 dark:text-white 
-             bg-white dark:bg-gray-700 
-             placeholder-gray-500 dark:placeholder-gray-300"
+          className="w-full border px-3 py-2 rounded text-gray-900 dark:text-white bg-white dark:bg-gray-700 placeholder-gray-500 dark:placeholder-gray-300"
           rows="4"
           required
         ></textarea>

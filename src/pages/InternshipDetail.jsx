@@ -1,4 +1,3 @@
-// src/pages/InternshipDetail.jsx
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import API from "../utils/api";
@@ -9,7 +8,7 @@ const InternshipDetail = () => {
   const [internship, setInternship] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  // ✅ Fetch internship details
+  // Fetch internship details
   useEffect(() => {
     const fetchInternship = async () => {
       try {
@@ -30,7 +29,7 @@ const InternshipDetail = () => {
     fetchInternship();
   }, [id]);
 
-  // ✅ Apply
+  // Apply
   const handleApply = async () => {
     try {
       const token = localStorage.getItem("token");
@@ -40,18 +39,18 @@ const InternshipDetail = () => {
         { headers: { Authorization: `Bearer ${token}` } }
       );
       alert("Applied successfully!");
-      navigate("/dashboard"); // or dashboard
+      navigate("/dashboard");
     } catch (err) {
       alert(err.response?.data?.message || "Failed to apply");
     }
   };
 
-  // ✅ Save
+  // Save
   const handleSave = async () => {
     try {
       const token = localStorage.getItem("token");
       await API.post(
-        `/internships/${id}/save`,
+        `https://internshiphub-backend.onrender.com/api/internships/${id}/save`,
         {},
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -123,9 +122,9 @@ const InternshipDetail = () => {
             {internship.location}
           </p>
 
-          {/* Duration + Stipend */}
+          {/* Duration + Stipend with trimming and fallback */}
           <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">
-            Duration: {internship.duration || "N/A"} | Stipend:{" "}
+            Duration: {(internship.duration || "").trim() || "N/A"} | Stipend:{" "}
             {internship.stipend || "N/A"}
           </p>
 
