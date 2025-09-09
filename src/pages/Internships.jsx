@@ -1,4 +1,3 @@
-// src/pages/Internships.jsx
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import InternshipCard from "../components/InternshipCard";
@@ -17,7 +16,8 @@ const STIPENDS = ["Unpaid", "0–5k", "5k–10k", "10k+"];
 
 const Internships = () => {
   const [internships, setInternships] = useState([]);
-  const [loading, setLoading] = useState(true); // ✅ Loading state
+  const [loading, setLoading] = useState(true);
+  const [showMobileFilters, setShowMobileFilters] = useState(false);
 
   useEffect(() => {
     const fetchInternships = async () => {
@@ -33,11 +33,54 @@ const Internships = () => {
       } catch (err) {
         console.error("Error fetching internships:", err);
       } finally {
-        setLoading(false); // ✅ Set loading to false once done
+        setLoading(false);
       }
     };
     fetchInternships();
   }, []);
+
+  const renderFilters = () => (
+    <aside className="w-full md:w-1/4 bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+      <div className="flex justify-between items-center mb-6">
+        <h3 className="text-lg font-semibold">Filters</h3>
+        <button className="text-sm text-blue-600 hover:underline">
+          Clear All
+        </button>
+      </div>
+
+      {[
+        { title: "Type", options: TYPES },
+        { title: "Company Type", options: COMPANY_TYPES },
+        { title: "Role", options: ROLES },
+        { title: "Stipend", options: STIPENDS },
+      ].map(({ title, options }) => (
+        <div className="mb-6" key={title}>
+          <h4 className="font-medium mb-2">{title}</h4>
+          <div className="space-y-2">
+            {options.map((opt) => (
+              <label key={opt} className="flex items-center space-x-2 text-sm">
+                <input
+                  type="checkbox"
+                  className="form-checkbox text-blue-600 rounded"
+                />
+                <span>{opt}</span>
+              </label>
+            ))}
+          </div>
+        </div>
+      ))}
+
+      <div>
+        <h4 className="font-medium mb-2">Duration</h4>
+        <select className="w-full rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 px-3 py-2">
+          <option value="">Any Duration</option>
+          <option value="1 to 3 months">1 to 3 months</option>
+          <option value="3 to 6 months">3 to 6 months</option>
+          <option value="6+ months">6+ months</option>
+        </select>
+      </div>
+    </aside>
+  );
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-12">
@@ -46,53 +89,20 @@ const Internships = () => {
           Search Internships
         </h1>
 
+        {/* 🔽 Mobile Filter Toggle */}
+        <div className="md:hidden mb-6">
+          <button
+            onClick={() => setShowMobileFilters(!showMobileFilters)}
+            className="px-4 py-2 bg-blue-600 text-white rounded-md shadow font-semibold w-full"
+          >
+            {showMobileFilters ? "Hide Filters" : "Show Filters"}
+          </button>
+          {showMobileFilters && <div className="mt-4">{renderFilters()}</div>}
+        </div>
+
         <div className="flex flex-col md:flex-row gap-8">
-          {/* Sidebar with Filters */}
-          <aside className="w-full md:w-1/4 bg-white dark:bg-gray-800 rounded-lg shadow p-6">
-            <div className="flex justify-between items-center mb-6">
-              <h3 className="text-lg font-semibold">Filters</h3>
-              <button className="text-sm text-blue-600 hover:underline">
-                Clear All
-              </button>
-            </div>
-
-            {/* Filter Groups */}
-            {[
-              { title: "Type", options: TYPES },
-              { title: "Company Type", options: COMPANY_TYPES },
-              { title: "Role", options: ROLES },
-              { title: "Stipend", options: STIPENDS },
-            ].map(({ title, options }) => (
-              <div className="mb-6" key={title}>
-                <h4 className="font-medium mb-2">{title}</h4>
-                <div className="space-y-2">
-                  {options.map((opt) => (
-                    <label
-                      key={opt}
-                      className="flex items-center space-x-2 text-sm"
-                    >
-                      <input
-                        type="checkbox"
-                        className="form-checkbox text-blue-600 rounded"
-                      />
-                      <span>{opt}</span>
-                    </label>
-                  ))}
-                </div>
-              </div>
-            ))}
-
-            {/* Duration */}
-            <div>
-              <h4 className="font-medium mb-2">Duration</h4>
-              <select className="w-full rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 px-3 py-2">
-                <option value="">Any Duration</option>
-                <option value="1 to 3 months">1 to 3 months</option>
-                <option value="3 to 6 months">3 to 6 months</option>
-                <option value="6+ months">6+ months</option>
-              </select>
-            </div>
-          </aside>
+          {/* 🖥️ Desktop Filters */}
+          <div className="hidden md:block md:w-1/4">{renderFilters()}</div>
 
           {/* Main Content */}
           <main className="flex-1">
