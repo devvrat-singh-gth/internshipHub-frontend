@@ -28,6 +28,8 @@ import Courses from "./pages/Courses";
 import Scholarships from "./pages/Scholarships";
 import AddCourseForm from "./pages/AddCourseForm";
 import AddScholarshipForm from "./pages/AddScholarshipForm";
+import EditCourses from "./pages/EditCourses";
+import EditScholarships from "./pages/EditScholarships";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 
@@ -77,6 +79,11 @@ const App = () => {
           <Route
             path="/admin/add-scholarship"
             element={<AddScholarshipForm />}
+          />
+          <Route path="/admin/edit-course" element={<EditCourses />} />
+          <Route
+            path="/admin/edit-scholarship"
+            element={<EditScholarships />}
           />
 
           {/* 🔐 More Protected Routes */}
