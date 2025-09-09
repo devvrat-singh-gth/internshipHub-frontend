@@ -1,11 +1,16 @@
 // src/pages/Home.jsx
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { Link } from "react-router-dom";
 
-const CircleStat = ({ label, target }) => {
+const CircleStat = ({ label, target, trigger }) => {
   const [value, setValue] = useState(0);
 
   useEffect(() => {
+    if (!trigger) {
+      setValue(0); // reset when not visible
+      return;
+    }
+
     let start = 0;
     const interval = setInterval(() => {
       start += Math.ceil(target / 100);
@@ -16,8 +21,9 @@ const CircleStat = ({ label, target }) => {
         setValue(start);
       }
     }, 20);
+
     return () => clearInterval(interval);
-  }, [target]);
+  }, [target, trigger]);
 
   return (
     <div className="flex flex-col items-center justify-center p-6 bg-gray-100 dark:bg-gray-800 rounded-lg shadow">
@@ -55,6 +61,21 @@ const CircleStat = ({ label, target }) => {
 };
 
 const Home = () => {
+  const statsRef = useRef(null);
+  const [inView, setInView] = useState(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => setInView(entry.isIntersecting),
+      { threshold: 0.4 }
+    );
+
+    if (statsRef.current) observer.observe(statsRef.current);
+    return () => {
+      if (statsRef.current) observer.unobserve(statsRef.current);
+    };
+  }, []);
+
   return (
     <div className="bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200">
       {/* Hero Section */}
@@ -76,12 +97,15 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Stats Section with Circle Animation */}
-      <section className="py-16 px-6 max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
-        <CircleStat label="Active Internships" target={1000} />
-        <CircleStat label="Partner Companies" target={500} />
-        <CircleStat label="Students Placed" target={50000} />
-        <CircleStat label="Success Rate (%)" target={95} />
+      {/* Stats Section */}
+      <section
+        ref={statsRef}
+        className="py-16 px-6 max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8"
+      >
+        <CircleStat label="Active Internships" target={1000} trigger={inView} />
+        <CircleStat label="Partner Companies" target={500} trigger={inView} />
+        <CircleStat label="Students Placed" target={50000} trigger={inView} />
+        <CircleStat label="Success Rate (%)" target={95} trigger={inView} />
       </section>
 
       {/* Featured Internships */}
@@ -132,60 +156,45 @@ const Home = () => {
       <section className="py-20 bg-gray-50 dark:bg-gray-800">
         <div className="max-w-6xl mx-auto px-6">
           <h2 className="text-3xl font-bold mb-8 text-center">Top Courses</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
-            <div className="p-6 bg-white dark:bg-gray-900 rounded-lg shadow hover:shadow-lg transition">
-              <img
-                src="https://images.unsplash.com/photo-1581090700227-4c4f50d6ca9e?auto=format&fit=crop&w=800&q=80"
-                alt="Full Stack"
-                className="rounded-md mb-4 w-full h-48 object-cover"
-              />
-              <h3 className="text-xl font-semibold mb-2">
-                Full-Stack Web Development
-              </h3>
-              <p className="text-gray-600 dark:text-gray-400">
-                Learn MERN stack development from scratch.
-              </p>
-              <Link
-                to="/courses"
-                className="mt-4 inline-block px-4 py-2 bg-teal-600 text-white rounded-md hover:bg-teal-700 transition"
+          <div className="flex space-x-6 overflow-x-auto scrollbar-hide snap-x">
+            {[
+              {
+                title: "Full-Stack Web Development",
+                desc: "Learn MERN stack development from scratch.",
+                img: "https://images.unsplash.com/photo-1581090700227-4c4f50d6ca9e?auto=format&fit=crop&w=800&q=80",
+              },
+              {
+                title: "Data Science & AI",
+                desc: "Master ML, AI, and advanced analytics.",
+                img: "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=800&q=80",
+              },
+              {
+                title: "UI/UX Design",
+                desc: "Create stunning interfaces with real-world projects.",
+                img: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80",
+              },
+            ].map((course, i) => (
+              <div
+                key={i}
+                className="min-w-[280px] sm:min-w-[350px] snap-center p-6 bg-white dark:bg-gray-900 rounded-lg shadow hover:shadow-lg transition"
               >
-                Explore Courses
-              </Link>
-            </div>
-            <div className="p-6 bg-white dark:bg-gray-900 rounded-lg shadow hover:shadow-lg transition">
-              <img
-                src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=800&q=80"
-                alt="Data Science"
-                className="rounded-md mb-4 w-full h-48 object-cover"
-              />
-              <h3 className="text-xl font-semibold mb-2">Data Science & AI</h3>
-              <p className="text-gray-600 dark:text-gray-400">
-                Master ML, AI, and advanced analytics.
-              </p>
-              <Link
-                to="/courses"
-                className="mt-4 inline-block px-4 py-2 bg-teal-600 text-white rounded-md hover:bg-teal-700 transition"
-              >
-                Explore Courses
-              </Link>
-            </div>
-            <div className="p-6 bg-white dark:bg-gray-900 rounded-lg shadow hover:shadow-lg transition">
-              <img
-                src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80"
-                alt="UI UX Design"
-                className="rounded-md mb-4 w-full h-48 object-cover"
-              />
-              <h3 className="text-xl font-semibold mb-2">UI/UX Design</h3>
-              <p className="text-gray-600 dark:text-gray-400">
-                Create stunning interfaces with real-world projects.
-              </p>
-              <Link
-                to="/courses"
-                className="mt-4 inline-block px-4 py-2 bg-teal-600 text-white rounded-md hover:bg-teal-700 transition"
-              >
-                Explore Courses
-              </Link>
-            </div>
+                <img
+                  src={course.img}
+                  alt={course.title}
+                  className="rounded-md mb-4 w-full h-48 object-cover"
+                />
+                <h3 className="text-xl font-semibold mb-2">{course.title}</h3>
+                <p className="text-gray-600 dark:text-gray-400">
+                  {course.desc}
+                </p>
+                <Link
+                  to="/courses"
+                  className="mt-4 inline-block px-4 py-2 bg-teal-600 text-white rounded-md hover:bg-teal-700 transition"
+                >
+                  Explore Courses
+                </Link>
+              </div>
+            ))}
           </div>
         </div>
       </section>
@@ -196,62 +205,45 @@ const Home = () => {
           <h2 className="text-3xl font-bold mb-8 text-center">
             Scholarships You Can Apply For
           </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
-            <div className="p-6 bg-white dark:bg-gray-800 rounded-lg shadow hover:shadow-lg transition">
-              <img
-                src="https://images.unsplash.com/photo-1596495577886-d920f1fb7238?auto=format&fit=crop&w=800&q=80"
-                alt="Google Scholarship"
-                className="rounded-md mb-4 w-full h-48 object-cover"
-              />
-              <h3 className="text-xl font-semibold mb-2">Google Scholarship</h3>
-              <p className="text-gray-600 dark:text-gray-400">
-                For CS undergrads excelling in academics.
-              </p>
-              <Link
-                to="/scholarships"
-                className="mt-4 inline-block px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition"
+          <div className="flex space-x-6 overflow-x-auto scrollbar-hide snap-x">
+            {[
+              {
+                title: "Google Scholarship",
+                desc: "For CS undergrads excelling in academics.",
+                img: "https://images.unsplash.com/photo-1596495577886-d920f1fb7238?auto=format&fit=crop&w=800&q=80",
+              },
+              {
+                title: "Microsoft Research Fellowship",
+                desc: "Graduate students focusing on AI/ML.",
+                img: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=800&q=80",
+              },
+              {
+                title: "Women in Tech Scholarship",
+                desc: "Supporting female students in STEM fields.",
+                img: "https://images.unsplash.com/photo-1590402494682-4072c1a9a91e?auto=format&fit=crop&w=800&q=80",
+              },
+            ].map((scholar, i) => (
+              <div
+                key={i}
+                className="min-w-[280px] sm:min-w-[350px] snap-center p-6 bg-white dark:bg-gray-800 rounded-lg shadow hover:shadow-lg transition"
               >
-                View Scholarships
-              </Link>
-            </div>
-            <div className="p-6 bg-white dark:bg-gray-800 rounded-lg shadow hover:shadow-lg transition">
-              <img
-                src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=800&q=80"
-                alt="Microsoft Research"
-                className="rounded-md mb-4 w-full h-48 object-cover"
-              />
-              <h3 className="text-xl font-semibold mb-2">
-                Microsoft Research Fellowship
-              </h3>
-              <p className="text-gray-600 dark:text-gray-400">
-                Graduate students focusing on AI/ML.
-              </p>
-              <Link
-                to="/scholarships"
-                className="mt-4 inline-block px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition"
-              >
-                View Scholarships
-              </Link>
-            </div>
-            <div className="p-6 bg-white dark:bg-gray-800 rounded-lg shadow hover:shadow-lg transition">
-              <img
-                src="https://images.unsplash.com/photo-1590402494682-4072c1a9a91e?auto=format&fit=crop&w=800&q=80"
-                alt="Women in Tech"
-                className="rounded-md mb-4 w-full h-48 object-cover"
-              />
-              <h3 className="text-xl font-semibold mb-2">
-                Women in Tech Scholarship
-              </h3>
-              <p className="text-gray-600 dark:text-gray-400">
-                Supporting female students in STEM fields.
-              </p>
-              <Link
-                to="/scholarships"
-                className="mt-4 inline-block px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition"
-              >
-                View Scholarships
-              </Link>
-            </div>
+                <img
+                  src={scholar.img}
+                  alt={scholar.title}
+                  className="rounded-md mb-4 w-full h-48 object-cover"
+                />
+                <h3 className="text-xl font-semibold mb-2">{scholar.title}</h3>
+                <p className="text-gray-600 dark:text-gray-400">
+                  {scholar.desc}
+                </p>
+                <Link
+                  to="/scholarships"
+                  className="mt-4 inline-block px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition"
+                >
+                  View Scholarships
+                </Link>
+              </div>
+            ))}
           </div>
         </div>
       </section>
