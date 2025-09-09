@@ -30,6 +30,8 @@ import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 
 const App = () => {
+  const isLoggedIn = !!localStorage.getItem("token");
+
   return (
     <AuthProvider>
       <Router>
@@ -37,18 +39,12 @@ const App = () => {
         <ToastContainer position="top-right" autoClose={3000} />
 
         <Routes>
-          <Route path="/" element={<Landing />} />
-          <Route path="/home" element={<Home />} />
+          {/* Root route decides based on login */}
           <Route
             path="/"
-            element={
-              localStorage.getItem("token") ? (
-                <Navigate to="/home" replace />
-              ) : (
-                <Landing />
-              )
-            }
+            element={isLoggedIn ? <Navigate to="/home" replace /> : <Landing />}
           />
+          <Route path="/home" element={<Home />} />
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/internships" element={<Internships />} />
@@ -63,6 +59,9 @@ const App = () => {
           <Route path="/recommendations" element={<Recommendations />} />
           <Route path="/courses" element={<Courses />} />
           <Route path="/scholarships" element={<Scholarships />} />
+
+          {/* Fallback for unknown routes */}
+          <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
 
         <Footer />
