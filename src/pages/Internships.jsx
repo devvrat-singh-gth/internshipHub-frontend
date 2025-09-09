@@ -1,3 +1,4 @@
+// src/pages/Internships.jsx
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import InternshipCard from "../components/InternshipCard";
@@ -40,7 +41,7 @@ const Internships = () => {
   }, []);
 
   const renderFilters = () => (
-    <aside className="w-full md:w-1/4 bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+    <aside className="w-full md:w-[280px] lg:w-[300px] xl:w-[320px] bg-white dark:bg-gray-800 rounded-lg shadow p-6 shrink-0">
       <div className="flex justify-between items-center mb-6">
         <h3 className="text-lg font-semibold">Filters</h3>
         <button className="text-sm text-blue-600 hover:underline">
@@ -102,14 +103,14 @@ const Internships = () => {
 
         <div className="flex flex-col md:flex-row gap-8">
           {/* 🖥️ Desktop Filters */}
-          <div className="hidden md:block md:w-1/4">{renderFilters()}</div>
+          <div className="hidden md:block">{renderFilters()}</div>
 
           {/* Main Content */}
           <main className="flex-1">
             {/* Search Bar */}
             <form
               onSubmit={(e) => e.preventDefault()}
-              className="flex gap-2 mb-6"
+              className="flex flex-col sm:flex-row gap-2 mb-6"
             >
               <input
                 type="text"

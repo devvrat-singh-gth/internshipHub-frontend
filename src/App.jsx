@@ -1,4 +1,3 @@
-// src/App.jsx
 import React from "react";
 import {
   BrowserRouter as Router,
@@ -10,6 +9,7 @@ import { AuthProvider } from "../src/AuthContext";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
+// Pages
 import Home from "./pages/Home";
 import Landing from "./pages/Landing";
 import About from "./pages/About";
@@ -22,14 +22,18 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Profile from "./pages/Profile";
 import Recommendations from "./pages/Recommendations";
-import AddInternshipForm from "./pages/AddInternshipForm";
-import EditInternshipForm from "./pages/EditInternshipForm";
 import Courses from "./pages/Courses";
 import Scholarships from "./pages/Scholarships";
+
+// Admin Add/Edit Forms
+import AddInternshipForm from "./pages/AddInternshipForm";
+import EditInternshipForm from "./pages/EditInternshipForm";
 import AddCourseForm from "./pages/AddCourseForm";
-import AddScholarshipForm from "./pages/AddScholarshipForm";
 import EditCourses from "./pages/EditCourses";
+import AddScholarshipForm from "./pages/AddScholarshipForm";
 import EditScholarships from "./pages/EditScholarships";
+
+// Components
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 
@@ -46,15 +50,24 @@ const App = () => {
       <Router>
         <Navbar />
         <ToastContainer position="top-right" autoClose={3000} />
-
         <Routes>
-          {/* Root route — public entry point */}
+          {/* Landing or Home Route */}
           <Route
             path="/"
             element={isLoggedIn ? <Navigate to="/home" replace /> : <Landing />}
           />
 
-          {/* 🔐 Protected Home page */}
+          {/* Public Routes */}
+          <Route path="/about" element={<About />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/internships" element={<Internships />} />
+          <Route path="/internships/:id" element={<InternshipDetail />} />
+          <Route path="/courses" element={<Courses />} />
+          <Route path="/scholarships" element={<Scholarships />} />
+
+          {/* 🔐 Protected Routes */}
           <Route
             path="/home"
             element={
@@ -63,30 +76,6 @@ const App = () => {
               </PrivateRoute>
             }
           />
-
-          {/* Public Pages */}
-          <Route path="/about" element={<About />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-
-          {/* Semi-Protected (optional): Protect if needed */}
-          <Route path="/internships" element={<Internships />} />
-          <Route path="/internships/:id" element={<InternshipDetail />} />
-          <Route path="/courses" element={<Courses />} />
-          <Route path="/scholarships" element={<Scholarships />} />
-          <Route path="/admin/add-course" element={<AddCourseForm />} />
-          <Route
-            path="/admin/add-scholarship"
-            element={<AddScholarshipForm />}
-          />
-          <Route path="/admin/edit-course" element={<EditCourses />} />
-          <Route
-            path="/admin/edit-scholarship"
-            element={<EditScholarships />}
-          />
-
-          {/* 🔐 More Protected Routes */}
           <Route
             path="/dashboard"
             element={
@@ -112,6 +101,7 @@ const App = () => {
             }
           />
 
+          {/* 🔐 Admin Routes */}
           <Route
             path="/admin"
             element={
@@ -137,10 +127,45 @@ const App = () => {
             }
           />
 
-          {/* Catch-all route */}
+          {/* Course Routes */}
+          <Route
+            path="/admin/add-course"
+            element={
+              <PrivateRoute>
+                <AddCourseForm />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/admin/edit-course/:id"
+            element={
+              <PrivateRoute>
+                <EditCourses />
+              </PrivateRoute>
+            }
+          />
+
+          {/* Scholarship Routes */}
+          <Route
+            path="/admin/add-scholarship"
+            element={
+              <PrivateRoute>
+                <AddScholarshipForm />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/admin/edit-scholarship/:id"
+            element={
+              <PrivateRoute>
+                <EditScholarships />
+              </PrivateRoute>
+            }
+          />
+
+          {/* Fallback */}
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
-
         <Footer />
       </Router>
     </AuthProvider>
