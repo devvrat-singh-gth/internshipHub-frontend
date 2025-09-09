@@ -59,9 +59,13 @@ const AddScholarshipForm = () => {
 
     try {
       const token = localStorage.getItem("token");
-      await API.post("/api/scholarships", formData, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      await API.post(
+        "https://internshiphub-backend.onrender.com/api/scholarships",
+        formData,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
 
       alert("Scholarship added successfully!");
       navigate("/admin");
