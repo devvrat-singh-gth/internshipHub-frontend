@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import API from "../utils/api"; // Make sure this uses axios.create with baseURL
+import API from "../utils/api";
 
 const AddScholarshipForm = () => {
   const navigate = useNavigate();
@@ -13,10 +13,10 @@ const AddScholarshipForm = () => {
     image: "",
   });
 
-  const [imagePreview, setImagePreview] = useState("");
   const [manualImage, setManualImage] = useState(false);
+  const [imagePreview, setImagePreview] = useState("");
 
-  // Auto-fetch image from Unsplash on title change if no manual image set
+  // Auto-fetch image from Unsplash when title changes if no manual image set
   useEffect(() => {
     if (!manualImage && formData.title.trim() !== "") {
       const timeout = setTimeout(() => {
@@ -30,11 +30,16 @@ const AddScholarshipForm = () => {
     }
   }, [formData.title, manualImage]);
 
+  // Update image preview whenever formData.image changes
+  useEffect(() => {
+    setImagePreview(formData.image);
+  }, [formData.image]);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
 
     if (name === "image") {
-      setManualImage(!!value.trim());
+      setManualImage(value.trim() !== "");
       setImagePreview(value.trim());
     }
 
@@ -49,7 +54,7 @@ const AddScholarshipForm = () => {
       setFormData((prev) => ({ ...prev, image: previewUrl }));
       setImagePreview(previewUrl);
 
-      // TODO: Upload to cloud storage if needed.
+      // TODO: Upload to cloud storage before sending to backend if needed
     }
   };
 
@@ -58,17 +63,12 @@ const AddScholarshipForm = () => {
 
     try {
       await API.post("/scholarships", formData);
-
       alert("✅ Scholarship added successfully!");
       navigate("/admin");
     } catch (err) {
-      console.error(
-        "Error adding scholarship:",
-        err.response?.data || err.message
-      );
       alert(
         "❌ Failed to add scholarship: " +
-          (err.response?.data?.message || err.message)
+          (err.response?.data?.error || err.message)
       );
     }
   };
@@ -85,7 +85,10 @@ const AddScholarshipForm = () => {
             name="title"
             placeholder="Scholarship Title"
             value={formData.title}
-            onChange={handleChange}
+            onChange={(e) => {
+              handleChange(e);
+              setManualImage(false); // Reset manual image if title changes
+            }}
             required
             className="w-full p-3 rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900"
           />
@@ -157,11 +160,11 @@ const AddScholarshipForm = () => {
             </div>
           </div>
 
-          {/* Image Preview */}
+          {/* Image preview */}
           {imagePreview && (
             <img
               src={imagePreview}
-              alt="Scholarship Preview"
+              alt="Preview"
               className="w-full h-64 object-cover rounded mt-4"
             />
           )}
