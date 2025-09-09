@@ -37,6 +37,7 @@ const EditCourseForm = () => {
     };
     fetchCourse();
   }, [id]);
+
   useEffect(() => {
     if (!formData.image && formData.title) {
       const timeout = setTimeout(() => {

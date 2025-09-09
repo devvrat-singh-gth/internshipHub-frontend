@@ -39,6 +39,7 @@ const EditInternshipForm = () => {
     };
     fetchInternship();
   }, [id]);
+
   useEffect(() => {
     if (!formData.image && formData.title) {
       const timeout = setTimeout(() => {
@@ -76,15 +77,6 @@ const EditInternshipForm = () => {
   return (
     <div className="max-w-xl mx-auto mt-8 bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
       <h2 className="text-2xl font-bold mb-4 text-teal-600">Edit Internship</h2>
-
-      {/* Image Preview */}
-      <div className="mb-4">
-        <img
-          src={formData.image || DEFAULT_IMAGE}
-          alt="Internship"
-          className="w-32 h-20 object-cover rounded border border-gray-300"
-        />
-      </div>
 
       <form onSubmit={handleSubmit} className="space-y-4">
         <input
@@ -145,6 +137,16 @@ const EditInternshipForm = () => {
           required
           className="form-input"
         ></textarea>
+
+        {/* Image Preview */}
+        <div className="text-sm text-gray-600 dark:text-gray-300">
+          Current Image Preview:
+          <img
+            src={formData.image || DEFAULT_IMAGE}
+            alt="Internship"
+            className="mt-2 w-32 h-20 object-cover rounded border border-gray-300"
+          />
+        </div>
 
         <input
           type="text"

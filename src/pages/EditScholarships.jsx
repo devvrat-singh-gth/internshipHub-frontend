@@ -41,6 +41,7 @@ const EditScholarshipForm = () => {
     };
     fetchScholarship();
   }, [id]);
+
   useEffect(() => {
     if (!formData.image && formData.title) {
       const timeout = setTimeout(() => {

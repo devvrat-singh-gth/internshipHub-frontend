@@ -16,7 +16,7 @@ const AddScholarshipForm = () => {
   const [imagePreview, setImagePreview] = useState("");
   const [manualImage, setManualImage] = useState(false);
 
-  // Auto-fetch image on title change if no manual URL entered
+  // Auto-fetch image from Unsplash on title change if no manual image set
   useEffect(() => {
     if (!manualImage && formData.title.trim() !== "") {
       const timeout = setTimeout(() => {
@@ -32,11 +32,25 @@ const AddScholarshipForm = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
 
     if (name === "image") {
       setManualImage(!!value.trim());
       setImagePreview(value.trim());
+    }
+
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  // Handle file upload for scholarship image
+  const handleImageUpload = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const previewUrl = URL.createObjectURL(file);
+      setManualImage(true);
+      setFormData((prev) => ({ ...prev, image: previewUrl }));
+      setImagePreview(previewUrl);
+
+      // TODO: Upload file to server/cloud storage if needed
     }
   };
 
@@ -113,20 +127,39 @@ const AddScholarshipForm = () => {
             className="w-full p-3 rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900"
           />
 
-          <input
-            type="text"
-            name="image"
-            placeholder="Image URL (leave blank for auto)"
-            value={formData.image}
-            onChange={handleChange}
-            className="w-full p-3 rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900"
-          />
+          {/* Image upload and URL inputs side by side on md+ */}
+          <div className="flex flex-col md:flex-row md:space-x-6">
+            <div className="flex-1 mb-4 md:mb-0">
+              <label className="block mb-2 font-medium text-gray-800 dark:text-gray-200">
+                Upload Image (optional)
+              </label>
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleImageUpload}
+                className="w-full p-2 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-600 rounded"
+              />
+            </div>
+            <div className="flex-1">
+              <label className="block mb-2 font-medium text-gray-800 dark:text-gray-200">
+                Or Paste Image URL
+              </label>
+              <input
+                type="text"
+                placeholder="Image URL"
+                name="image"
+                value={formData.image && manualImage ? formData.image : ""}
+                onChange={handleChange}
+                className="w-full p-3 rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900"
+              />
+            </div>
+          </div>
 
           {/* Image Preview */}
           {imagePreview && (
             <img
               src={imagePreview}
-              alt="Scholarship preview"
+              alt="Scholarship Preview"
               className="w-full h-64 object-cover rounded mt-4"
             />
           )}
