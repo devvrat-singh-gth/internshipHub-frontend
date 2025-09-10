@@ -1,3 +1,4 @@
+// src/pages/EditInternshipForm.jsx
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import API from "../utils/api";
@@ -91,7 +92,7 @@ const EditInternshipForm = () => {
           value={formData.title}
           onChange={handleChange}
           required
-          className="form-input"
+          className="w-full border px-3 py-2 rounded dark:bg-gray-700 dark:text-white"
         />
         <input
           type="text"
@@ -100,7 +101,7 @@ const EditInternshipForm = () => {
           value={formData.company}
           onChange={handleChange}
           required
-          className="form-input"
+          className="w-full border px-3 py-2 rounded dark:bg-gray-700 dark:text-white"
         />
         <input
           type="text"
@@ -108,7 +109,7 @@ const EditInternshipForm = () => {
           placeholder="Location"
           value={formData.location}
           onChange={handleChange}
-          className="form-input"
+          className="w-full border px-3 py-2 rounded dark:bg-gray-700 dark:text-white"
         />
         <input
           type="text"
@@ -116,7 +117,7 @@ const EditInternshipForm = () => {
           placeholder="Stipend"
           value={formData.stipend}
           onChange={handleChange}
-          className="form-input"
+          className="w-full border px-3 py-2 rounded dark:bg-gray-700 dark:text-white"
         />
 
         <select
@@ -124,7 +125,7 @@ const EditInternshipForm = () => {
           value={formData.duration}
           onChange={handleChange}
           required
-          className="form-input"
+          className="w-full border px-3 py-2 rounded dark:bg-gray-700 dark:text-white"
         >
           <option value="">Select Duration</option>
           <option value="1 month">1 month</option>
@@ -140,16 +141,16 @@ const EditInternshipForm = () => {
           onChange={handleChange}
           rows="4"
           required
-          className="form-input"
+          className="w-full border px-3 py-2 rounded dark:bg-gray-700 dark:text-white"
         ></textarea>
 
         {/* Image Preview */}
         <div className="text-sm text-gray-600 dark:text-gray-300">
-          Current Image Preview:
+          Preview:
           <img
             src={formData.image || DEFAULT_IMAGE}
             alt="Internship"
-            className="mt-2 w-32 h-20 object-cover rounded border border-gray-300"
+            className="mt-2 w-32 h-20 object-cover rounded border"
           />
         </div>
 
@@ -159,7 +160,7 @@ const EditInternshipForm = () => {
           placeholder="Image URL (optional)"
           value={formData.image}
           onChange={handleChange}
-          className="form-input"
+          className="w-full border px-3 py-2 rounded dark:bg-gray-700 dark:text-white"
         />
 
         <button
