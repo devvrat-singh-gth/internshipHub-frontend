@@ -14,9 +14,6 @@ const ROLES = [
 ];
 const STIPENDS = ["Unpaid", "0–5k", "5k–10k", "10k+"];
 
-// Detect if user is logged in (basic check via token)
-const isLoggedIn = !!localStorage.getItem("token");
-
 const Internships = () => {
   const [internships, setInternships] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -26,13 +23,12 @@ const Internships = () => {
   useEffect(() => {
     const fetchInternships = async () => {
       try {
-        const endpoint = isLoggedIn
+        const token = localStorage.getItem("token");
+        const endpoint = token
           ? "https://internshiphub-backend.onrender.com/api/internships"
           : "https://internshiphub-backend.onrender.com/api/internships/public";
 
-        const headers = isLoggedIn
-          ? { Authorization: `Bearer ${localStorage.getItem("token")}` }
-          : {};
+        const headers = token ? { Authorization: `Bearer ${token}` } : {};
 
         const { data } = await API.get(endpoint, { headers });
         setInternships(data);
@@ -42,12 +38,11 @@ const Internships = () => {
         setLoading(false);
       }
     };
-
     fetchInternships();
   }, []);
 
   const renderFilters = () => (
-    <aside className="min-w-[350px] md:min-w-[200px] lg:min-w-[300px] w-full bg-white dark:bg-gray-800 rounded-lg shadow p-6 shrink-0">
+    <aside className="min-w-[300px] w-full bg-white dark:bg-gray-800 rounded-lg shadow p-6 shrink-0">
       <div className="flex justify-between items-center mb-6">
         <h3 className="text-lg font-semibold">Filters</h3>
         <button className="text-sm text-blue-600 hover:underline">
@@ -105,15 +100,15 @@ const Internships = () => {
         </h1>
 
         <div className="flex flex-col md:flex-row gap-8">
-          {/* 🖥️ Desktop Filters */}
+          {/* Desktop Filters */}
           <div className="hidden md:block">{renderFilters()}</div>
 
-          {/* Main Content */}
+          {/* Main Section */}
           <main className="flex-1">
-            {/* 🔍 Search Bar */}
+            {/* Search Bar */}
             <form
               onSubmit={(e) => e.preventDefault()}
-              className="flex flex-col sm:flex-row gap-2 mb-4"
+              className="flex flex-col sm:flex-row gap-2 mb-6"
             >
               <input
                 type="text"
@@ -130,7 +125,7 @@ const Internships = () => {
               </button>
             </form>
 
-            {/* 🔽 Mobile Filter Toggle */}
+            {/* Mobile Filter Button */}
             <div className="md:hidden mb-6">
               <button
                 onClick={() => setShowMobileFilters(!showMobileFilters)}
@@ -143,7 +138,7 @@ const Internships = () => {
               )}
             </div>
 
-            {/* 📦 Internship Cards */}
+            {/* Internship Cards */}
             {loading ? (
               <div className="flex justify-center items-center h-28 gap-4">
                 <div className="w-12 h-12 border-4 border-blue-500 border-dashed rounded-full animate-spin"></div>
