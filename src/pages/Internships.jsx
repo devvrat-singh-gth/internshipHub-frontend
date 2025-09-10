@@ -18,19 +18,17 @@ const Internships = () => {
   const [internships, setInternships] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showMobileFilters, setShowMobileFilters] = useState(false);
-  const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
     const fetchInternships = async () => {
       try {
         const token = localStorage.getItem("token");
-        const endpoint = token
-          ? "https://internshiphub-backend.onrender.com/api/internships"
-          : "https://internshiphub-backend.onrender.com/api/internships/public";
-
-        const headers = token ? { Authorization: `Bearer ${token}` } : {};
-
-        const { data } = await API.get(endpoint, { headers });
+        const { data } = await API.get(
+          token
+            ? "https://internshiphub-backend.onrender.com/api/internships"
+            : "https://internshiphub-backend.onrender.com/api/internships/public",
+          token ? { headers: { Authorization: `Bearer ${token}` } } : {}
+        );
         setInternships(data);
       } catch (err) {
         console.error("Error fetching internships:", err);
@@ -42,7 +40,7 @@ const Internships = () => {
   }, []);
 
   const renderFilters = () => (
-    <aside className="min-w-[300px] w-full bg-white dark:bg-gray-800 rounded-lg shadow p-6 shrink-0">
+    <aside className="min-w-[350px] md:min-w-[200px] lg:min-w-[300px] w-full bg-white dark:bg-gray-800 rounded-lg shadow p-6 shrink-0">
       <div className="flex justify-between items-center mb-6">
         <h3 className="text-lg font-semibold">Filters</h3>
         <button className="text-sm text-blue-600 hover:underline">
@@ -84,14 +82,6 @@ const Internships = () => {
     </aside>
   );
 
-  const handleSearchChange = (e) => {
-    setSearchQuery(e.target.value);
-  };
-
-  const filteredInternships = internships.filter((internship) =>
-    internship.title?.toLowerCase().includes(searchQuery.toLowerCase())
-  );
-
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-12">
       <div className="max-w-7xl mx-auto px-6">
@@ -100,20 +90,18 @@ const Internships = () => {
         </h1>
 
         <div className="flex flex-col md:flex-row gap-8">
-          {/* Desktop Filters */}
+          {/* 🖥️ Desktop Filters */}
           <div className="hidden md:block">{renderFilters()}</div>
 
-          {/* Main Section */}
+          {/* Main Content */}
           <main className="flex-1">
-            {/* Search Bar */}
+            {/* 🔍 Search Bar */}
             <form
               onSubmit={(e) => e.preventDefault()}
-              className="flex flex-col sm:flex-row gap-2 mb-6"
+              className="flex flex-col sm:flex-row gap-2 mb-4"
             >
               <input
                 type="text"
-                value={searchQuery}
-                onChange={handleSearchChange}
                 placeholder="Search internships..."
                 className="flex-grow px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-md bg-white dark:bg-gray-900 focus:ring-2 focus:ring-blue-600"
               />
@@ -125,7 +113,7 @@ const Internships = () => {
               </button>
             </form>
 
-            {/* Mobile Filter Button */}
+            {/* 🔽 Mobile Filter Toggle (Moved Below Search) */}
             <div className="md:hidden mb-6">
               <button
                 onClick={() => setShowMobileFilters(!showMobileFilters)}
@@ -138,7 +126,7 @@ const Internships = () => {
               )}
             </div>
 
-            {/* Internship Cards */}
+            {/* 📦 Internship Cards */}
             {loading ? (
               <div className="flex justify-center items-center h-28 gap-4">
                 <div className="w-12 h-12 border-4 border-blue-500 border-dashed rounded-full animate-spin"></div>
@@ -146,13 +134,13 @@ const Internships = () => {
                   Loading...
                 </span>
               </div>
-            ) : filteredInternships.length === 0 ? (
+            ) : internships.length === 0 ? (
               <p className="text-gray-600 dark:text-gray-400">
                 No internships available right now.
               </p>
             ) : (
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch">
-                {filteredInternships.map((internship) => (
+                {internships.map((internship) => (
                   <Link
                     key={internship._id}
                     to={`/internships/${internship._id}`}
