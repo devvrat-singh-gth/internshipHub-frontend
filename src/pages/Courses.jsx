@@ -26,7 +26,7 @@ const Courses = () => {
     <div className="py-12 bg-gray-50 dark:bg-gray-900 min-h-screen">
       <div className="max-w-5xl mx-auto px-6">
         <h1 className="text-3xl font-bold mb-8 text-gray-900 dark:text-gray-100">
-          Recommended Courses
+          Available Courses
         </h1>
 
         {loading ? (

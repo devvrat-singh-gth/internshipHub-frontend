@@ -24,9 +24,11 @@ import Register from "./pages/Register";
 import Profile from "./pages/Profile";
 import Recommendations from "./pages/Recommendations";
 import Courses from "./pages/Courses";
+import CourseDetail from "./pages/CourseDetail"; // ✅ NEW
 import Scholarships from "./pages/Scholarships";
-import ForgotPassword from "./pages/ForgotPassword"; // ✅ added
-import ResetPassword from "./pages/ResetPassword"; // ✅ added
+import ScholarshipDetail from "./pages/ScholarshipDetail"; // ✅ NEW
+import ForgotPassword from "./pages/ForgotPassword";
+import ResetPassword from "./pages/ResetPassword";
 
 // Admin Add/Edit Forms
 import AddInternshipForm from "./pages/AddInternshipForm";
@@ -64,17 +66,21 @@ const App = () => {
           <Route path="/contact" element={<Contact />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
-          <Route path="/forgot-password" element={<ForgotPassword />} />{" "}
-          {/* ✅ */}
-          <Route
-            path="/reset-password/:token"
-            element={<ResetPassword />}
-          />{" "}
-          {/* ✅ */}
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/reset-password/:token" element={<ResetPassword />} />
+          {/* Internships */}
           <Route path="/internships" element={<Internships />} />
           <Route path="/internships/:id" element={<InternshipDetail />} />
+          {/* Courses */}
           <Route path="/courses" element={<Courses />} />
+          <Route path="/courses/:id" element={<CourseDetail />} /> {/* ✅ */}
+          {/* Scholarships */}
           <Route path="/scholarships" element={<Scholarships />} />
+          <Route
+            path="/scholarships/:id"
+            element={<ScholarshipDetail />}
+          />{" "}
+          {/* ✅ */}
           {/* 🔐 Protected Routes */}
           <Route
             path="/home"
@@ -133,7 +139,7 @@ const App = () => {
               </PrivateRoute>
             }
           />
-          {/* Course Routes */}
+          {/* Course Admin Routes */}
           <Route
             path="/admin/add-course"
             element={
@@ -150,7 +156,7 @@ const App = () => {
               </PrivateRoute>
             }
           />
-          {/* Scholarship Routes */}
+          {/* Scholarship Admin Routes */}
           <Route
             path="/admin/add-scholarship"
             element={

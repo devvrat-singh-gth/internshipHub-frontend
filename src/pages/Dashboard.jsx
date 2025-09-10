@@ -3,8 +3,10 @@ import React, { useState, useEffect } from "react";
 import API from "../utils/api";
 
 const Dashboard = () => {
-  const [activeTab, setActiveTab] = useState("saved");
+  const [activeTab, setActiveTab] = useState("savedInternships");
   const [savedInternships, setSavedInternships] = useState([]);
+  const [savedCourses, setSavedCourses] = useState([]);
+  const [savedScholarships, setSavedScholarships] = useState([]);
   const [appliedInternships, setAppliedInternships] = useState([]);
   const [profile, setProfile] = useState({});
   const [recommendations, setRecommendations] = useState([]);
@@ -17,25 +19,22 @@ const Dashboard = () => {
         const token = localStorage.getItem("token");
         if (!token) return;
 
-        // Fetch profile with saved & applied
         const { data } = await API.get(
           "https://internshiphub-backend.onrender.com/api/users/me",
-          {
-            headers: { Authorization: `Bearer ${token}` },
-          }
+          { headers: { Authorization: `Bearer ${token}` } }
         );
+
         setProfile(data);
         setSavedInternships(data.savedInternships || []);
+        setSavedCourses(data.savedCourses || []);
+        setSavedScholarships(data.savedScholarships || []);
         setAppliedInternships(
           data.applications?.map((a) => a.internship) || []
         );
 
-        // Fetch recommendations
         const rec = await API.get(
           "https://internshiphub-backend.onrender.com/api/internships/recommendations",
-          {
-            headers: { Authorization: `Bearer ${token}` },
-          }
+          { headers: { Authorization: `Bearer ${token}` } }
         );
         setRecommendations(rec.data || []);
       } catch (err) {
@@ -47,7 +46,6 @@ const Dashboard = () => {
 
     fetchData();
 
-    // 🔔 Refresh dashboard when something changes (apply/save)
     window.addEventListener("authChange", fetchData);
     return () => window.removeEventListener("authChange", fetchData);
   }, []);
@@ -68,7 +66,7 @@ const Dashboard = () => {
     }
 
     switch (activeTab) {
-      case "saved":
+      case "savedInternships":
         return (
           <TabCard>
             <h2 className="text-xl font-semibold mb-4">Saved Internships</h2>
@@ -86,6 +84,57 @@ const Dashboard = () => {
                     <h3 className="font-semibold">{internship.title}</h3>
                     <p className="text-sm text-gray-500">
                       {internship.company} • {internship.location}
+                    </p>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </TabCard>
+        );
+
+      case "savedCourses":
+        return (
+          <TabCard>
+            <h2 className="text-xl font-semibold mb-4">Saved Courses</h2>
+            {savedCourses.length === 0 ? (
+              <p className="text-gray-600 dark:text-gray-400">
+                You haven’t saved any courses yet.
+              </p>
+            ) : (
+              <ul className="space-y-3">
+                {savedCourses.map((course) => (
+                  <li
+                    key={course._id}
+                    className="p-4 border border-gray-200 dark:border-gray-700 rounded-md"
+                  >
+                    <h3 className="font-semibold">{course.title}</h3>
+                    <p className="text-sm text-gray-500">{course.provider}</p>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </TabCard>
+        );
+
+      case "savedScholarships":
+        return (
+          <TabCard>
+            <h2 className="text-xl font-semibold mb-4">Saved Scholarships</h2>
+            {savedScholarships.length === 0 ? (
+              <p className="text-gray-600 dark:text-gray-400">
+                You haven’t saved any scholarships yet.
+              </p>
+            ) : (
+              <ul className="space-y-3">
+                {savedScholarships.map((scholarship) => (
+                  <li
+                    key={scholarship._id}
+                    className="p-4 border border-gray-200 dark:border-gray-700 rounded-md"
+                  >
+                    <h3 className="font-semibold">{scholarship.title}</h3>
+                    <p className="text-sm text-gray-500">
+                      {scholarship.organization} • Deadline:{" "}
+                      {scholarship.deadline}
                     </p>
                   </li>
                 ))}
@@ -124,35 +173,15 @@ const Dashboard = () => {
         return (
           <TabCard>
             <h2 className="text-xl font-semibold mb-4">Profile</h2>
-            <form className="space-y-4">
-              <div>
-                <label className="block mb-1 font-medium">Full Name</label>
-                <input
-                  type="text"
-                  value={profile.name || ""}
-                  readOnly
-                  className="w-full border border-gray-300 dark:border-gray-700 rounded-md px-3 py-2 bg-gray-100 dark:bg-gray-900"
-                />
-              </div>
-              <div>
-                <label className="block mb-1 font-medium">Email</label>
-                <input
-                  type="email"
-                  value={profile.email || ""}
-                  readOnly
-                  className="w-full border border-gray-300 dark:border-gray-700 rounded-md px-3 py-2 bg-gray-100 dark:bg-gray-900"
-                />
-              </div>
-              <div>
-                <label className="block mb-1 font-medium">Type</label>
-                <input
-                  type="text"
-                  value={profile.type || "user"}
-                  readOnly
-                  className="w-full border border-gray-300 dark:border-gray-700 rounded-md px-3 py-2 bg-gray-100 dark:bg-gray-900"
-                />
-              </div>
-            </form>
+            <p className="text-gray-600 dark:text-gray-300">
+              Name: {profile.name}
+            </p>
+            <p className="text-gray-600 dark:text-gray-300">
+              Email: {profile.email}
+            </p>
+            <p className="text-gray-600 dark:text-gray-300">
+              Type: {profile.type}
+            </p>
           </TabCard>
         );
 
@@ -187,42 +216,6 @@ const Dashboard = () => {
           </TabCard>
         );
 
-      case "settings":
-        return (
-          <TabCard>
-            <h2 className="text-xl font-semibold mb-4">Settings</h2>
-            <form className="space-y-4">
-              <div>
-                <label className="block mb-1 font-medium">
-                  Change Password
-                </label>
-                <input
-                  type="password"
-                  placeholder="New Password"
-                  className="w-full border border-gray-300 dark:border-gray-700 rounded-md px-3 py-2 bg-white dark:bg-gray-900 focus:ring-2 focus:ring-primary"
-                />
-              </div>
-              <div>
-                <label className="block mb-1 font-medium">Notifications</label>
-                <div className="flex items-center gap-2">
-                  <input type="checkbox" id="emailNotif" />
-                  <label htmlFor="emailNotif">Email Alerts</label>
-                </div>
-                <div className="flex items-center gap-2">
-                  <input type="checkbox" id="smsNotif" />
-                  <label htmlFor="smsNotif">SMS Alerts</label>
-                </div>
-              </div>
-              <button
-                type="submit"
-                className="px-4 py-2 bg-teal-600 text-white rounded-md hover:bg-teal-700 transition"
-              >
-                Save Settings
-              </button>
-            </form>
-          </TabCard>
-        );
-
       default:
         return (
           <TabCard>
@@ -243,12 +236,12 @@ const Dashboard = () => {
           <aside className="w-full md:w-1/4 bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
             <nav className="flex flex-col gap-3">
               {[
-                { key: "saved", label: "Saved Internships" },
+                { key: "savedInternships", label: "Saved Internships" },
+                { key: "savedCourses", label: "Saved Courses" },
+                { key: "savedScholarships", label: "Saved Scholarships" },
                 { key: "applied", label: "Applied Internships" },
-                { key: "alerts", label: "Job Alerts" },
                 { key: "profile", label: "Profile" },
                 { key: "recommendations", label: "Recommendations" },
-                { key: "settings", label: "Settings" },
               ].map(({ key, label }) => (
                 <button
                   key={key}

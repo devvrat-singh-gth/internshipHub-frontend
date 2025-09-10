@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import API from "../utils/api";
-import ScholarshipCard from "../components/ScholarshipCard";
+import ScholarshipCard from "../components/ScholarshipCard.jsx";
 
 const Scholarships = () => {
   const [scholarships, setScholarships] = useState([]);
@@ -26,7 +26,7 @@ const Scholarships = () => {
     <div className="py-12 bg-gray-50 dark:bg-gray-900 min-h-screen">
       <div className="max-w-5xl mx-auto px-6">
         <h1 className="text-3xl font-bold mb-8 text-gray-900 dark:text-gray-100">
-          Scholarships
+          Explore Scholarships
         </h1>
 
         {loading ? (
