@@ -1,6 +1,6 @@
-// src/pages/Scholarships.jsx
 import React, { useEffect, useState } from "react";
 import API from "../utils/api";
+import ScholarshipCard from "../components/ScholarshipCard";
 
 const Scholarships = () => {
   const [scholarships, setScholarships] = useState([]);
@@ -41,30 +41,11 @@ const Scholarships = () => {
             No scholarships available right now.
           </p>
         ) : (
-          <ul className="space-y-4">
-            {scholarships.map((scholarship) => (
-              <li
-                key={scholarship._id}
-                className="p-5 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow"
-              >
-                <h2 className="text-xl font-semibold">{scholarship.title}</h2>
-                <p className="text-sm text-gray-500">
-                  <strong>Eligibility:</strong> {scholarship.eligibility}
-                </p>
-                <p className="text-sm text-gray-500">
-                  <strong>Deadline:</strong> {scholarship.deadline}
-                </p>
-                <a
-                  href={scholarship.link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="mt-2 inline-block text-teal-600 hover:underline"
-                >
-                  Apply Now →
-                </a>
-              </li>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {scholarships.map((sch) => (
+              <ScholarshipCard key={sch._id} scholarship={sch} />
             ))}
-          </ul>
+          </div>
         )}
       </div>
     </div>

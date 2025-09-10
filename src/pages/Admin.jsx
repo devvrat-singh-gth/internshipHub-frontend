@@ -1,4 +1,3 @@
-// src/pages/Admin.jsx
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import API from "../utils/api";
@@ -147,6 +146,9 @@ const Admin = () => {
                     <p className="text-xs text-gray-400">
                       {intn.description?.slice(0, 50)}...
                     </p>
+                    <p className="text-xs text-gray-400">
+                      Issued on: {new Date(intn.createdAt).toLocaleDateString()}
+                    </p>
                   </div>
                   <div className="flex gap-2">
                     <button
@@ -190,6 +192,10 @@ const Admin = () => {
                     <p className="text-xs text-gray-400">
                       {course.description?.slice(0, 60)}...
                     </p>
+                    <p className="text-xs text-gray-400">
+                      Issued on:{" "}
+                      {new Date(course.createdAt).toLocaleDateString()}
+                    </p>
                   </div>
                   <div className="flex gap-2">
                     <button
@@ -229,11 +235,12 @@ const Admin = () => {
                 >
                   <div>
                     <h4 className="font-bold">{sch.title}</h4>
-                    <p className="text-sm text-gray-500">
-                      {sch.organization} • {sch.deadline}
-                    </p>
+                    <p className="text-sm text-gray-500">{sch.organization}</p>
                     <p className="text-xs text-gray-400">
                       {sch.description?.slice(0, 60)}...
+                    </p>
+                    <p className="text-xs text-gray-400">
+                      Issued on: {new Date(sch.createdAt).toLocaleDateString()}
                     </p>
                   </div>
                   <div className="flex gap-2">

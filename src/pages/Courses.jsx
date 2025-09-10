@@ -1,6 +1,6 @@
-// src/pages/Courses.jsx
 import React, { useEffect, useState } from "react";
 import API from "../utils/api";
+import CourseCard from "../components/CourseCard";
 
 const Courses = () => {
   const [courses, setCourses] = useState([]);
@@ -41,25 +41,11 @@ const Courses = () => {
             No courses available right now.
           </p>
         ) : (
-          <ul className="space-y-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {courses.map((course) => (
-              <li
-                key={course._id}
-                className="p-5 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow"
-              >
-                <h2 className="text-xl font-semibold">{course.title}</h2>
-                <p className="text-sm text-gray-500">{course.provider}</p>
-                <a
-                  href={course.link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="mt-2 inline-block text-teal-600 hover:underline"
-                >
-                  View Course →
-                </a>
-              </li>
+              <CourseCard key={course._id} course={course} />
             ))}
-          </ul>
+          </div>
         )}
       </div>
     </div>
