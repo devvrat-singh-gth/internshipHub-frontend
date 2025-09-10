@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { UserCheck } from "lucide-react";
+import { UserCheck, Slack } from "lucide-react";
 
 import API from "../utils/api";
 
@@ -87,13 +87,14 @@ const Navbar = () => {
       <nav className="max-w-7xl mx-auto px-6">
         <div className="flex justify-between items-center py-4">
           {/* Brand */}
-          <h1 className="text-xl sm:text-2xl font-bold text-teal-600 dark:text-teal-400">
-            {" "}
+
+          <h1 className="flex items-center text-xl sm:text-2xl font-bold text-teal-600 dark:text-teal-400 whitespace-nowrap">
             <Link
               to={isLoggedIn ? "/home" : "/"}
-              className="hover:text-teal-700 dark:hover:text-teal-300 transition"
+              className="flex items-center pr-2 gap-2 hover:text-teal-700 dark:hover:text-teal-300 transition"
             >
-              InternshipHub
+              <Slack className="w-8 h-8" />
+              InternAdda
             </Link>
           </h1>
 
@@ -159,7 +160,7 @@ const Navbar = () => {
                 </button>
                 <button
                   className="px-4 py-2 text-sm rounded-md bg-teal-500 text-white 
-                             hover:bg-teal-600 active:bg-teal-700"
+                             hover:bg-teal-600 active:bg-teal-700 flex items-center whitespace-nowrap"
                   onClick={() => navigate("/register")}
                 >
                   Sign Up

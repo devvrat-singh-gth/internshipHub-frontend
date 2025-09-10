@@ -1,3 +1,4 @@
+// src/App.jsx
 import React from "react";
 import {
   BrowserRouter as Router,
@@ -24,6 +25,8 @@ import Profile from "./pages/Profile";
 import Recommendations from "./pages/Recommendations";
 import Courses from "./pages/Courses";
 import Scholarships from "./pages/Scholarships";
+import ForgotPassword from "./pages/ForgotPassword"; // ✅ added
+import ResetPassword from "./pages/ResetPassword"; // ✅ added
 
 // Admin Add/Edit Forms
 import AddInternshipForm from "./pages/AddInternshipForm";
@@ -56,17 +59,22 @@ const App = () => {
             path="/"
             element={isLoggedIn ? <Navigate to="/home" replace /> : <Landing />}
           />
-
           {/* Public Routes */}
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />{" "}
+          {/* ✅ */}
+          <Route
+            path="/reset-password/:token"
+            element={<ResetPassword />}
+          />{" "}
+          {/* ✅ */}
           <Route path="/internships" element={<Internships />} />
           <Route path="/internships/:id" element={<InternshipDetail />} />
           <Route path="/courses" element={<Courses />} />
           <Route path="/scholarships" element={<Scholarships />} />
-
           {/* 🔐 Protected Routes */}
           <Route
             path="/home"
@@ -100,7 +108,6 @@ const App = () => {
               </PrivateRoute>
             }
           />
-
           {/* 🔐 Admin Routes */}
           <Route
             path="/admin"
@@ -126,7 +133,6 @@ const App = () => {
               </PrivateRoute>
             }
           />
-
           {/* Course Routes */}
           <Route
             path="/admin/add-course"
@@ -144,7 +150,6 @@ const App = () => {
               </PrivateRoute>
             }
           />
-
           {/* Scholarship Routes */}
           <Route
             path="/admin/add-scholarship"
@@ -162,7 +167,6 @@ const App = () => {
               </PrivateRoute>
             }
           />
-
           {/* Fallback */}
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>

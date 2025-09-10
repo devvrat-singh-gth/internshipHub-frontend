@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import API from "../utils/api";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const Register = () => {
   const [name, setName] = useState("");
@@ -13,21 +14,16 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const { data } = await API.post(
+      await API.post(
         "https://internshiphub-backend.onrender.com/api/auth/register",
-        {
-          name,
-          email,
-          password,
-          type,
-        }
+        { name, email, password, type }
       );
-      localStorage.setItem("token", data.token);
-      window.dispatchEvent(new Event("authChange")); // 👈 match Navbar
-      toast.success("Registration successful!");
-      navigate("/home");
+
+      // ✅ No token stored here
+      toast.success("Registration successful! Please log in.");
+      navigate("/login"); // redirect to login page
     } catch (err) {
-      alert(err.response?.data?.message || "Registration failed");
+      toast.error(err.response?.data?.message || "Registration failed");
     }
   };
 

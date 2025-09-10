@@ -57,6 +57,12 @@ const Login = () => {
               className="w-full px-4 py-2 border rounded-md dark:bg-gray-900 dark:border-gray-700"
               required
             />
+            <p
+              onClick={() => navigate("/forgot-password")}
+              className="mt-3 text-sm text-blue-600 cursor-pointer hover:underline"
+            >
+              Forgot Password?
+            </p>
           </div>
           <button
             type="submit"
