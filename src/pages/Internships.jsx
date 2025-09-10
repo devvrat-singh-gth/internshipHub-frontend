@@ -23,12 +23,32 @@ const Internships = () => {
     const fetchInternships = async () => {
       try {
         const token = localStorage.getItem("token");
-        const { data } = await API.get(
-          token
-            ? "https://internshiphub-backend.onrender.com/api/internships"
-            : "https://internshiphub-backend.onrender.com/api/internships/public",
-          token ? { headers: { Authorization: `Bearer ${token}` } } : {}
-        );
+
+        let data;
+
+        if (token) {
+          try {
+            const res = await API.get(
+              "https://internshiphub-backend.onrender.com/api/internships",
+              {
+                headers: { Authorization: `Bearer ${token}` },
+              }
+            );
+            data = res.data;
+          } catch (err) {
+            // fallback to public if token invalid/expired
+            const res = await API.get(
+              "https://internshiphub-backend.onrender.com/api/internships/public"
+            );
+            data = res.data;
+          }
+        } else {
+          const res = await API.get(
+            "https://internshiphub-backend.onrender.com/api/internships/public"
+          );
+          data = res.data;
+        }
+
         setInternships(data);
       } catch (err) {
         console.error("Error fetching internships:", err);
@@ -36,6 +56,7 @@ const Internships = () => {
         setLoading(false);
       }
     };
+
     fetchInternships();
   }, []);
 
@@ -113,7 +134,7 @@ const Internships = () => {
               </button>
             </form>
 
-            {/* 🔽 Mobile Filter Toggle (Moved Below Search) */}
+            {/* 🔽 Mobile Filter Toggle */}
             <div className="md:hidden mb-6">
               <button
                 onClick={() => setShowMobileFilters(!showMobileFilters)}
