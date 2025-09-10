@@ -10,7 +10,7 @@ const Courses = () => {
     const fetchCourses = async () => {
       try {
         const { data } = await API.get(
-          "https://internshiphub-backend.onrender.com/api/courses"
+          "https://internshiphub-backend.onrender.com/api/courses/public"
         );
         setCourses(data);
       } catch (err) {
@@ -31,7 +31,7 @@ const Courses = () => {
 
         {loading ? (
           <div className="flex justify-center items-center gap-4">
-            <div className="w-12 h-12 border-4 border-blue-500 border-dashed rounded-full animate-spin"></div>{" "}
+            <div className="w-12 h-12 border-4 border-blue-500 border-dashed rounded-full animate-spin"></div>
             <span className="text-2xl text-black dark:text-white">
               Loading...
             </span>

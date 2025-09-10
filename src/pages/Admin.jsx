@@ -8,11 +8,14 @@ const Admin = () => {
   const [scholarships, setScholarships] = useState([]);
   const navigate = useNavigate();
 
-  // Fetch functions
+  const token = localStorage.getItem("token");
+
+  // Fetch Admin-specific data
   const fetchInternships = async () => {
     try {
       const { data } = await API.get(
-        "https://internshiphub-backend.onrender.com/api/internships"
+        "https://internshiphub-backend.onrender.com/api/internships/admin/list",
+        { headers: { Authorization: `Bearer ${token}` } }
       );
       setInternships(data);
     } catch (err) {
@@ -23,7 +26,8 @@ const Admin = () => {
   const fetchCourses = async () => {
     try {
       const { data } = await API.get(
-        "https://internshiphub-backend.onrender.com/api/courses"
+        "https://internshiphub-backend.onrender.com/api/courses/admin/list",
+        { headers: { Authorization: `Bearer ${token}` } }
       );
       setCourses(data);
     } catch (err) {
@@ -34,7 +38,8 @@ const Admin = () => {
   const fetchScholarships = async () => {
     try {
       const { data } = await API.get(
-        "https://internshiphub-backend.onrender.com/api/scholarships"
+        "https://internshiphub-backend.onrender.com/api/scholarships/admin/list",
+        { headers: { Authorization: `Bearer ${token}` } }
       );
       setScholarships(data);
     } catch (err) {
@@ -48,13 +53,14 @@ const Admin = () => {
     fetchScholarships();
   }, []);
 
-  // Delete handler for internships
+  // Delete handlers (no change, just keep them)
   const handleDeleteInternship = async (id) => {
     if (!window.confirm("Are you sure you want to delete this internship?"))
       return;
     try {
       await API.delete(
-        `https://internshiphub-backend.onrender.com/api/internships/${id}`
+        `https://internshiphub-backend.onrender.com/api/internships/${id}`,
+        { headers: { Authorization: `Bearer ${token}` } }
       );
       setInternships((prev) => prev.filter((item) => item._id !== id));
       alert("Internship deleted!");
@@ -64,12 +70,12 @@ const Admin = () => {
     }
   };
 
-  // Delete handler for courses
   const handleDeleteCourse = async (id) => {
     if (!window.confirm("Are you sure you want to delete this course?")) return;
     try {
       await API.delete(
-        `https://internshiphub-backend.onrender.com/api/courses/${id}`
+        `https://internshiphub-backend.onrender.com/api/courses/${id}`,
+        { headers: { Authorization: `Bearer ${token}` } }
       );
       setCourses((prev) => prev.filter((item) => item._id !== id));
       alert("Course deleted!");
@@ -79,13 +85,13 @@ const Admin = () => {
     }
   };
 
-  // Delete handler for scholarships
   const handleDeleteScholarship = async (id) => {
     if (!window.confirm("Are you sure you want to delete this scholarship?"))
       return;
     try {
       await API.delete(
-        `https://internshiphub-backend.onrender.com/api/scholarships/${id}`
+        `https://internshiphub-backend.onrender.com/api/scholarships/${id}`,
+        { headers: { Authorization: `Bearer ${token}` } }
       );
       setScholarships((prev) => prev.filter((item) => item._id !== id));
       alert("Scholarship deleted!");
@@ -144,9 +150,6 @@ const Admin = () => {
                       {intn.company} • {intn.location}
                     </p>
                     <p className="text-xs text-gray-400">
-                      {intn.description?.slice(0, 50)}...
-                    </p>
-                    <p className="text-xs text-gray-400">
                       Issued on: {new Date(intn.createdAt).toLocaleDateString()}
                     </p>
                   </div>
@@ -188,9 +191,6 @@ const Admin = () => {
                     <h4 className="font-bold">{course.title}</h4>
                     <p className="text-sm text-gray-500">
                       {course.provider} • {course.duration}
-                    </p>
-                    <p className="text-xs text-gray-400">
-                      {course.description?.slice(0, 60)}...
                     </p>
                     <p className="text-xs text-gray-400">
                       Issued on:{" "}
@@ -236,9 +236,6 @@ const Admin = () => {
                   <div>
                     <h4 className="font-bold">{sch.title}</h4>
                     <p className="text-sm text-gray-500">{sch.organization}</p>
-                    <p className="text-xs text-gray-400">
-                      {sch.description?.slice(0, 60)}...
-                    </p>
                     <p className="text-xs text-gray-400">
                       Issued on: {new Date(sch.createdAt).toLocaleDateString()}
                     </p>
