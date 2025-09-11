@@ -8,8 +8,8 @@ const InternshipCard = ({ internship, onSave }) => {
                  border border-gray-200 dark:border-gray-700 rounded-lg 
                  shadow-sm hover:shadow-md transition p-6 h-full"
     >
-      {/* Image */}
-      <div className="w-full h-40 sm:h-48 overflow-hidden rounded-md mb-4">
+      {/* Image container */}
+      <div className="w-full h-40 sm:h-48 overflow-hidden rounded-t-md mb-4">
         <img
           src={getImage(internship, "internship")}
           alt={internship.title}
