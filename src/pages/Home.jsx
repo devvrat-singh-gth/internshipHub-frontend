@@ -143,19 +143,19 @@ const Home = () => {
                 to="/scholarships"
                 className="px-6 py-3 bg-blue-600 text-white font-semibold rounded-md shadow hover:bg-blue-700 transition hidden md:inline-block"
               >
-                Scholarships
+                Explore Scholarships
               </Link>
             </div>
           </div>
 
-          {/* Image with blurred glowing background */}
+          {/* Image with glowing blurred border */}
           <div className="hidden md:flex items-center justify-center">
-            <div className="relative rounded-xl overflow-hidden">
-              <div className="absolute inset-0 bg-blue-600 blur-3xl opacity-40"></div>
+            <div className="relative rounded-2xl overflow-hidden">
+              <div className="absolute inset-0 rounded-2xl border-4 border-blue-500 blur-lg opacity-50"></div>
               <img
                 src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=900&q=80"
                 alt="Internship"
-                className="relative rounded-xl shadow-2xl max-h-[350px] object-cover"
+                className="relative rounded-2xl shadow-2xl max-h-[350px] object-cover"
               />
             </div>
           </div>
@@ -180,26 +180,26 @@ const Home = () => {
         </h2>
         <div className="flex space-x-6 overflow-x-auto scrollbar-hide">
           {internships.map((intn) => (
-            <div
+            <Link
               key={intn._id}
-              className="min-w-[280px] sm:min-w-[350px] p-6 bg-white dark:bg-gray-800 rounded-lg shadow hover:shadow-lg transition flex flex-col"
+              to={`/internships/${intn._id}`}
+              className="group min-w-[280px] sm:min-w-[350px] p-6 bg-white dark:bg-gray-800 rounded-lg shadow hover:shadow-xl transition flex flex-col cursor-pointer"
             >
               <img
                 src={getImage(intn, "internship")}
                 alt={intn.title}
-                className="rounded-md mb-4 w-full h-48 object-cover"
+                className="rounded-md mb-4 w-full h-48 object-cover group-hover:scale-105 transition-transform"
               />
-              <h3 className="text-xl font-semibold mb-2">{intn.title}</h3>
+              <h3 className="text-xl font-semibold mb-2 group-hover:text-teal-600">
+                {intn.title}
+              </h3>
               <p className="text-gray-600 dark:text-gray-400 line-clamp-3">
                 {intn.description}
               </p>
-              <Link
-                to={`/internships/${intn._id}`}
-                className="mt-auto text-base font-semibold text-teal-600 hover:underline"
-              >
+              <p className="mt-auto text-base font-semibold text-teal-600 group-hover:underline">
                 Look More →
-              </Link>
-            </div>
+              </p>
+            </Link>
           ))}
         </div>
         <div className="text-center mt-10">
@@ -218,26 +218,26 @@ const Home = () => {
           <h2 className="text-3xl font-bold mb-8 text-center">Top Courses</h2>
           <div className="flex space-x-6 overflow-x-auto scrollbar-hide">
             {courses.map((course) => (
-              <div
+              <Link
                 key={course._id}
-                className="min-w-[280px] sm:min-w-[350px] p-6 bg-white dark:bg-gray-900 rounded-lg shadow hover:shadow-lg transition flex flex-col"
+                to={`/courses/${course._id}`}
+                className="group min-w-[280px] sm:min-w-[350px] p-6 bg-white dark:bg-gray-900 rounded-lg shadow hover:shadow-xl transition flex flex-col cursor-pointer"
               >
                 <img
                   src={getImage(course, "education")}
                   alt={course.title}
-                  className="rounded-md mb-4 w-full h-48 object-cover"
+                  className="rounded-md mb-4 w-full h-48 object-cover group-hover:scale-105 transition-transform"
                 />
-                <h3 className="text-xl font-semibold mb-2">{course.title}</h3>
+                <h3 className="text-xl font-semibold mb-2 group-hover:text-teal-600">
+                  {course.title}
+                </h3>
                 <p className="text-gray-600 dark:text-gray-400 line-clamp-3">
                   {course.description}
                 </p>
-                <Link
-                  to={`/courses/${course._id}`}
-                  className="mt-auto text-base font-semibold text-teal-600 hover:underline"
-                >
+                <p className="mt-auto text-base font-semibold text-teal-600 group-hover:underline">
                   Look More →
-                </Link>
-              </div>
+                </p>
+              </Link>
             ))}
           </div>
           <div className="text-center mt-10">
@@ -259,26 +259,26 @@ const Home = () => {
           </h2>
           <div className="flex space-x-6 overflow-x-auto scrollbar-hide">
             {scholarships.map((sch) => (
-              <div
+              <Link
                 key={sch._id}
-                className="min-w-[280px] sm:min-w-[350px] p-6 bg-white dark:bg-gray-800 rounded-lg shadow hover:shadow-lg transition flex flex-col"
+                to={`/scholarships/${sch._id}`}
+                className="group min-w-[280px] sm:min-w-[350px] p-6 bg-white dark:bg-gray-800 rounded-lg shadow hover:shadow-xl transition flex flex-col cursor-pointer"
               >
                 <img
                   src={getImage(sch, "scholarship")}
                   alt={sch.title}
-                  className="rounded-md mb-4 w-full h-48 object-cover"
+                  className="rounded-md mb-4 w-full h-48 object-cover group-hover:scale-105 transition-transform"
                 />
-                <h3 className="text-xl font-semibold mb-2">{sch.title}</h3>
+                <h3 className="text-xl font-semibold mb-2 group-hover:text-blue-600">
+                  {sch.title}
+                </h3>
                 <p className="text-gray-600 dark:text-gray-400 line-clamp-3">
                   {sch.description}
                 </p>
-                <Link
-                  to={`/scholarships/${sch._id}`}
-                  className="mt-auto text-base font-semibold text-blue-600 hover:underline"
-                >
+                <p className="mt-auto text-base font-semibold text-blue-600 group-hover:underline">
                   Look More →
-                </Link>
-              </div>
+                </p>
+              </Link>
             ))}
           </div>
           <div className="text-center mt-10">
