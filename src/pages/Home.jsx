@@ -73,7 +73,9 @@ const Home = () => {
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => setInView(entry.isIntersecting),
-      { threshold: 0.4 }
+      {
+        threshold: 0.4,
+      }
     );
 
     if (statsRef.current) observer.observe(statsRef.current);
@@ -86,28 +88,15 @@ const Home = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const token = localStorage.getItem("token");
+        const [intnRes, courseRes, scholRes] = await Promise.all([
+          API.get("https://internshiphub-backend.onrender.com/api/internships"),
+          API.get("https://internshiphub-backend.onrender.com/api/courses"),
+          API.get(
+            "https://internshiphub-backend.onrender.com/api/scholarships"
+          ),
+        ]);
 
-        let intnData;
-        if (token) {
-          try {
-            const res = await API.get("/internships", {
-              headers: { Authorization: `Bearer ${token}` },
-            });
-            intnData = res.data;
-          } catch {
-            const res = await API.get("/internships/public");
-            intnData = res.data;
-          }
-        } else {
-          const res = await API.get("/internships/public");
-          intnData = res.data;
-        }
-
-        const courseRes = await API.get("/courses");
-        const scholRes = await API.get("/scholarships");
-
-        setInternships(intnData.slice(0, 3));
+        setInternships(intnRes.data.slice(0, 3)); // show top 3
         setCourses(courseRes.data.slice(0, 3));
         setScholarships(scholRes.data.slice(0, 3));
       } catch (err) {
@@ -120,7 +109,6 @@ const Home = () => {
   // 🔑 Helper for fallback image
   const getImage = (item, fallback) =>
     item.image ||
-    item.imageUrl ||
     `https://source.unsplash.com/600x400/?${fallback || "education"}`;
 
   return (
@@ -158,13 +146,15 @@ const Home = () => {
             </div>
           </div>
 
-          {/* Right image with blue background */}
-          <div className="hidden md:flex justify-center items-center bg-blue-700 rounded-lg shadow-lg p-6">
-            <img
-              src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=900&q=80"
-              alt="Internship"
-              className="rounded-lg shadow-lg object-cover h-64"
-            />
+          {/* Image inside same gradient background */}
+          <div className="hidden md:flex items-center justify-center">
+            <div className="p-3 bg-gradient-to-r from-blue-500 to-blue-700 rounded-lg shadow-xl">
+              <img
+                src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=900&q=80"
+                alt="Internship"
+                className="rounded-lg shadow-lg max-h-[350px] object-cover"
+              />
+            </div>
           </div>
         </div>
       </section>
