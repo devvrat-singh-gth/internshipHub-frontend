@@ -89,9 +89,11 @@ const Home = () => {
     const fetchData = async () => {
       try {
         const [intnRes, courseRes, scholRes] = await Promise.all([
-          API.get("/internships"),
-          API.get("/courses"),
-          API.get("/scholarships"),
+          API.get("https://internshiphub-backend.onrender.com/api/internships"),
+          API.get("https://internshiphub-backend.onrender.com/api/courses"),
+          API.get(
+            "https://internshiphub-backend.onrender.com/api/scholarships"
+          ),
         ]);
 
         setInternships(intnRes.data.slice(0, 3)); // show top 3
@@ -144,12 +146,15 @@ const Home = () => {
             </div>
           </div>
 
-          <div className="hidden md:block">
-            <img
-              src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=900&q=80"
-              alt="Internship"
-              className="rounded-lg shadow-lg"
-            />
+          {/* Image inside same gradient background */}
+          <div className="hidden md:flex items-center justify-center">
+            <div className="p-3 bg-gradient-to-r from-blue-500 to-blue-700 rounded-lg shadow-xl">
+              <img
+                src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=900&q=80"
+                alt="Internship"
+                className="rounded-lg shadow-lg max-h-[350px] object-cover"
+              />
+            </div>
           </div>
         </div>
       </section>
