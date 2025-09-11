@@ -1,5 +1,3 @@
-// src/utils/getImage.js
-
 /**
  * Returns a valid image URL for a given item.
  * - Uses the item's own `image` if available.

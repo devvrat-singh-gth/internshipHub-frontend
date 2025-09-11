@@ -13,6 +13,9 @@ const InternshipCard = ({ internship, onSave }) => {
         src={getImage(internship, "internship")}
         alt={internship.title}
         className="h-40 w-full object-cover rounded-md mb-4"
+        onError={(e) => {
+          e.target.src = `https://source.unsplash.com/600x400/?internship,career`;
+        }}
       />
 
       {/* Main Info */}
@@ -40,8 +43,7 @@ const InternshipCard = ({ internship, onSave }) => {
           <button
             className="w-full px-4 py-2 rounded-md text-sm font-medium bg-gray-200 text-gray-900 
                        hover:bg-gray-300 active:bg-gray-400 
-                       dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-600 
-                       whitespace-nowrap"
+                       dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-600"
             onClick={(e) => {
               e.preventDefault();
               onSave(internship._id);
@@ -53,10 +55,7 @@ const InternshipCard = ({ internship, onSave }) => {
       )}
 
       {/* Hover Text */}
-      <p
-        className="mt-3 text-sm italic text-gray-500 dark:text-gray-400 
-                   group-hover:text-blue-600 transition"
-      >
+      <p className="mt-3 text-sm italic text-gray-500 dark:text-gray-400 group-hover:text-blue-600 transition">
         Click to know more →
       </p>
 

@@ -9,13 +9,16 @@ const CourseCard = ({ course }) => {
     <div
       className="group flex flex-col bg-white dark:bg-gray-800 
                   border border-gray-200 dark:border-gray-700 rounded-lg 
-                  shadow-sm hover:shadow-md dark:hover:shadow-blue-200 transition overflow-hidden"
+                  shadow-sm hover:shadow-md transition overflow-hidden"
     >
       {/* Image */}
       <img
         src={getImage(course, "course")}
         alt={course.title}
         className="h-40 w-full object-cover"
+        onError={(e) => {
+          e.target.src = `https://source.unsplash.com/600x400/?course,education`;
+        }}
       />
 
       {/* Content */}

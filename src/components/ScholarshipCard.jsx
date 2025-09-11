@@ -9,13 +9,16 @@ const ScholarshipCard = ({ scholarship }) => {
     <div
       className="group flex flex-col justify-between bg-white dark:bg-gray-800 
                  border border-gray-200 dark:border-gray-700 rounded-lg 
-                 shadow-sm hover:shadow-xl dark:hover:shadow-md dark:hover:shadow-blue-200 transition p-2"
+                 shadow-sm hover:shadow-md transition overflow-hidden"
     >
       {/* Image */}
       <img
         src={getImage(scholarship, "scholarship")}
         alt={scholarship.title}
         className="h-40 w-full object-cover"
+        onError={(e) => {
+          e.target.src = `https://source.unsplash.com/600x400/?scholarship,education`;
+        }}
       />
 
       {/* Content */}
@@ -23,7 +26,7 @@ const ScholarshipCard = ({ scholarship }) => {
         <div>
           <h2
             onClick={() => navigate(`/scholarships/${scholarship._id}`)}
-            className="cursor-pointer text-xl group-hover:text-blue-500 group-hover:underline font-bold text-gray-900 dark:text-white"
+            className="cursor-pointer text-xl font-bold group-hover:text-blue-500"
           >
             {scholarship.title}
           </h2>
