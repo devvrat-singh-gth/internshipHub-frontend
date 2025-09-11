@@ -12,7 +12,7 @@ const InternshipCard = ({ internship, onSave }) => {
       <img
         src={getImage(internship, "internship")}
         alt={internship.title}
-        className="h-40 w-full object-cover rounded-md mb-4"
+        className="h-full w-full object-cover rounded-md mb-4"
         onError={(e) => {
           e.target.src = `https://source.unsplash.com/600x400/?internship,career`;
         }}
