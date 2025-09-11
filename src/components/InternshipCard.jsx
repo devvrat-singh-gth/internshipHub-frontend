@@ -1,13 +1,26 @@
-// src/components/InternshipCard.jsx
 import React from "react";
 
 const InternshipCard = ({ internship, onSave }) => {
+  // fallback generator
+  const getImage = (item) => {
+    if (item.image && item.image.trim() !== "") return item.image;
+    const keyword = encodeURIComponent(item.title || "internship");
+    return `https://source.unsplash.com/600x400/?${keyword},internship`;
+  };
+
   return (
     <div
       className="group flex flex-col justify-between bg-white dark:bg-gray-800 
                  border border-gray-200 dark:border-gray-700 rounded-lg 
                  shadow-sm hover:shadow-md transition p-6 h-full"
     >
+      {/* Image */}
+      <img
+        src={getImage(internship)}
+        alt={internship.title}
+        className="h-40 w-full object-cover rounded-md mb-4"
+      />
+
       {/* Main Info */}
       <div className="flex-grow">
         <h4 className="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-2">

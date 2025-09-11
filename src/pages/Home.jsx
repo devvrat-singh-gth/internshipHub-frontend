@@ -109,9 +109,11 @@ const Home = () => {
   }, []);
 
   // 🔑 Helper for fallback image
-  const getImage = (item, fallback) =>
-    item.image ||
-    `https://source.unsplash.com/600x400/?${fallback || "education"}`;
+  const getImage = (item, fallback) => {
+    if (item.image && item.image.trim() !== "") return item.image;
+    const keyword = encodeURIComponent(item.title || fallback);
+    return `https://source.unsplash.com/600x400/?${keyword},education`;
+  };
 
   return (
     <div className="bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200">

@@ -4,6 +4,13 @@ import { useNavigate } from "react-router-dom";
 const CourseCard = ({ course }) => {
   const navigate = useNavigate();
 
+  // fallback generator
+  const getImage = (item) => {
+    if (item.image && item.image.trim() !== "") return item.image;
+    const keyword = encodeURIComponent(item.title || "education");
+    return `https://source.unsplash.com/600x400/?${keyword},course`;
+  };
+
   return (
     <div
       className="group flex flex-col bg-white dark:bg-gray-800 
@@ -11,13 +18,11 @@ const CourseCard = ({ course }) => {
                   shadow-sm hover:shadow-md dark:hover:shadow-blue-200 transition overflow-hidden"
     >
       {/* Image */}
-      {course.image && (
-        <img
-          src={course.image}
-          alt={course.title}
-          className="h-40 w-full object-cover"
-        />
-      )}
+      <img
+        src={getImage(course)}
+        alt={course.title}
+        className="h-40 w-full object-cover"
+      />
 
       {/* Content */}
       <div className="flex flex-col flex-1 p-5">

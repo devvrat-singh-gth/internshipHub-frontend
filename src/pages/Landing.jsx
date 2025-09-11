@@ -9,7 +9,7 @@ const Landing = () => {
       <section className="bg-gradient-to-r from-teal-500 to-blue-600 text-white py-24">
         <div className="max-w-6xl mx-auto px-6 text-center">
           <h1 className="text-4xl md:text-5xl font-bold mb-6">
-            Welcome to InternshipHub
+            Welcome to InternAdda
           </h1>
           <p className="text-lg md:text-xl mb-8">
             Connecting students with top companies across India. Start your
@@ -17,7 +17,7 @@ const Landing = () => {
           </p>
           <div className="flex justify-center gap-4">
             <Link
-              to="/internships"
+              to="/register"
               className="px-6 py-3 bg-white text-teal-600 font-semibold rounded-md shadow hover:bg-gray-100 transition"
             >
               Explore Internships
