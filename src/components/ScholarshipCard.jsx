@@ -1,15 +1,9 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import getImage from "../utils/getImage";
 
 const ScholarshipCard = ({ scholarship }) => {
   const navigate = useNavigate();
-
-  // fallback generator
-  const getImage = (item) => {
-    if (item.image && item.image.trim() !== "") return item.image;
-    const keyword = encodeURIComponent(item.title || "scholarship");
-    return `https://source.unsplash.com/600x400/?${keyword},scholarship`;
-  };
 
   return (
     <div
@@ -19,7 +13,7 @@ const ScholarshipCard = ({ scholarship }) => {
     >
       {/* Image */}
       <img
-        src={getImage(scholarship)}
+        src={getImage(scholarship, "scholarship")}
         alt={scholarship.title}
         className="h-40 w-full object-cover"
       />
@@ -44,7 +38,7 @@ const ScholarshipCard = ({ scholarship }) => {
           </p>
         </div>
 
-        {/* Footer → sticks to bottom */}
+        {/* Footer */}
         <div className="mt-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
           <p className="text-xs text-gray-800 dark:text-gray-400">
             Issued on: {new Date(scholarship.createdAt).toLocaleDateString()}

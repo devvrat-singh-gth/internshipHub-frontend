@@ -1,13 +1,7 @@
 import React from "react";
+import getImage from "../utils/getImage";
 
 const InternshipCard = ({ internship, onSave }) => {
-  // fallback generator
-  const getImage = (item) => {
-    if (item.image && item.image.trim() !== "") return item.image;
-    const keyword = encodeURIComponent(item.title || "internship");
-    return `https://source.unsplash.com/600x400/?${keyword},internship`;
-  };
-
   return (
     <div
       className="group flex flex-col justify-between bg-white dark:bg-gray-800 
@@ -16,7 +10,7 @@ const InternshipCard = ({ internship, onSave }) => {
     >
       {/* Image */}
       <img
-        src={getImage(internship)}
+        src={getImage(internship, "internship")}
         alt={internship.title}
         className="h-40 w-full object-cover rounded-md mb-4"
       />
@@ -49,7 +43,7 @@ const InternshipCard = ({ internship, onSave }) => {
                        dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-600 
                        whitespace-nowrap"
             onClick={(e) => {
-              e.preventDefault(); // prevent navigation
+              e.preventDefault();
               onSave(internship._id);
             }}
           >
@@ -66,7 +60,7 @@ const InternshipCard = ({ internship, onSave }) => {
         Click to know more →
       </p>
 
-      {/* Date at Bottom */}
+      {/* Date */}
       <p className="mt-auto text-sm font-medium text-blue-600 dark:text-blue-400">
         Issued on: {new Date(internship.createdAt).toLocaleDateString()}
       </p>

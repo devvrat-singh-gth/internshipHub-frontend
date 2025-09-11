@@ -1,15 +1,9 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import getImage from "../utils/getImage";
 
 const CourseCard = ({ course }) => {
   const navigate = useNavigate();
-
-  // fallback generator
-  const getImage = (item) => {
-    if (item.image && item.image.trim() !== "") return item.image;
-    const keyword = encodeURIComponent(item.title || "education");
-    return `https://source.unsplash.com/600x400/?${keyword},course`;
-  };
 
   return (
     <div
@@ -19,14 +13,13 @@ const CourseCard = ({ course }) => {
     >
       {/* Image */}
       <img
-        src={getImage(course)}
+        src={getImage(course, "course")}
         alt={course.title}
         className="h-40 w-full object-cover"
       />
 
       {/* Content */}
       <div className="flex flex-col flex-1 p-5">
-        {/* Main text content */}
         <div className="flex-1">
           <h2
             onClick={() => navigate(`/courses/${course._id}`)}
@@ -42,7 +35,7 @@ const CourseCard = ({ course }) => {
           </p>
         </div>
 
-        {/* Footer → always sticks at bottom */}
+        {/* Footer */}
         <div className="mt-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
           <p className="text-sm text-gray-600 dark:text-gray-400">
             Issued on: {new Date(course.createdAt).toLocaleDateString()}
