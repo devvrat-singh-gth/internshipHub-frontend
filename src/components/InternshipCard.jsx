@@ -10,11 +10,12 @@ const InternshipCard = ({ internship, onSave }) => {
     >
       {/* Image */}
       <img
-        src={getImage(internship, "internship")}
+        src={getImage(internship)}
         alt={internship.title}
         className="h-40 w-full object-cover rounded-md mb-4"
         onError={(e) => {
-          e.target.src = `https://source.unsplash.com/600x400/?internship,career`;
+          e.target.src =
+            "https://source.unsplash.com/600x400/?internship,career";
         }}
       />
 
@@ -28,12 +29,6 @@ const InternshipCard = ({ internship, onSave }) => {
         </p>
         <p className="text-gray-700 dark:text-gray-300">
           <strong>Location:</strong> {internship.location}
-        </p>
-        <p className="text-gray-700 dark:text-gray-300">
-          <strong>Duration:</strong> {internship.duration || "N/A"}
-        </p>
-        <p className="text-gray-700 dark:text-gray-300">
-          <strong>Stipend:</strong> {internship.stipend || "N/A"}
         </p>
       </div>
 
@@ -53,16 +48,6 @@ const InternshipCard = ({ internship, onSave }) => {
           </button>
         </div>
       )}
-
-      {/* Hover Text */}
-      <p className="mt-3 text-sm italic text-gray-500 dark:text-gray-400 group-hover:text-blue-600 transition">
-        Click to know more →
-      </p>
-
-      {/* Date */}
-      <p className="mt-auto text-sm font-medium text-blue-600 dark:text-blue-400">
-        Issued on: {new Date(internship.createdAt).toLocaleDateString()}
-      </p>
     </div>
   );
 };

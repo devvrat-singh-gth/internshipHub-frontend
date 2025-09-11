@@ -1,7 +1,7 @@
-// src/pages/Home.jsx
 import React, { useEffect, useState, useRef } from "react";
 import { Link } from "react-router-dom";
 import API from "../utils/api";
+import getImage from "../utils/getImage";
 
 // Circle percentage animation
 const CircleStat = ({ label, target, trigger }) => {
@@ -82,20 +82,14 @@ const Home = () => {
     };
   }, []);
 
-  // ✅ Fetch data from backend (use /public endpoints)
+  // ✅ Fetch data from backend
   useEffect(() => {
     const fetchData = async () => {
       try {
         const [intnRes, courseRes, scholRes] = await Promise.all([
-          API.get(
-            "https://internshiphub-backend.onrender.com/api/internships/public"
-          ),
-          API.get(
-            "https://internshiphub-backend.onrender.com/api/courses/public"
-          ),
-          API.get(
-            "https://internshiphub-backend.onrender.com/api/scholarships/public"
-          ),
+          API.get("/internships/public"),
+          API.get("/courses/public"),
+          API.get("/scholarships/public"),
         ]);
 
         setInternships(intnRes.data.slice(0, 3));
@@ -107,13 +101,6 @@ const Home = () => {
     };
     fetchData();
   }, []);
-
-  // 🔑 Helper for fallback image
-  const getImage = (item, fallback) => {
-    if (item.image && item.image.trim() !== "") return item.image;
-    const keyword = encodeURIComponent(item.title || fallback);
-    return `https://source.unsplash.com/600x400/?${keyword},education`;
-  };
 
   return (
     <div className="bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200">
@@ -150,14 +137,17 @@ const Home = () => {
             </div>
           </div>
 
-          {/* Image with glowing blurred border */}
+          {/* Image */}
           <div className="hidden md:flex items-center justify-center">
             <div className="relative rounded-2xl overflow-hidden">
-              <div className="absolute inset-0 rounded-2xl border-4 border-blue-500 blur-lg opacity-50"></div>
               <img
                 src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=900&q=80"
                 alt="Internship"
                 className="relative rounded-2xl shadow-2xl max-h-[350px] object-cover"
+                onError={(e) => {
+                  e.target.src =
+                    "https://source.unsplash.com/900x600/?internship,career";
+                }}
               />
             </div>
           </div>
@@ -188,9 +178,13 @@ const Home = () => {
               className="group min-w-[280px] sm:min-w-[350px] p-6 bg-white dark:bg-gray-800 rounded-lg shadow hover:shadow-xl transition flex flex-col cursor-pointer"
             >
               <img
-                src={getImage(intn, "internship")}
+                src={getImage(intn)}
                 alt={intn.title}
                 className="rounded-md mb-4 w-full h-48 object-cover group-hover:scale-105 transition-transform"
+                onError={(e) => {
+                  e.target.src =
+                    "https://source.unsplash.com/600x400/?internship,career";
+                }}
               />
               <h3 className="text-xl font-semibold mb-2 group-hover:text-teal-600">
                 {intn.title}
@@ -198,19 +192,8 @@ const Home = () => {
               <p className="text-gray-600 dark:text-gray-400 line-clamp-3">
                 {intn.description}
               </p>
-              <p className="mt-auto text-base font-semibold text-teal-600 group-hover:underline">
-                Look More →
-              </p>
             </Link>
           ))}
-        </div>
-        <div className="text-center mt-10">
-          <Link
-            to="/internships"
-            className="px-6 py-3 bg-blue-600 text-white font-semibold rounded-md shadow hover:bg-blue-700 transition"
-          >
-            View All Internships
-          </Link>
         </div>
       </section>
 
@@ -226,9 +209,13 @@ const Home = () => {
                 className="group min-w-[280px] sm:min-w-[350px] p-6 bg-white dark:bg-gray-900 rounded-lg shadow hover:shadow-xl transition flex flex-col cursor-pointer"
               >
                 <img
-                  src={getImage(course, "education")}
+                  src={getImage(course)}
                   alt={course.title}
                   className="rounded-md mb-4 w-full h-48 object-cover group-hover:scale-105 transition-transform"
+                  onError={(e) => {
+                    e.target.src =
+                      "https://source.unsplash.com/600x400/?course,education";
+                  }}
                 />
                 <h3 className="text-xl font-semibold mb-2 group-hover:text-teal-600">
                   {course.title}
@@ -236,19 +223,8 @@ const Home = () => {
                 <p className="text-gray-600 dark:text-gray-400 line-clamp-3">
                   {course.description}
                 </p>
-                <p className="mt-auto text-base font-semibold text-teal-600 group-hover:underline">
-                  Look More →
-                </p>
               </Link>
             ))}
-          </div>
-          <div className="text-center mt-10">
-            <Link
-              to="/courses"
-              className="px-6 py-3 bg-teal-600 text-white font-semibold rounded-md shadow hover:bg-teal-700 transition"
-            >
-              Explore Courses
-            </Link>
           </div>
         </div>
       </section>
@@ -267,9 +243,13 @@ const Home = () => {
                 className="group min-w-[280px] sm:min-w-[350px] p-6 bg-white dark:bg-gray-800 rounded-lg shadow hover:shadow-xl transition flex flex-col cursor-pointer"
               >
                 <img
-                  src={getImage(sch, "scholarship")}
+                  src={getImage(sch)}
                   alt={sch.title}
                   className="rounded-md mb-4 w-full h-48 object-cover group-hover:scale-105 transition-transform"
+                  onError={(e) => {
+                    e.target.src =
+                      "https://source.unsplash.com/600x400/?scholarship,education";
+                  }}
                 />
                 <h3 className="text-xl font-semibold mb-2 group-hover:text-blue-600">
                   {sch.title}
@@ -277,19 +257,8 @@ const Home = () => {
                 <p className="text-gray-600 dark:text-gray-400 line-clamp-3">
                   {sch.description}
                 </p>
-                <p className="mt-auto text-base font-semibold text-blue-600 group-hover:underline">
-                  Look More →
-                </p>
               </Link>
             ))}
-          </div>
-          <div className="text-center mt-10">
-            <Link
-              to="/scholarships"
-              className="px-6 py-3 bg-blue-600 text-white font-semibold rounded-md shadow hover:bg-blue-700 transition"
-            >
-              View Scholarships
-            </Link>
           </div>
         </div>
       </section>
