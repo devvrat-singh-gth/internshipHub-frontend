@@ -94,7 +94,7 @@ const InternshipDetail = () => {
         </nav>
 
         {/* Internship Card */}
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-8">
+        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-8">
           {/* Title + Buttons row */}
           <div className="flex justify-between items-center mb-4">
             <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100">
@@ -103,13 +103,13 @@ const InternshipDetail = () => {
             <div className="flex gap-3">
               <button
                 onClick={handleApply}
-                className="px-5 py-2 bg-green-600 hover:bg-green-700 text-white rounded-md"
+                className="text-sm lg:text-lg px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-md"
               >
                 Apply
               </button>
               <button
                 onClick={handleSave}
-                className="px-5 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md"
+                className="text-sm lg:text-lg px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md"
               >
                 Save
               </button>

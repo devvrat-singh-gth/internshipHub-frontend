@@ -1,6 +1,7 @@
 // src/pages/Home.jsx
 import React, { useEffect, useState, useRef } from "react";
 import { Link } from "react-router-dom";
+import API from "../utils/api";
 
 // Circle percentage animation
 const CircleStat = ({ label, target, trigger }) => {
@@ -65,10 +66,16 @@ const Home = () => {
   const statsRef = useRef(null);
   const [inView, setInView] = useState(false);
 
+  const [internships, setInternships] = useState([]);
+  const [courses, setCourses] = useState([]);
+  const [scholarships, setScholarships] = useState([]);
+
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => setInView(entry.isIntersecting),
-      { threshold: 0.4 }
+      {
+        threshold: 0.4,
+      }
     );
 
     if (statsRef.current) observer.observe(statsRef.current);
@@ -77,21 +84,43 @@ const Home = () => {
     };
   }, []);
 
+  // ✅ Fetch data from backend
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const [intnRes, courseRes, scholRes] = await Promise.all([
+          API.get("/internships"),
+          API.get("/courses"),
+          API.get("/scholarships"),
+        ]);
+
+        setInternships(intnRes.data.slice(0, 3)); // show top 3
+        setCourses(courseRes.data.slice(0, 3));
+        setScholarships(scholRes.data.slice(0, 3));
+      } catch (err) {
+        console.error("❌ Failed fetching home data:", err);
+      }
+    };
+    fetchData();
+  }, []);
+
+  // 🔑 Helper for fallback image
+  const getImage = (item, fallback) =>
+    item.image ||
+    `https://source.unsplash.com/600x400/?${fallback || "education"}`;
+
   return (
     <div className="bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200">
       {/* Hero Section */}
       <section className="bg-gradient-to-r from-teal-500 to-blue-600 text-white py-20">
         <div className="max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-10 items-center">
-          {/* Left content */}
           <div>
             <h1 className="text-4xl md:text-5xl font-bold mb-4">
               Find Your Dream Internship
             </h1>
             <p className="text-lg mb-6">
               Explore internships, recommended courses, scholarships, and
-              special opportunities like{" "}
-              <span className="font-semibold">PM Internships</span>. Start your
-              career journey today with InternshipHub.
+              special opportunities.
             </p>
             <div className="flex flex-wrap gap-4">
               <Link
@@ -115,7 +144,6 @@ const Home = () => {
             </div>
           </div>
 
-          {/* Right image */}
           <div className="hidden md:block">
             <img
               src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=900&q=80"
@@ -143,37 +171,26 @@ const Home = () => {
           Featured Internships
         </h2>
         <div className="flex space-x-6 overflow-x-auto scrollbar-hide">
-          {[
-            {
-              title: "Software Developer Intern",
-              desc: "Work with cutting-edge tech stacks.",
-              img: "https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=800&q=80",
-            },
-            {
-              title: "Marketing Intern",
-              desc: "Learn digital campaigns & branding.",
-              img: "https://images.unsplash.com/photo-1508830524289-0adcbe822b40?auto=format&fit=crop&w=800&q=80",
-            },
-            {
-              title: "UI/UX Design Intern",
-              desc: "Contribute to real-world product design.",
-              img: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80",
-            },
-          ].map((intern, i) => (
+          {internships.map((intn) => (
             <div
-              key={i}
-              className="min-w-[280px] sm:min-w-[350px] p-6 bg-white dark:bg-gray-800 rounded-lg shadow hover:shadow-lg transition flex flex-col justify-between"
+              key={intn._id}
+              className="min-w-[280px] sm:min-w-[350px] p-6 bg-white dark:bg-gray-800 rounded-lg shadow hover:shadow-lg transition flex flex-col"
             >
               <img
-                src={intern.img}
-                alt={intern.title}
+                src={getImage(intn, "internship")}
+                alt={intn.title}
                 className="rounded-md mb-4 w-full h-48 object-cover"
               />
-              <h3 className="text-xl font-semibold mb-2">{intern.title}</h3>
-              <p className="text-gray-600 dark:text-gray-400">{intern.desc}</p>
-              <p className="mt-auto text-base font-semibold text-teal-600 cursor-pointer hover:underline">
-                Look More →
+              <h3 className="text-xl font-semibold mb-2">{intn.title}</h3>
+              <p className="text-gray-600 dark:text-gray-400 line-clamp-3">
+                {intn.description}
               </p>
+              <Link
+                to={`/internships/${intn._id}`}
+                className="mt-auto text-base font-semibold text-teal-600 hover:underline"
+              >
+                Look More →
+              </Link>
             </div>
           ))}
         </div>
@@ -192,39 +209,26 @@ const Home = () => {
         <div className="max-w-6xl mx-auto px-6">
           <h2 className="text-3xl font-bold mb-8 text-center">Top Courses</h2>
           <div className="flex space-x-6 overflow-x-auto scrollbar-hide">
-            {[
-              {
-                title: "Full-Stack Web Development",
-                desc: "Learn MERN stack development from scratch.",
-                img: "https://images.unsplash.com/photo-1517430816045-df4b7de11d1d?auto=format&fit=crop&w=800&q=80",
-              },
-              {
-                title: "Data Science & AI",
-                desc: "Master ML, AI, and advanced analytics.",
-                img: "https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?auto=format&fit=crop&w=800&q=80",
-              },
-              {
-                title: "UI/UX Design",
-                desc: "Create stunning interfaces with real-world projects.",
-                img: "https://images.unsplash.com/photo-1581291518835-938a62a8b490?auto=format&fit=crop&w=800&q=80",
-              },
-            ].map((course, i) => (
+            {courses.map((course) => (
               <div
-                key={i}
-                className="min-w-[280px] sm:min-w-[350px] p-6 bg-white dark:bg-gray-900 rounded-lg shadow hover:shadow-lg transition flex flex-col justify-between"
+                key={course._id}
+                className="min-w-[280px] sm:min-w-[350px] p-6 bg-white dark:bg-gray-900 rounded-lg shadow hover:shadow-lg transition flex flex-col"
               >
                 <img
-                  src={course.img}
+                  src={getImage(course, "education")}
                   alt={course.title}
                   className="rounded-md mb-4 w-full h-48 object-cover"
                 />
                 <h3 className="text-xl font-semibold mb-2">{course.title}</h3>
-                <p className="text-gray-600 dark:text-gray-400">
-                  {course.desc}
+                <p className="text-gray-600 dark:text-gray-400 line-clamp-3">
+                  {course.description}
                 </p>
-                <p className="mt-auto text-base font-semibold text-teal-600 cursor-pointer hover:underline">
+                <Link
+                  to={`/courses/${course._id}`}
+                  className="mt-auto text-base font-semibold text-teal-600 hover:underline"
+                >
                   Look More →
-                </p>
+                </Link>
               </div>
             ))}
           </div>
@@ -246,39 +250,26 @@ const Home = () => {
             Scholarships You Can Apply For
           </h2>
           <div className="flex space-x-6 overflow-x-auto scrollbar-hide">
-            {[
-              {
-                title: "Google Scholarship",
-                desc: "For CS undergrads excelling in academics.",
-                img: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&w=800&q=80",
-              },
-              {
-                title: "Microsoft Research Fellowship",
-                desc: "Graduate students focusing on AI/ML.",
-                img: "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&w=800&q=80",
-              },
-              {
-                title: "Women in Tech Scholarship",
-                desc: "Supporting female students in STEM fields.",
-                img: "https://images.unsplash.com/photo-1558021212-51b6ecfa0db9?auto=format&fit=crop&w=800&q=80",
-              },
-            ].map((scholar, i) => (
+            {scholarships.map((sch) => (
               <div
-                key={i}
-                className="min-w-[280px] sm:min-w-[350px] p-6 bg-white dark:bg-gray-800 rounded-lg shadow hover:shadow-lg transition flex flex-col justify-between"
+                key={sch._id}
+                className="min-w-[280px] sm:min-w-[350px] p-6 bg-white dark:bg-gray-800 rounded-lg shadow hover:shadow-lg transition flex flex-col"
               >
                 <img
-                  src={scholar.img}
-                  alt={scholar.title}
+                  src={getImage(sch, "scholarship")}
+                  alt={sch.title}
                   className="rounded-md mb-4 w-full h-48 object-cover"
                 />
-                <h3 className="text-xl font-semibold mb-2">{scholar.title}</h3>
-                <p className="text-gray-600 dark:text-gray-400">
-                  {scholar.desc}
+                <h3 className="text-xl font-semibold mb-2">{sch.title}</h3>
+                <p className="text-gray-600 dark:text-gray-400 line-clamp-3">
+                  {sch.description}
                 </p>
-                <p className="mt-auto text-base font-semibold text-blue-600 cursor-pointer hover:underline">
+                <Link
+                  to={`/scholarships/${sch._id}`}
+                  className="mt-auto text-base font-semibold text-blue-600 hover:underline"
+                >
                   Look More →
-                </p>
+                </Link>
               </div>
             ))}
           </div>

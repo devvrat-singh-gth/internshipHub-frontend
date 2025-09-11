@@ -73,7 +73,7 @@ const ScholarshipDetail = () => {
         </nav>
 
         {/* Scholarship Card */}
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6 sm:p-8">
+        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 sm:p-8">
           <div className="flex justify-between items-center mb-4">
             <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-gray-100">
               {scholarship.title}
@@ -83,13 +83,13 @@ const ScholarshipDetail = () => {
                 href={scholarship.link}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="px-5 py-2 bg-green-600 hover:bg-green-700 text-white rounded-md"
+                className="flex items-center whitespace-nowrap px-5 py-2 text-xs lg:text-xl bg-green-600 hover:bg-green-700 text-white rounded-md"
               >
                 Apply Now
               </a>
               <button
                 onClick={handleSave}
-                className="px-5 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md"
+                className="flex items-center whitespace-nowrap text-xs lg:text-xl px-5 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md"
               >
                 Save
               </button>
@@ -103,10 +103,10 @@ const ScholarshipDetail = () => {
           <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-6">
             {scholarship.description}
           </p>
-          <p className="text-sm text-gray-500 dark:text-gray-400 mb-6">
+          <p className=" text-gray-500 dark:text-gray-400 mb-6">
             Eligibility: {scholarship.eligibility}
           </p>
-          <p className="text-xs text-gray-400">
+          <p className=" text-gray-500">
             Issued on: {new Date(scholarship.createdAt).toLocaleDateString()}
           </p>
         </div>

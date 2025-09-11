@@ -19,6 +19,14 @@ const Internships = () => {
   const [loading, setLoading] = useState(true);
   const [showMobileFilters, setShowMobileFilters] = useState(false);
 
+  // filter states
+  const [search, setSearch] = useState("");
+  const [selectedTypes, setSelectedTypes] = useState([]);
+  const [selectedCompanies, setSelectedCompanies] = useState([]);
+  const [selectedRoles, setSelectedRoles] = useState([]);
+  const [selectedStipends, setSelectedStipends] = useState([]);
+  const [duration, setDuration] = useState("");
+
   useEffect(() => {
     const fetchInternships = async () => {
       try {
@@ -35,7 +43,7 @@ const Internships = () => {
               }
             );
             data = res.data;
-          } catch (err) {
+          } catch {
             // fallback to public if token invalid/expired
             const res = await API.get(
               "https://internshiphub-backend.onrender.com/api/internships/public"
@@ -60,21 +68,111 @@ const Internships = () => {
     fetchInternships();
   }, []);
 
+  // handle checkbox toggle
+  const toggleSelection = (option, setState, current) => {
+    if (current.includes(option)) {
+      setState(current.filter((o) => o !== option));
+    } else {
+      setState([...current, option]);
+    }
+  };
+
+  // clear all filters
+  const clearFilters = () => {
+    setSearch("");
+    setSelectedTypes([]);
+    setSelectedCompanies([]);
+    setSelectedRoles([]);
+    setSelectedStipends([]);
+    setDuration("");
+  };
+
+  // filtering logic
+  const filteredInternships = internships.filter((intn) => {
+    // search by title/description/company
+    if (
+      search &&
+      !(
+        intn.title?.toLowerCase().includes(search.toLowerCase()) ||
+        intn.company?.toLowerCase().includes(search.toLowerCase()) ||
+        intn.description?.toLowerCase().includes(search.toLowerCase())
+      )
+    ) {
+      return false;
+    }
+
+    // type
+    if (selectedTypes.length > 0 && !selectedTypes.includes(intn.type)) {
+      return false;
+    }
+
+    // company type
+    if (
+      selectedCompanies.length > 0 &&
+      !selectedCompanies.includes(intn.companyType)
+    ) {
+      return false;
+    }
+
+    // role
+    if (selectedRoles.length > 0 && !selectedRoles.includes(intn.role)) {
+      return false;
+    }
+
+    // stipend (basic demo: just matches exact string)
+    if (
+      selectedStipends.length > 0 &&
+      !selectedStipends.includes(intn.stipend)
+    ) {
+      return false;
+    }
+
+    // duration
+    if (duration && intn.duration !== duration) {
+      return false;
+    }
+
+    return true;
+  });
+
   const renderFilters = () => (
     <aside className="min-w-[350px] md:min-w-[200px] lg:min-w-[300px] w-full bg-white dark:bg-gray-800 rounded-lg shadow p-6 shrink-0">
       <div className="flex justify-between items-center mb-6">
         <h3 className="text-lg font-semibold">Filters</h3>
-        <button className="text-sm text-blue-600 hover:underline">
+        <button
+          onClick={clearFilters}
+          className="text-sm text-blue-600 hover:underline"
+        >
           Clear All
         </button>
       </div>
 
       {[
-        { title: "Type", options: TYPES },
-        { title: "Company Type", options: COMPANY_TYPES },
-        { title: "Role", options: ROLES },
-        { title: "Stipend", options: STIPENDS },
-      ].map(({ title, options }) => (
+        {
+          title: "Type",
+          options: TYPES,
+          state: selectedTypes,
+          setter: setSelectedTypes,
+        },
+        {
+          title: "Company Type",
+          options: COMPANY_TYPES,
+          state: selectedCompanies,
+          setter: setSelectedCompanies,
+        },
+        {
+          title: "Role",
+          options: ROLES,
+          state: selectedRoles,
+          setter: setSelectedRoles,
+        },
+        {
+          title: "Stipend",
+          options: STIPENDS,
+          state: selectedStipends,
+          setter: setSelectedStipends,
+        },
+      ].map(({ title, options, state, setter }) => (
         <div className="mb-6" key={title}>
           <h4 className="font-medium mb-2">{title}</h4>
           <div className="space-y-2">
@@ -82,6 +180,8 @@ const Internships = () => {
               <label key={opt} className="flex items-center space-x-2 text-sm">
                 <input
                   type="checkbox"
+                  checked={state.includes(opt)}
+                  onChange={() => toggleSelection(opt, setter, state)}
                   className="form-checkbox text-blue-600 rounded"
                 />
                 <span>{opt}</span>
@@ -93,7 +193,11 @@ const Internships = () => {
 
       <div>
         <h4 className="font-medium mb-2">Duration</h4>
-        <select className="w-full rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 px-3 py-2">
+        <select
+          value={duration}
+          onChange={(e) => setDuration(e.target.value)}
+          className="w-full rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 px-3 py-2"
+        >
           <option value="">Any Duration</option>
           <option value="1 to 3 months">1 to 3 months</option>
           <option value="3 to 6 months">3 to 6 months</option>
@@ -124,6 +228,8 @@ const Internships = () => {
               <input
                 type="text"
                 placeholder="Search internships..."
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
                 className="flex-grow px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-md bg-white dark:bg-gray-900 focus:ring-2 focus:ring-blue-600"
               />
               <button
@@ -155,13 +261,13 @@ const Internships = () => {
                   Loading...
                 </span>
               </div>
-            ) : internships.length === 0 ? (
+            ) : filteredInternships.length === 0 ? (
               <p className="text-gray-600 dark:text-gray-400">
-                No internships available right now.
+                No internships match your filters.
               </p>
             ) : (
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch">
-                {internships.map((internship) => (
+                {filteredInternships.map((internship) => (
                   <Link
                     key={internship._id}
                     to={`/internships/${internship._id}`}
