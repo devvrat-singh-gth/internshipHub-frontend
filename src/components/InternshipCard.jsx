@@ -9,14 +9,16 @@ const InternshipCard = ({ internship, onSave }) => {
                  shadow-sm hover:shadow-md transition p-6 h-full"
     >
       {/* Image */}
-      <img
-        src={getImage(internship, "internship")}
-        alt={internship.title}
-        className="w-full object-cover rounded-md mb-4"
-        onError={(e) => {
-          e.target.src = `https://source.unsplash.com/600x400/?internship,career`;
-        }}
-      />
+      <div className="w-full h-40 sm:h-48 overflow-hidden rounded-md mb-4">
+        <img
+          src={getImage(internship, "internship")}
+          alt={internship.title}
+          className="w-full h-full object-cover"
+          onError={(e) => {
+            e.target.src = `https://source.unsplash.com/600x400/?internship,career`;
+          }}
+        />
+      </div>
 
       {/* Main Info */}
       <div className="flex-grow">
