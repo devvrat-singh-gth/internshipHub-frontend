@@ -8,15 +8,18 @@ const InternshipCard = ({ internship, onSave }) => {
                  border border-gray-200 dark:border-gray-700 rounded-lg 
                  shadow-sm hover:shadow-md transition p-6 h-full"
     >
-      {/* Image */}
-      <img
-        src={getImage(internship, "internship")}
-        alt={internship.title}
-        className="h-full w-full object-cover rounded-md mb-4"
-        onError={(e) => {
-          e.target.src = `https://source.unsplash.com/600x400/?internship,career`;
-        }}
-      />
+      {/* Responsive Image Container */}
+      <div className="w-full aspect-[16/9] overflow-hidden rounded-md mb-4">
+        <img
+          src={getImage(internship, "internship")}
+          alt={internship.title}
+          className="w-full h-full object-cover"
+          onError={(e) => {
+            // Optional: handle broken image
+            e.target.src = "/fallback-image.jpg"; // fallback image
+          }}
+        />
+      </div>
 
       {/* Main Info */}
       <div className="flex-grow">
