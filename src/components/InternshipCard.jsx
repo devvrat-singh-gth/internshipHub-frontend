@@ -8,12 +8,11 @@ const InternshipCard = ({ internship, onSave }) => {
                  border border-gray-200 dark:border-gray-700 rounded-lg 
                  shadow-sm hover:shadow-md transition p-6 h-full"
     >
-      {/* Image container */}
       <div className="w-full h-40 sm:h-48 overflow-hidden rounded-t-md mb-4">
         <img
           src={getImage(internship, "internship")}
           alt={internship.title}
-          className="w-full h-full object-cover"
+          className="w-full h-full object-cover object-top"
           onError={(e) => {
             e.target.src = `https://source.unsplash.com/600x400/?internship,career`;
           }}
