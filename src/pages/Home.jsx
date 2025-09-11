@@ -73,9 +73,7 @@ const Home = () => {
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => setInView(entry.isIntersecting),
-      {
-        threshold: 0.4,
-      }
+      { threshold: 0.4 }
     );
 
     if (statsRef.current) observer.observe(statsRef.current);
@@ -84,19 +82,23 @@ const Home = () => {
     };
   }, []);
 
-  // ✅ Fetch data from backend
+  // ✅ Fetch data from backend (use /public endpoints)
   useEffect(() => {
     const fetchData = async () => {
       try {
         const [intnRes, courseRes, scholRes] = await Promise.all([
-          API.get("https://internshiphub-backend.onrender.com/api/internships"),
-          API.get("https://internshiphub-backend.onrender.com/api/courses"),
           API.get(
-            "https://internshiphub-backend.onrender.com/api/scholarships"
+            "https://internshiphub-backend.onrender.com/api/internships/public"
+          ),
+          API.get(
+            "https://internshiphub-backend.onrender.com/api/courses/public"
+          ),
+          API.get(
+            "https://internshiphub-backend.onrender.com/api/scholarships/public"
           ),
         ]);
 
-        setInternships(intnRes.data.slice(0, 3)); // show top 3
+        setInternships(intnRes.data.slice(0, 3));
         setCourses(courseRes.data.slice(0, 3));
         setScholarships(scholRes.data.slice(0, 3));
       } catch (err) {
@@ -146,13 +148,14 @@ const Home = () => {
             </div>
           </div>
 
-          {/* Image inside same gradient background */}
+          {/* Image with blurred glowing background */}
           <div className="hidden md:flex items-center justify-center">
-            <div className="p-3 bg-gradient-to-r from-blue-500 to-blue-700 rounded-lg shadow-xl">
+            <div className="relative rounded-xl overflow-hidden">
+              <div className="absolute inset-0 bg-blue-600 blur-3xl opacity-40"></div>
               <img
                 src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=900&q=80"
                 alt="Internship"
-                className="rounded-lg shadow-lg max-h-[350px] object-cover"
+                className="relative rounded-xl shadow-2xl max-h-[350px] object-cover"
               />
             </div>
           </div>
