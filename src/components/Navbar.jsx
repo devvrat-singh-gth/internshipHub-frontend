@@ -15,7 +15,6 @@ const Navbar = () => {
   const navigate = useNavigate();
   const dropdownRef = useRef(null);
 
-  // Check user login and role
   const checkLogin = async () => {
     const token = localStorage.getItem("token");
     if (token) {
@@ -42,7 +41,6 @@ const Navbar = () => {
     return () => window.removeEventListener("authChange", checkLogin);
   }, []);
 
-  // Close dropdown on outside click
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
@@ -54,7 +52,6 @@ const Navbar = () => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [showDropdown]);
 
-  // Dark mode toggle
   useEffect(() => {
     if (darkMode) {
       document.documentElement.classList.add("dark");
@@ -70,7 +67,6 @@ const Navbar = () => {
     if (savedTheme === "dark") setDarkMode(true);
   }, []);
 
-  // Logout function
   const handleLogout = () => {
     localStorage.removeItem("token");
     window.dispatchEvent(new Event("authChange"));
@@ -83,15 +79,15 @@ const Navbar = () => {
       <nav className="max-w-7xl mx-auto px-6">
         <div className="flex justify-between items-center py-4">
           {/* Brand: Logo + InternAdda */}
-          <h1 className="flex items-center text-xl sm:text-2xl font-bold text-teal-600 dark:text-teal-400 whitespace-nowrap pl-0 sm:pl-2">
+          <h1 className="flex items-center font-bold text-teal-600 dark:text-teal-400 whitespace-nowrap pl-0 sm:pl-2">
             <Link
               to={isLoggedIn ? "/home" : "/"}
-              className="flex items-center gap-1 sm:gap-2 hover:text-teal-700 dark:hover:text-teal-300 transition"
+              className="flex items-center gap-2 sm:gap-3 hover:text-teal-700 dark:hover:text-teal-300 transition"
             >
-              {/* Smaller icon on mobile */}
-              <Slack className="w-6 h-6 sm:w-8 sm:h-8" />
-              {/* Smaller text on mobile */}
-              <span className="text-sm sm:text-base font-semibold">
+              {/* Increased icon size */}
+              <Slack className="w-8 h-8 sm:w-10 sm:h-10" />
+              {/* Increased text size */}
+              <span className="text-lg sm:text-3xl font-semibold">
                 InternAdda
               </span>
             </Link>
@@ -140,25 +136,24 @@ const Navbar = () => {
             {/* Dark Mode Toggle */}
             <button
               onClick={() => setDarkMode(!darkMode)}
-              className="p-1 sm:p-2 rounded-md border border-gray-300 dark:border-gray-600 
-                         text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 transition"
+              className="min-w-[42px] min-h-[38px] p-2 rounded-md border border-gray-300 dark:border-gray-600 
+                         text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 transition flex justify-center items-center"
               aria-label="Toggle Dark Mode"
             >
               {darkMode ? "🌙" : "☀️"}
             </button>
 
-            {/* If not logged in, show Login & Signup */}
             {!isLoggedIn ? (
               <>
                 <button
-                  className="px-3 py-1 sm:px-4 sm:py-2 text-xs sm:text-sm rounded-md border border-gray-300 
+                  className="min-w-[72px] min-h-[38px] px-4 py-2 text-sm rounded-md border border-gray-300 
                              dark:border-gray-600 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 transition"
                   onClick={() => navigate("/login")}
                 >
                   Login
                 </button>
                 <button
-                  className="px-3 py-1 sm:px-4 sm:py-2 text-xs sm:text-sm rounded-md bg-teal-500 text-white 
+                  className="min-w-[72px] min-h-[38px] px-4 py-2 text-sm rounded-md bg-teal-500 text-white 
                              hover:bg-teal-600 active:bg-teal-700 whitespace-nowrap"
                   onClick={() => navigate("/register")}
                 >
@@ -166,30 +161,29 @@ const Navbar = () => {
                 </button>
               </>
             ) : (
-              // Logged-in dropdown button
               <div ref={dropdownRef} className="relative">
                 <button
-                  className="px-3 py-1 sm:px-4 sm:py-2 text-xs sm:text-sm rounded-md border border-gray-300 dark:border-gray-600 
+                  className="min-w-[110px] min-h-[38px] px-4 py-2 text-sm rounded-md border border-gray-300 dark:border-gray-600 
                              text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 
-                             transition flex items-center gap-1 whitespace-nowrap"
+                             transition flex items-center gap-2 whitespace-nowrap"
                   onClick={() => setShowDropdown((prev) => !prev)}
                   aria-haspopup="true"
                   aria-expanded={showDropdown}
                 >
-                  <UserCheck className="w-4 h-4" />
+                  <UserCheck className="w-5 h-5" />
                   <span className="truncate">Hi, {userName} ▼</span>
                 </button>
 
                 {showDropdown && (
                   <div
-                    className="absolute right-0 sm:right-2 mt-2 w-36 sm:w-40 bg-white dark:bg-gray-800 
+                    className="absolute right-0 sm:right-2 mt-2 w-40 bg-white dark:bg-gray-800 
                                border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg 
                                overflow-hidden animate-fade-in z-50"
-                    style={{ minWidth: "9rem" }}
+                    style={{ minWidth: "10rem" }}
                   >
                     <Link
                       to="/profile"
-                      className="block w-full px-3 py-2 text-sm text-gray-700 dark:text-gray-200 
+                      className="block w-full px-4 py-2 text-sm text-gray-700 dark:text-gray-200 
                                  hover:bg-gray-100 dark:hover:bg-gray-700 transition"
                       onClick={() => setShowDropdown(false)}
                     >
@@ -197,7 +191,7 @@ const Navbar = () => {
                     </Link>
                     <Link
                       to="/"
-                      className="w-full px-3 py-2 text-sm text-left text-red-600 dark:text-red-400 
+                      className="w-full px-4 py-2 text-sm text-left text-red-600 dark:text-red-400 
                                  hover:bg-gray-100 dark:hover:bg-gray-700 transition"
                       onClick={handleLogout}
                     >
