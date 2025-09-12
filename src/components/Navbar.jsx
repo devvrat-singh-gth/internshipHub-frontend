@@ -82,7 +82,7 @@ const Navbar = () => {
           <div className="flex items-center flex-shrink-0">
             <Link
               to={isLoggedIn ? "/home" : "/"}
-              className="flex items-center gap-2 sm:gap-3 hover:text-teal-700 dark:hover:text-teal-300 transition"
+              className="flex items-center gap-2 sm:gap-3 text-teal-500 hover:text-teal-700 dark:hover:text-teal-300 transition"
             >
               <Slack className="w-8 h-8 sm:w-10 sm:h-10" />
               <span className="text-lg sm:text-3xl font-semibold">
