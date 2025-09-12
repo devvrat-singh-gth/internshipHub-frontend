@@ -94,33 +94,33 @@ const InternshipDetail = () => {
             <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-gray-100">
               {internship.title}
             </h1>
-            <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
-              <button
-                onClick={handleApply}
-                className="w-full sm:w-auto text-sm sm:text-base px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-md"
-              >
-                Apply
-              </button>
-              <button
-                onClick={handleSave}
-                className="w-full sm:w-auto text-sm sm:text-base px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md"
-              >
-                Save
-              </button>
-            </div>
-          </div>
 
-          <p className="text-gray-600 dark:text-gray-400 mb-2">
-            <span className="font-semibold">{internship.company}</span> •{" "}
-            {internship.location}
-          </p>
-          <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">
-            Duration: {(internship.duration || "").trim() || "N/A"} | Stipend:{" "}
-            {internship.stipend || "N/A"}
-          </p>
-          <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
-            {internship.description}
-          </p>
+            <p className="text-gray-600 dark:text-gray-400 mb-2">
+              <span className="font-semibold">{internship.company}</span> •{" "}
+              {internship.location}
+            </p>
+            <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">
+              Duration: {(internship.duration || "").trim() || "N/A"} | Stipend:{" "}
+              {internship.stipend || "N/A"}
+            </p>
+            <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
+              {internship.description}
+            </p>
+          </div>
+          <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
+            <button
+              onClick={handleApply}
+              className="w-full sm:w-auto text-sm sm:text-base px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-md"
+            >
+              Apply
+            </button>
+            <button
+              onClick={handleSave}
+              className="w-full sm:w-auto text-sm sm:text-base px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md"
+            >
+              Save
+            </button>
+          </div>
         </div>
       </div>
     </div>
