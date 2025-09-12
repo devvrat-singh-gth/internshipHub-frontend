@@ -59,23 +59,46 @@ const CourseDetail = () => {
           <Link to="/" className="text-blue-600 hover:underline">
             Home
           </Link>{" "}
-          /{" "}
+          /
           <Link to="/courses" className="text-blue-600 hover:underline">
+            {" "}
             Courses
           </Link>{" "}
-          /{" "}
+          /
           <span className="text-gray-800 dark:text-gray-300">
             {course.title}
           </span>
         </nav>
 
         {/* Card */}
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 sm:p-8">
-          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-gray-100 mb-4">
-            {course.title}
-          </h1>
+        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 sm:p-8 relative">
+          {/* Title and Buttons */}
+          <div className="flex flex-col sm:flex-row">
+            <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-gray-100 pr-20 sm:pr-0">
+              {course.title}
+            </h1>
 
-          <p className="text-gray-600 dark:text-gray-400 mb-2">
+            {/* Button group */}
+            <div className="absolute top-6 right-6 flex flex-col sm:flex-row sm:items-start sm:space-x-3 space-y-2 sm:space-y-0">
+              <a
+                href={course.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-24 sm:w-auto text-xs sm:text-base px-3 py-2 bg-green-600 hover:bg-green-700 text-white rounded-md text-center"
+              >
+                View
+              </a>
+              <button
+                onClick={handleSave}
+                className="w-24 sm:w-auto text-xs sm:text-base px-3 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md"
+              >
+                Save
+              </button>
+            </div>
+          </div>
+
+          {/* Provider & Description */}
+          <p className="text-gray-600 dark:text-gray-400 mt-4 mb-2">
             {course.provider} • {course.duration}
           </p>
           <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-6">
@@ -84,24 +107,6 @@ const CourseDetail = () => {
           <p className="text-xs text-gray-400 mb-6">
             Issued on: {new Date(course.createdAt).toLocaleDateString()}
           </p>
-
-          {/* Buttons (Bottom on mobile) */}
-          <div className="flex flex-col sm:flex-row gap-3 mt-6">
-            <a
-              href={course.link}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="w-full sm:w-auto text-center text-sm sm:text-base px-5 py-2 bg-green-600 hover:bg-green-700 text-white rounded-md"
-            >
-              View Course
-            </a>
-            <button
-              onClick={handleSave}
-              className="w-full sm:w-auto text-sm sm:text-base px-5 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md"
-            >
-              Save
-            </button>
-          </div>
         </div>
       </div>
     </div>
