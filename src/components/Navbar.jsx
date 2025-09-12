@@ -192,13 +192,14 @@ const Navbar = () => {
                     >
                       Profile
                     </Link>
-                    <button
+                    <Link
+                      to="/"
                       className="w-full px-4 py-2 text-sm text-left text-red-600 dark:text-red-400 
                                  hover:bg-gray-100 dark:hover:bg-gray-700 transition"
                       onClick={handleLogout}
                     >
                       Logout
-                    </button>
+                    </Link>
                   </div>
                 )}
               </div>
