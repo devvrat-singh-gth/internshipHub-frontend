@@ -79,7 +79,7 @@ const Navbar = () => {
       <nav className="max-w-7xl mx-auto px-6">
         <div className="flex justify-between items-center py-4">
           {/* Left side: Brand (Icon + InternAdda) */}
-          <div className="flex items-center flex-shrink-0">
+          <div className="flex items-center flex-shrink-0 pl-2 md:pl-0">
             <Link
               to={isLoggedIn ? "/home" : "/"}
               className="flex items-center gap-2 sm:gap-3 text-teal-500 hover:text-teal-700 dark:hover:text-teal-300 transition"
