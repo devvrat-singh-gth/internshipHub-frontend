@@ -76,24 +76,24 @@ const Navbar = () => {
 
   return (
     <header className="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 z-50 shadow-sm">
-      <nav className="max-w-7xl mx-auto px-6">
-        <div className="flex justify-between items-center py-4">
-          {/* Left side: Brand (Icon + InternAdda) */}
-          <div className="flex items-center flex-shrink-0">
+      <nav className="max-w-7xl mx-auto">
+        <div className="flex justify-between items-center py-4 px-0 md:px-6">
+          {/* Left: Brand fully flush left on mobile */}
+          <div className="flex items-center flex-shrink-0 pl-0">
             <Link
               to={isLoggedIn ? "/home" : "/"}
               className="flex items-center gap-2 sm:gap-3 text-teal-500 hover:text-teal-700 dark:hover:text-teal-300 transition"
             >
               <Slack className="w-8 h-8 sm:w-10 sm:h-10" />
-              <span className="text-lg sm:text-3xl font-semibold">
+              <span className="text-lg sm:text-3xl font-semibold whitespace-nowrap">
                 InternAdda
               </span>
             </Link>
           </div>
 
-          {/* Right side: Navigation links + controls */}
-          <div className="flex items-center gap-1 sm:gap-3">
-            {/* Desktop Navigation Links */}
+          {/* Right: controls */}
+          <div className="flex items-center gap-2 pr-0 md:pr-0">
+            {/* Desktop nav links */}
             <div className="hidden md:flex gap-8 mr-4">
               <Link to="/" className="nav-link hover:text-teal-500">
                 Home
@@ -134,90 +134,97 @@ const Navbar = () => {
               )}
             </div>
 
-            {/* Dark Mode Toggle */}
-            <button
-              onClick={() => setDarkMode(!darkMode)}
-              className="min-w-[34px] min-h-[30px] p-1 sm:min-w-[42px] sm:min-h-[38px] sm:p-2 rounded-md border border-gray-300 dark:border-gray-600 
-                         text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 transition flex justify-center items-center"
-              aria-label="Toggle Dark Mode"
-            >
-              {darkMode ? "🌙" : "☀️"}
-            </button>
+            {/* Mobile controls container, aligned extreme right, no padding */}
+            <div className="flex items-center gap-2 md:hidden pr-0">
+              {/* Dark Mode Toggle */}
+              <button
+                onClick={() => setDarkMode(!darkMode)}
+                aria-label="Toggle Dark Mode"
+                className="w-10 h-10 rounded-md border border-gray-300 dark:border-gray-600
+                  text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700
+                  flex justify-center items-center transition"
+              >
+                {darkMode ? "🌙" : "☀️"}
+              </button>
 
-            {!isLoggedIn ? (
-              <>
-                <button
-                  className="min-w-[60px] min-h-[30px] px-3 py-1 text-xs sm:min-w-[72px] sm:min-h-[38px] sm:px-4 sm:py-2 sm:text-sm rounded-md border border-gray-300 
-                             dark:border-gray-600 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 transition"
-                  onClick={() => navigate("/login")}
-                >
-                  Login
-                </button>
-                <button
-                  className="min-w-[60px] min-h-[30px] px-3 py-1 text-xs sm:min-w-[72px] sm:min-h-[38px] sm:px-4 sm:py-2 sm:text-sm rounded-md bg-teal-500 text-white 
-                             hover:bg-teal-600 active:bg-teal-700 whitespace-nowrap"
-                  onClick={() => navigate("/register")}
-                >
-                  Sign Up
-                </button>
-              </>
-            ) : (
-              <div ref={dropdownRef} className="relative">
-                <button
-                  className="min-w-[90px] min-h-[30px] px-3 py-1 text-xs sm:min-w-[110px] sm:min-h-[38px] sm:px-4 sm:py-2 sm:text-sm rounded-md border border-gray-300 dark:border-gray-600 
-                             text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 
-                             transition flex items-center gap-1 sm:gap-2 whitespace-nowrap"
-                  onClick={() => setShowDropdown((prev) => !prev)}
-                  aria-haspopup="true"
-                  aria-expanded={showDropdown}
-                >
-                  <UserCheck className="w-4 h-4 sm:w-5 sm:h-5" />
-                  <span className="truncate">Hi, {userName} ▼</span>
-                </button>
-
-                {showDropdown && (
-                  <div
-                    className="absolute right-0 sm:right-2 mt-2 w-40 bg-white dark:bg-gray-800 
-                               border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg 
-                               overflow-hidden animate-fade-in z-50"
-                    style={{ minWidth: "10rem" }}
+              {/* Login / Signup or User Dropdown */}
+              {!isLoggedIn ? (
+                <>
+                  <button
+                    onClick={() => navigate("/login")}
+                    className="w-20 h-10 rounded-md border border-gray-300 dark:border-gray-600
+                      text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700
+                      text-sm font-medium transition"
                   >
-                    <Link
-                      to="/profile"
-                      className="block w-full px-4 py-2 text-sm text-gray-700 dark:text-gray-200 
-                                 hover:bg-gray-100 dark:hover:bg-gray-700 transition"
-                      onClick={() => setShowDropdown(false)}
-                    >
-                      Profile
-                    </Link>
-                    <Link
-                      to="/"
-                      className="w-full px-4 py-2 text-sm text-left text-red-600 dark:text-red-400 
-                                 hover:bg-gray-100 dark:hover:bg-gray-700 transition"
-                      onClick={handleLogout}
-                    >
-                      Logout
-                    </Link>
-                  </div>
-                )}
-              </div>
-            )}
+                    Login
+                  </button>
+                  <button
+                    onClick={() => navigate("/register")}
+                    className="w-20 h-10 rounded-md bg-teal-500 text-white
+                      hover:bg-teal-600 active:bg-teal-700 text-sm font-medium transition"
+                  >
+                    Sign Up
+                  </button>
+                </>
+              ) : (
+                <div ref={dropdownRef} className="relative">
+                  <button
+                    onClick={() => setShowDropdown((prev) => !prev)}
+                    aria-haspopup="true"
+                    aria-expanded={showDropdown}
+                    className="w-24 h-10 rounded-md border border-gray-300 dark:border-gray-600
+                      text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700
+                      flex items-center justify-center gap-1 text-sm font-medium transition"
+                  >
+                    <UserCheck className="w-5 h-5" />
+                    <span className="truncate">Hi, {userName} ▼</span>
+                  </button>
 
-            {/* Hamburger for mobile */}
-            <button
-              className="md:hidden p-2 rounded-md border border-gray-300 dark:border-gray-600 
-                         text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700"
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              aria-label="Toggle Mobile Menu"
-            >
-              ☰
-            </button>
+                  {showDropdown && (
+                    <div
+                      className="absolute right-0 mt-2 w-40 bg-white dark:bg-gray-800
+                        border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg
+                        overflow-hidden animate-fade-in z-50"
+                      style={{ minWidth: "10rem" }}
+                    >
+                      <Link
+                        to="/profile"
+                        className="block w-full px-4 py-2 text-sm text-gray-700 dark:text-gray-200
+                          hover:bg-gray-100 dark:hover:bg-gray-700 transition"
+                        onClick={() => setShowDropdown(false)}
+                      >
+                        Profile
+                      </Link>
+                      <Link
+                        to="/"
+                        className="w-full px-4 py-2 text-sm text-left text-red-600 dark:text-red-400
+                          hover:bg-gray-100 dark:hover:bg-gray-700 transition"
+                        onClick={handleLogout}
+                      >
+                        Logout
+                      </Link>
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {/* Hamburger menu */}
+              <button
+                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                aria-label="Toggle Mobile Menu"
+                className="w-10 h-10 rounded-md border border-gray-300 dark:border-gray-600
+                  text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700
+                  flex justify-center items-center transition"
+              >
+                ☰
+              </button>
+            </div>
           </div>
         </div>
 
         {/* Mobile Menu */}
         {isMobileMenuOpen && (
-          <div className="md:hidden flex flex-col gap-4 pb-4 animate-slide-down">
+          <div className="md:hidden flex flex-col gap-4 pb-4 px-4 animate-slide-down">
             <Link
               to="/"
               onClick={() => setIsMobileMenuOpen(false)}
