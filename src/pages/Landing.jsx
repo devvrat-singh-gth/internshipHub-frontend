@@ -4,27 +4,27 @@ import { Link } from "react-router-dom";
 
 const Landing = () => {
   return (
-    <div className="bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200 overflow-x-hidden">
+    <div className="bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200">
       {/* Hero Section */}
       <section className="bg-gradient-to-r from-teal-500 to-blue-600 text-white py-24 w-full">
-        <div className="max-w-6xl mx-auto px-6 text-center">
+        <div className="max-w-6xl mx-auto px-4 text-center">
           <h1 className="text-4xl md:text-5xl font-bold mb-6">
             Welcome to InternAdda
           </h1>
-          <p className="text-lg md:text-xl mb-8">
+          <p className="text-lg md:text-xl mb-8 px-2">
             Connecting students with top companies across India. Start your
             journey today and land your dream internship.
           </p>
-          <div className="flex justify-center gap-4 flex-wrap">
+          <div className="w-full flex justify-center gap-4 flex-wrap px-2">
             <Link
               to="/register"
-              className="px-6 py-3 bg-white text-teal-600 font-semibold rounded-md shadow hover:bg-gray-100 transition"
+              className="px-6 py-3 bg-white text-teal-600 font-semibold rounded-md shadow hover:bg-gray-100 transition whitespace-nowrap"
             >
               Explore Internships
             </Link>
             <Link
               to="/register"
-              className="px-6 py-3 bg-blue-600 text-white font-semibold rounded-md shadow hover:bg-blue-700 transition"
+              className="px-6 py-3 bg-blue-600 text-white font-semibold rounded-md shadow hover:bg-blue-700 transition whitespace-nowrap"
             >
               Get Started
             </Link>
