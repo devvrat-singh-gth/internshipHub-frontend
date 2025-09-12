@@ -23,7 +23,6 @@ const ScholarshipDetail = () => {
     fetchScholarship();
   }, [id]);
 
-  // ✅ Save Scholarship
   const handleSave = async () => {
     try {
       const token = localStorage.getItem("token");
@@ -33,7 +32,7 @@ const ScholarshipDetail = () => {
         { headers: { Authorization: `Bearer ${token}` } }
       );
       alert("Scholarship saved successfully!");
-      window.dispatchEvent(new Event("authChange")); // Refresh dashboard
+      window.dispatchEvent(new Event("authChange"));
     } catch (err) {
       alert(err.response?.data?.message || "Failed to save scholarship");
     }
@@ -55,8 +54,8 @@ const ScholarshipDetail = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-12">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-10 px-4 sm:px-6">
+      <div className="max-w-4xl mx-auto">
         {/* Breadcrumb */}
         <nav className="text-sm text-gray-500 mb-6">
           <Link to="/" className="text-blue-600 hover:underline">
@@ -72,24 +71,24 @@ const ScholarshipDetail = () => {
           </span>
         </nav>
 
-        {/* Scholarship Card */}
+        {/* Card */}
         <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 sm:p-8">
-          <div className="flex justify-between items-center mb-4">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-4">
             <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-gray-100">
               {scholarship.title}
             </h1>
-            <div className="flex gap-3">
+            <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
               <a
                 href={scholarship.link}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center whitespace-nowrap px-5 py-2 text-xs lg:text-xl bg-green-600 hover:bg-green-700 text-white rounded-md"
+                className="w-full sm:w-auto text-center text-sm sm:text-base px-5 py-2 bg-green-600 hover:bg-green-700 text-white rounded-md"
               >
                 Apply Now
               </a>
               <button
                 onClick={handleSave}
-                className="flex items-center whitespace-nowrap text-xs lg:text-xl px-5 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md"
+                className="w-full sm:w-auto text-sm sm:text-base px-5 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md"
               >
                 Save
               </button>
@@ -97,16 +96,16 @@ const ScholarshipDetail = () => {
           </div>
 
           <p className="text-gray-600 dark:text-gray-400 mb-2">
-            {scholarship.organization || "N/A"} • Deadline:{" "}
-            {scholarship.deadline}
+            {scholarship.organization || "Unknown Organization"}
           </p>
-          <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-6">
+          <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-4">
             {scholarship.description}
           </p>
-          <p className=" text-gray-500 dark:text-gray-400 mb-6">
-            Eligibility: {scholarship.eligibility}
+          <p className="text-sm text-gray-600 dark:text-gray-400 mb-6">
+            <strong>Eligibility:</strong> {scholarship.eligibility}
           </p>
-          <p className=" text-gray-500">
+
+          <p className="text-xs text-gray-400">
             Issued on: {new Date(scholarship.createdAt).toLocaleDateString()}
           </p>
         </div>

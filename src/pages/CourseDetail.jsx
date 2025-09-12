@@ -23,7 +23,6 @@ const CourseDetail = () => {
     fetchCourse();
   }, [id]);
 
-  // ✅ Save Course
   const handleSave = async () => {
     try {
       const token = localStorage.getItem("token");
@@ -33,7 +32,7 @@ const CourseDetail = () => {
         { headers: { Authorization: `Bearer ${token}` } }
       );
       alert("Course saved successfully!");
-      window.dispatchEvent(new Event("authChange")); // Refresh dashboard
+      window.dispatchEvent(new Event("authChange"));
     } catch (err) {
       alert(err.response?.data?.message || "Failed to save course");
     }
@@ -53,8 +52,8 @@ const CourseDetail = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-12">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-10 px-4 sm:px-6">
+      <div className="max-w-4xl mx-auto">
         {/* Breadcrumb */}
         <nav className="text-sm text-gray-500 mb-6">
           <Link to="/" className="text-blue-600 hover:underline">
@@ -70,24 +69,24 @@ const CourseDetail = () => {
           </span>
         </nav>
 
-        {/* Course Card */}
+        {/* Card */}
         <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 sm:p-8">
-          <div className="flex justify-between items-center mb-4">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-4">
             <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-gray-100">
               {course.title}
             </h1>
-            <div className="flex gap-3">
+            <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
               <a
                 href={course.link}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center whitespace-nowrap text-sm lg:text-lg px-5 py-2 bg-green-600 hover:bg-green-700 text-white rounded-md"
+                className="w-full sm:w-auto text-center text-sm sm:text-base px-5 py-2 bg-green-600 hover:bg-green-700 text-white rounded-md"
               >
                 View Course
               </a>
               <button
                 onClick={handleSave}
-                className="text-sm lg:text-lg px-5 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md"
+                className="w-full sm:w-auto text-sm sm:text-base px-5 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md"
               >
                 Save
               </button>
