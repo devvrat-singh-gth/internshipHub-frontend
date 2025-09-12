@@ -90,24 +90,24 @@ const InternshipDetail = () => {
 
         {/* Card */}
         <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 sm:p-8 relative">
-          {/* Header with title and buttons */}
-          <div className="flex flex-col sm:flex-row justify-between gap-4">
+          {/* Title and Buttons Row */}
+          <div className="flex flex-col sm:flex-row">
             {/* Title */}
-            <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-gray-100 flex-1">
+            <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-gray-100 pr-20 sm:pr-0">
               {internship.title}
             </h1>
 
             {/* Buttons container */}
-            <div className="flex flex-col sm:flex-row sm:items-start sm:space-x-3 space-y-2 sm:space-y-0 sm:absolute sm:top-8 sm:right-8">
+            <div className="absolute top-6 right-6 flex flex-col sm:flex-row sm:items-start sm:space-x-3 space-y-2 sm:space-y-0">
               <button
                 onClick={handleApply}
-                className="text-sm sm:text-base px-5 py-2 bg-green-600 hover:bg-green-700 text-white rounded-md"
+                className="w-24 sm:w-auto text-xs sm:text-base px-3 py-2 bg-green-600 hover:bg-green-700 text-white rounded-md"
               >
                 Apply
               </button>
               <button
                 onClick={handleSave}
-                className="text-sm sm:text-base px-5 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md"
+                className="w-24 sm:w-auto text-xs sm:text-base px-3 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md"
               >
                 Save
               </button>
