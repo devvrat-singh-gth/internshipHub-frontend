@@ -15,7 +15,7 @@ const Navbar = () => {
   const navigate = useNavigate();
   const dropdownRef = useRef(null);
 
-  // 🔑 Check if user is logged in
+  // Check user login and role
   const checkLogin = async () => {
     const token = localStorage.getItem("token");
     if (token) {
@@ -24,8 +24,7 @@ const Navbar = () => {
         setIsLoggedIn(true);
         setUserName(data.name || "User");
         setIsAdmin(data.type === "admin");
-      } catch (err) {
-        console.error("❌ Failed to fetch user:", err);
+      } catch {
         setIsLoggedIn(false);
         setUserName("");
         setIsAdmin(false);
@@ -39,26 +38,23 @@ const Navbar = () => {
 
   useEffect(() => {
     checkLogin();
-
-    // 🔔 Listen for login/logout
     window.addEventListener("authChange", checkLogin);
     return () => window.removeEventListener("authChange", checkLogin);
   }, []);
 
-  // ✅ Close dropdown when clicking outside
+  // Close dropdown on outside click
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
         setShowDropdown(false);
       }
     };
-    if (showDropdown) {
+    if (showDropdown)
       document.addEventListener("mousedown", handleClickOutside);
-    }
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [showDropdown]);
 
-  // ✅ Dark mode toggle
+  // Dark mode toggle
   useEffect(() => {
     if (darkMode) {
       document.documentElement.classList.add("dark");
@@ -74,10 +70,10 @@ const Navbar = () => {
     if (savedTheme === "dark") setDarkMode(true);
   }, []);
 
-  // ✅ Logout
+  // Logout function
   const handleLogout = () => {
     localStorage.removeItem("token");
-    window.dispatchEvent(new Event("authChange")); // 🔔 Trigger update
+    window.dispatchEvent(new Event("authChange"));
     setShowDropdown(false);
     navigate("/");
   };
@@ -86,20 +82,22 @@ const Navbar = () => {
     <header className="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 z-50 shadow-sm">
       <nav className="max-w-7xl mx-auto px-6">
         <div className="flex justify-between items-center py-4">
-          {/* Brand */}
+          {/* Brand: Logo + InternAdda */}
           <h1 className="flex items-center text-xl sm:text-2xl font-bold text-teal-600 dark:text-teal-400 whitespace-nowrap pl-0 sm:pl-2">
             <Link
               to={isLoggedIn ? "/home" : "/"}
               className="flex items-center gap-1 sm:gap-2 hover:text-teal-700 dark:hover:text-teal-300 transition"
             >
+              {/* Smaller icon on mobile */}
               <Slack className="w-6 h-6 sm:w-8 sm:h-8" />
+              {/* Smaller text on mobile */}
               <span className="text-sm sm:text-base font-semibold">
                 InternAdda
               </span>
             </Link>
           </h1>
 
-          {/* Desktop Links */}
+          {/* Desktop Navigation Links */}
           <div className="hidden md:flex gap-8">
             <Link to="/" className="nav-link hover:text-teal-500">
               Home
@@ -137,43 +135,46 @@ const Navbar = () => {
             )}
           </div>
 
-          {/* Right Side */}
-          <div className="flex items-center gap-3 relative">
+          {/* Right Side: Dark Mode, Auth Buttons, Dropdown */}
+          <div className="flex items-center gap-2 sm:gap-3 relative">
             {/* Dark Mode Toggle */}
             <button
               onClick={() => setDarkMode(!darkMode)}
               className="p-1 sm:p-2 rounded-md border border-gray-300 dark:border-gray-600 
                          text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 transition"
+              aria-label="Toggle Dark Mode"
             >
               {darkMode ? "🌙" : "☀️"}
             </button>
 
-            {/* Auth Buttons or Dropdown */}
+            {/* If not logged in, show Login & Signup */}
             {!isLoggedIn ? (
               <>
                 <button
                   className="px-3 py-1 sm:px-4 sm:py-2 text-xs sm:text-sm rounded-md border border-gray-300 
-                             dark:border-gray-600 text-gray-700 dark:text-gray-200 
-                             hover:bg-gray-100 dark:hover:bg-gray-700"
+                             dark:border-gray-600 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 transition"
                   onClick={() => navigate("/login")}
                 >
                   Login
                 </button>
                 <button
                   className="px-3 py-1 sm:px-4 sm:py-2 text-xs sm:text-sm rounded-md bg-teal-500 text-white 
-                             hover:bg-teal-600 active:bg-teal-700 flex items-center whitespace-nowrap"
+                             hover:bg-teal-600 active:bg-teal-700 whitespace-nowrap"
                   onClick={() => navigate("/register")}
                 >
                   Sign Up
                 </button>
               </>
             ) : (
+              // Logged-in dropdown button
               <div ref={dropdownRef} className="relative">
                 <button
                   className="px-3 py-1 sm:px-4 sm:py-2 text-xs sm:text-sm rounded-md border border-gray-300 dark:border-gray-600 
-             text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 
-             transition flex items-center gap-1 whitespace-nowrap"
+                             text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 
+                             transition flex items-center gap-1 whitespace-nowrap"
                   onClick={() => setShowDropdown((prev) => !prev)}
+                  aria-haspopup="true"
+                  aria-expanded={showDropdown}
                 >
                   <UserCheck className="w-4 h-4" />
                   <span className="truncate">Hi, {userName} ▼</span>
@@ -182,8 +183,8 @@ const Navbar = () => {
                 {showDropdown && (
                   <div
                     className="absolute right-0 sm:right-2 mt-2 w-36 sm:w-40 bg-white dark:bg-gray-800 
-              border border-gray-200 dark:border-gray-700 rounded-lg 
-              shadow-lg overflow-hidden animate-fade-in z-50"
+                               border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg 
+                               overflow-hidden animate-fade-in z-50"
                     style={{ minWidth: "9rem" }}
                   >
                     <Link
@@ -207,11 +208,12 @@ const Navbar = () => {
               </div>
             )}
 
-            {/* Hamburger (Mobile Only) */}
+            {/* Hamburger for mobile */}
             <button
               className="md:hidden p-2 rounded-md border border-gray-300 dark:border-gray-600 
                          text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              aria-label="Toggle Mobile Menu"
             >
               ☰
             </button>
