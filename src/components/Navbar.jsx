@@ -91,49 +91,46 @@ const Navbar = () => {
             </Link>
           </div>
 
+          {/* Center: Desktop Navigation Links */}
+          <div className="hidden md:flex flex-1 justify-center gap-8 mr-4">
+            <Link to="/" className="nav-link hover:text-teal-500">
+              Home
+            </Link>
+            <Link to="/internships" className="nav-link hover:text-teal-500">
+              Search
+            </Link>
+
+            {!isLoggedIn ? (
+              <>
+                <Link to="/about" className="nav-link hover:text-teal-500">
+                  About
+                </Link>
+                <Link to="/contact" className="nav-link hover:text-teal-500">
+                  Contact
+                </Link>
+              </>
+            ) : (
+              <>
+                <Link
+                  to="/recommendations"
+                  className="nav-link hover:text-teal-500"
+                >
+                  Recommendations
+                </Link>
+                <Link to="/dashboard" className="nav-link hover:text-teal-500">
+                  Dashboard
+                </Link>
+                {isAdmin && (
+                  <Link to="/admin" className="nav-link hover:text-teal-500">
+                    Admin
+                  </Link>
+                )}
+              </>
+            )}
+          </div>
+
           {/* Right side: Desktop Navigation + Controls */}
           <div className="hidden md:flex items-center gap-1 sm:gap-3">
-            {/* Desktop Navigation Links */}
-            <div className="flex gap-8 mr-4">
-              <Link to="/" className="nav-link hover:text-teal-500">
-                Home
-              </Link>
-              <Link to="/internships" className="nav-link hover:text-teal-500">
-                Search
-              </Link>
-
-              {!isLoggedIn ? (
-                <>
-                  <Link to="/about" className="nav-link hover:text-teal-500">
-                    About
-                  </Link>
-                  <Link to="/contact" className="nav-link hover:text-teal-500">
-                    Contact
-                  </Link>
-                </>
-              ) : (
-                <>
-                  <Link
-                    to="/recommendations"
-                    className="nav-link hover:text-teal-500"
-                  >
-                    Recommendations
-                  </Link>
-                  <Link
-                    to="/dashboard"
-                    className="nav-link hover:text-teal-500"
-                  >
-                    Dashboard
-                  </Link>
-                  {isAdmin && (
-                    <Link to="/admin" className="nav-link hover:text-teal-500">
-                      Admin
-                    </Link>
-                  )}
-                </>
-              )}
-            </div>
-
             {/* Dark Mode Toggle */}
             <button
               onClick={() => setDarkMode(!darkMode)}
