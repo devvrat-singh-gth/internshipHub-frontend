@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 const Landing = () => {
   return (
-    <div className="bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200">
+    <div className="bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200 overflow-x-hidden">
       {/* Hero Section */}
       <section className="bg-gradient-to-r from-teal-500 to-blue-600 text-white py-24 w-full">
         <div className="max-w-6xl mx-auto px-6 text-center">
