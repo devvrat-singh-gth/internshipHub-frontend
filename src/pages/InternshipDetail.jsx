@@ -8,7 +8,6 @@ const InternshipDetail = () => {
   const [internship, setInternship] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  // Fetch internship details
   useEffect(() => {
     const fetchInternship = async () => {
       try {
@@ -27,7 +26,6 @@ const InternshipDetail = () => {
     fetchInternship();
   }, [id]);
 
-  // Apply
   const handleApply = async () => {
     try {
       const token = localStorage.getItem("token");
@@ -43,7 +41,6 @@ const InternshipDetail = () => {
     }
   };
 
-  // Save
   const handleSave = async () => {
     try {
       const token = localStorage.getItem("token");
@@ -92,13 +89,33 @@ const InternshipDetail = () => {
         </nav>
 
         {/* Card */}
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 sm:p-8">
-          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-gray-100 mb-4">
-            {internship.title}
-          </h1>
+        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 sm:p-8 relative">
+          {/* Header with title and buttons */}
+          <div className="flex flex-col sm:flex-row justify-between gap-4">
+            {/* Title */}
+            <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-gray-100 flex-1">
+              {internship.title}
+            </h1>
+
+            {/* Buttons container */}
+            <div className="flex flex-col sm:flex-row sm:items-start sm:space-x-3 space-y-2 sm:space-y-0 sm:absolute sm:top-8 sm:right-8">
+              <button
+                onClick={handleApply}
+                className="text-sm sm:text-base px-5 py-2 bg-green-600 hover:bg-green-700 text-white rounded-md"
+              >
+                Apply
+              </button>
+              <button
+                onClick={handleSave}
+                className="text-sm sm:text-base px-5 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md"
+              >
+                Save
+              </button>
+            </div>
+          </div>
 
           {/* Company / Location */}
-          <p className="text-gray-600 dark:text-gray-400 mb-2">
+          <p className="text-gray-600 dark:text-gray-400 mt-4 mb-2">
             <span className="font-semibold">{internship.company}</span> •{" "}
             {internship.location}
           </p>
@@ -110,25 +127,9 @@ const InternshipDetail = () => {
           </p>
 
           {/* Description */}
-          <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-6">
+          <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
             {internship.description}
           </p>
-
-          {/* Buttons (Bottom on mobile) */}
-          <div className="flex flex-col sm:flex-row gap-3 mt-6">
-            <button
-              onClick={handleApply}
-              className="w-full sm:w-auto text-sm sm:text-base px-5 py-2 bg-green-600 hover:bg-green-700 text-white rounded-md"
-            >
-              Apply
-            </button>
-            <button
-              onClick={handleSave}
-              className="w-full sm:w-auto text-sm sm:text-base px-5 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md"
-            >
-              Save
-            </button>
-          </div>
         </div>
       </div>
     </div>
