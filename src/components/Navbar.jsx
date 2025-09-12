@@ -87,14 +87,15 @@ const Navbar = () => {
       <nav className="max-w-7xl mx-auto px-6">
         <div className="flex justify-between items-center py-4">
           {/* Brand */}
-
           <h1 className="flex items-center text-xl sm:text-2xl font-bold text-teal-600 dark:text-teal-400 whitespace-nowrap pl-0 sm:pl-2">
             <Link
               to={isLoggedIn ? "/home" : "/"}
-              className="flex items-center gap-2 hover:text-teal-700 dark:hover:text-teal-300 transition"
+              className="flex items-center gap-1 sm:gap-2 hover:text-teal-700 dark:hover:text-teal-300 transition"
             >
-              <Slack className="w-8 h-8" />
-              InternAdda
+              <Slack className="w-6 h-6 sm:w-8 sm:h-8" />
+              <span className="text-sm sm:text-base font-semibold">
+                InternAdda
+              </span>
             </Link>
           </h1>
 
@@ -141,7 +142,7 @@ const Navbar = () => {
             {/* Dark Mode Toggle */}
             <button
               onClick={() => setDarkMode(!darkMode)}
-              className="p-2 rounded-md border border-gray-300 dark:border-gray-600 
+              className="p-1 sm:p-2 rounded-md border border-gray-300 dark:border-gray-600 
                          text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 transition"
             >
               {darkMode ? "🌙" : "☀️"}
@@ -151,7 +152,7 @@ const Navbar = () => {
             {!isLoggedIn ? (
               <>
                 <button
-                  className="px-4 py-2 text-sm rounded-md border border-gray-300 
+                  className="px-3 py-1 sm:px-4 sm:py-2 text-xs sm:text-sm rounded-md border border-gray-300 
                              dark:border-gray-600 text-gray-700 dark:text-gray-200 
                              hover:bg-gray-100 dark:hover:bg-gray-700"
                   onClick={() => navigate("/login")}
@@ -159,7 +160,7 @@ const Navbar = () => {
                   Login
                 </button>
                 <button
-                  className="px-4 py-2 text-sm rounded-md bg-teal-500 text-white 
+                  className="px-3 py-1 sm:px-4 sm:py-2 text-xs sm:text-sm rounded-md bg-teal-500 text-white 
                              hover:bg-teal-600 active:bg-teal-700 flex items-center whitespace-nowrap"
                   onClick={() => navigate("/register")}
                 >
@@ -169,7 +170,7 @@ const Navbar = () => {
             ) : (
               <div ref={dropdownRef} className="relative">
                 <button
-                  className="px-4 py-2 text-sm rounded-md border border-gray-300 dark:border-gray-600 
+                  className="px-3 py-1 sm:px-4 sm:py-2 text-xs sm:text-sm rounded-md border border-gray-300 dark:border-gray-600 
              text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 
              transition flex items-center gap-1 whitespace-nowrap"
                   onClick={() => setShowDropdown((prev) => !prev)}
@@ -180,13 +181,14 @@ const Navbar = () => {
 
                 {showDropdown && (
                   <div
-                    className="absolute right-2 mt-2 w-40 bg-white dark:bg-gray-800 
+                    className="absolute right-0 sm:right-2 mt-2 w-36 sm:w-40 bg-white dark:bg-gray-800 
               border border-gray-200 dark:border-gray-700 rounded-lg 
               shadow-lg overflow-hidden animate-fade-in z-50"
+                    style={{ minWidth: "9rem" }}
                   >
                     <Link
                       to="/profile"
-                      className="block w-full px-4 py-2 text-sm text-gray-700 dark:text-gray-200 
+                      className="block w-full px-3 py-2 text-sm text-gray-700 dark:text-gray-200 
                                  hover:bg-gray-100 dark:hover:bg-gray-700 transition"
                       onClick={() => setShowDropdown(false)}
                     >
@@ -194,7 +196,7 @@ const Navbar = () => {
                     </Link>
                     <Link
                       to="/"
-                      className="w-full px-4 py-2 text-sm text-left text-red-600 dark:text-red-400 
+                      className="w-full px-3 py-2 text-sm text-left text-red-600 dark:text-red-400 
                                  hover:bg-gray-100 dark:hover:bg-gray-700 transition"
                       onClick={handleLogout}
                     >
@@ -218,7 +220,7 @@ const Navbar = () => {
 
         {/* Mobile Menu */}
         {isMobileMenuOpen && (
-          <div className="md:hidden flex flex-col gap-4 pb-4 animate-slide-down px-4">
+          <div className="md:hidden flex flex-col gap-4 pb-4 animate-slide-down">
             <Link
               to="/"
               onClick={() => setIsMobileMenuOpen(false)}
