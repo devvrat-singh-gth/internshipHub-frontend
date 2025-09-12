@@ -80,7 +80,7 @@ const Navbar = () => {
       <nav className="max-w-7xl mx-auto px-0 md:px-6">
         <div className="flex justify-between items-center py-4">
           {/* ✅ removed pl-2 so brand hugs the left edge */}
-          <div className="flex items-center flex-shrink-0">
+          <div className="flex items-center flex-shrink-0 pl-2 md:pl-0">
             <Link
               to={isLoggedIn ? "/home" : "/"}
               className="flex items-center gap-2 sm:gap-3 text-teal-500 hover:text-teal-700 dark:hover:text-teal-300 transition"
@@ -203,7 +203,7 @@ const Navbar = () => {
           </div>
 
           {/* Mobile Controls: Dark mode toggle, Login/Signup or User Dropdown, Hamburger */}
-          <div className="flex items-center gap-2 md:hidden pr-0">
+          <div className="flex items-center gap-2 md:hidden pr-2">
             {/* Dark Mode Toggle - smaller size on mobile */}
             <button
               onClick={() => setDarkMode(!darkMode)}
