@@ -218,7 +218,7 @@ const Navbar = () => {
 
         {/* Mobile Menu */}
         {isMobileMenuOpen && (
-          <div className="md:hidden flex flex-col gap-4 pb-4 animate-slide-down">
+          <div className="md:hidden flex flex-col gap-4 pb-4 animate-slide-down px-4">
             <Link
               to="/"
               onClick={() => setIsMobileMenuOpen(false)}
