@@ -82,12 +82,12 @@ const Navbar = () => {
           <h1 className="flex items-center font-bold text-teal-600 dark:text-teal-400 whitespace-nowrap pl-0 sm:pl-2 ml-0 sm:ml-0">
             <Link
               to={isLoggedIn ? "/home" : "/"}
-              className="flex items-center gap-1 sm:gap-3 hover:text-teal-700 dark:hover:text-teal-300 transition"
+              className="flex items-center gap-2 sm:gap-3 hover:text-teal-700 dark:hover:text-teal-300 transition"
             >
-              {/* Icon smaller on mobile, bigger on desktop */}
-              <Slack className="w-6 h-6 sm:w-8 sm:h-8" />
-              {/* Text smaller on mobile, bigger on desktop */}
-              <span className="text-sm sm:text-lg font-semibold">
+              {/* Increased icon size on mobile */}
+              <Slack className="w-8 h-8 sm:w-10 sm:h-10" />
+              {/* Increased text size on mobile */}
+              <span className="text-lg sm:text-3xl font-semibold">
                 InternAdda
               </span>
             </Link>
