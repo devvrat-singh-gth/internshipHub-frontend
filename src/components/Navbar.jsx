@@ -79,15 +79,15 @@ const Navbar = () => {
       <nav className="max-w-7xl mx-auto px-6">
         <div className="flex justify-between items-center py-4">
           {/* Brand: Logo + InternAdda */}
-          <h1 className="flex items-center font-bold text-teal-600 dark:text-teal-400 whitespace-nowrap pl-0 sm:pl-2">
+          <h1 className="flex items-center font-bold text-teal-600 dark:text-teal-400 whitespace-nowrap pl-0 sm:pl-2 ml-0 sm:ml-0">
             <Link
               to={isLoggedIn ? "/home" : "/"}
-              className="flex items-center gap-2 sm:gap-3 hover:text-teal-700 dark:hover:text-teal-300 transition"
+              className="flex items-center gap-1 sm:gap-3 hover:text-teal-700 dark:hover:text-teal-300 transition"
             >
-              {/* Increased icon size */}
-              <Slack className="w-8 h-8 sm:w-10 sm:h-10" />
-              {/* Increased text size */}
-              <span className="text-lg sm:text-3xl font-semibold">
+              {/* Icon smaller on mobile, bigger on desktop */}
+              <Slack className="w-6 h-6 sm:w-8 sm:h-8" />
+              {/* Text smaller on mobile, bigger on desktop */}
+              <span className="text-sm sm:text-lg font-semibold">
                 InternAdda
               </span>
             </Link>
@@ -132,11 +132,11 @@ const Navbar = () => {
           </div>
 
           {/* Right Side: Dark Mode, Auth Buttons, Dropdown */}
-          <div className="flex items-center gap-2 sm:gap-3 relative">
-            {/* Dark Mode Toggle */}
+          <div className="flex items-center gap-1 sm:gap-3 relative">
+            {/* Dark Mode Toggle: smaller on mobile */}
             <button
               onClick={() => setDarkMode(!darkMode)}
-              className="min-w-[42px] min-h-[38px] p-2 rounded-md border border-gray-300 dark:border-gray-600 
+              className="min-w-[34px] min-h-[30px] p-1 sm:min-w-[42px] sm:min-h-[38px] sm:p-2 rounded-md border border-gray-300 dark:border-gray-600 
                          text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 transition flex justify-center items-center"
               aria-label="Toggle Dark Mode"
             >
@@ -146,14 +146,14 @@ const Navbar = () => {
             {!isLoggedIn ? (
               <>
                 <button
-                  className="min-w-[72px] min-h-[38px] px-4 py-2 text-sm rounded-md border border-gray-300 
+                  className="min-w-[60px] min-h-[30px] px-3 py-1 text-xs sm:min-w-[72px] sm:min-h-[38px] sm:px-4 sm:py-2 sm:text-sm rounded-md border border-gray-300 
                              dark:border-gray-600 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 transition"
                   onClick={() => navigate("/login")}
                 >
                   Login
                 </button>
                 <button
-                  className="min-w-[72px] min-h-[38px] px-4 py-2 text-sm rounded-md bg-teal-500 text-white 
+                  className="min-w-[60px] min-h-[30px] px-3 py-1 text-xs sm:min-w-[72px] sm:min-h-[38px] sm:px-4 sm:py-2 sm:text-sm rounded-md bg-teal-500 text-white 
                              hover:bg-teal-600 active:bg-teal-700 whitespace-nowrap"
                   onClick={() => navigate("/register")}
                 >
@@ -163,14 +163,14 @@ const Navbar = () => {
             ) : (
               <div ref={dropdownRef} className="relative">
                 <button
-                  className="min-w-[110px] min-h-[38px] px-4 py-2 text-sm rounded-md border border-gray-300 dark:border-gray-600 
+                  className="min-w-[90px] min-h-[30px] px-3 py-1 text-xs sm:min-w-[110px] sm:min-h-[38px] sm:px-4 sm:py-2 sm:text-sm rounded-md border border-gray-300 dark:border-gray-600 
                              text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 
-                             transition flex items-center gap-2 whitespace-nowrap"
+                             transition flex items-center gap-1 sm:gap-2 whitespace-nowrap"
                   onClick={() => setShowDropdown((prev) => !prev)}
                   aria-haspopup="true"
                   aria-expanded={showDropdown}
                 >
-                  <UserCheck className="w-5 h-5" />
+                  <UserCheck className="w-4 h-4 sm:w-5 sm:h-5" />
                   <span className="truncate">Hi, {userName} ▼</span>
                 </button>
 
