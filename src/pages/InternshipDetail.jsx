@@ -8,6 +8,7 @@ const InternshipDetail = () => {
   const [internship, setInternship] = useState(null);
   const [loading, setLoading] = useState(true);
 
+  // Fetch internship details
   useEffect(() => {
     const fetchInternship = async () => {
       try {
@@ -26,6 +27,7 @@ const InternshipDetail = () => {
     fetchInternship();
   }, [id]);
 
+  // Apply
   const handleApply = async () => {
     try {
       const token = localStorage.getItem("token");
@@ -41,6 +43,7 @@ const InternshipDetail = () => {
     }
   };
 
+  // Save
   const handleSave = async () => {
     try {
       const token = localStorage.getItem("token");
@@ -71,7 +74,7 @@ const InternshipDetail = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-10 px-4 sm:px-6">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-12 px-4 sm:px-6">
       <div className="max-w-4xl mx-auto">
         {/* Breadcrumb */}
         <nav className="text-sm text-gray-500 mb-6">
@@ -90,33 +93,38 @@ const InternshipDetail = () => {
 
         {/* Card */}
         <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 sm:p-8">
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-4">
-            <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-gray-100">
-              {internship.title}
-            </h1>
+          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-gray-100 mb-4">
+            {internship.title}
+          </h1>
 
-            <p className="text-gray-600 dark:text-gray-400 mb-2">
-              <span className="font-semibold">{internship.company}</span> •{" "}
-              {internship.location}
-            </p>
-            <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">
-              Duration: {(internship.duration || "").trim() || "N/A"} | Stipend:{" "}
-              {internship.stipend || "N/A"}
-            </p>
-            <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
-              {internship.description}
-            </p>
-          </div>
-          <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
+          {/* Company / Location */}
+          <p className="text-gray-600 dark:text-gray-400 mb-2">
+            <span className="font-semibold">{internship.company}</span> •{" "}
+            {internship.location}
+          </p>
+
+          {/* Duration + Stipend */}
+          <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">
+            Duration: {(internship.duration || "").trim() || "N/A"} | Stipend:{" "}
+            {internship.stipend || "N/A"}
+          </p>
+
+          {/* Description */}
+          <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-6">
+            {internship.description}
+          </p>
+
+          {/* Buttons (Bottom on mobile) */}
+          <div className="flex flex-col sm:flex-row gap-3 mt-6">
             <button
               onClick={handleApply}
-              className="w-full sm:w-auto text-sm sm:text-base px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-md"
+              className="w-full sm:w-auto text-sm sm:text-base px-5 py-2 bg-green-600 hover:bg-green-700 text-white rounded-md"
             >
               Apply
             </button>
             <button
               onClick={handleSave}
-              className="w-full sm:w-auto text-sm sm:text-base px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md"
+              className="w-full sm:w-auto text-sm sm:text-base px-5 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md"
             >
               Save
             </button>
