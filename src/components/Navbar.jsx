@@ -88,10 +88,10 @@ const Navbar = () => {
         <div className="flex justify-between items-center py-4">
           {/* Brand */}
 
-          <h1 className="flex items-center text-xl sm:text-2xl font-bold text-teal-600 dark:text-teal-400 whitespace-nowrap">
+          <h1 className="flex items-center text-xl sm:text-2xl font-bold text-teal-600 dark:text-teal-400 whitespace-nowrap pl-0 sm:pl-2">
             <Link
               to={isLoggedIn ? "/home" : "/"}
-              className="flex items-center pr-2 gap-2 hover:text-teal-700 dark:hover:text-teal-300 transition"
+              className="flex items-center gap-2 hover:text-teal-700 dark:hover:text-teal-300 transition"
             >
               <Slack className="w-8 h-8" />
               InternAdda
@@ -180,9 +180,9 @@ const Navbar = () => {
 
                 {showDropdown && (
                   <div
-                    className="absolute right-0 mt-2 w-40 bg-white dark:bg-gray-800 
-                                border border-gray-200 dark:border-gray-700 rounded-lg 
-                                shadow-lg overflow-hidden animate-fade-in"
+                    className="absolute right-2 mt-2 w-40 bg-white dark:bg-gray-800 
+              border border-gray-200 dark:border-gray-700 rounded-lg 
+              shadow-lg overflow-hidden animate-fade-in z-50"
                   >
                     <Link
                       to="/profile"
