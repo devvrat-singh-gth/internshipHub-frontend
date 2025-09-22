@@ -144,7 +144,7 @@ const Profile = () => {
         <Link
           to="/home"
           type="submit"
-          className="px-6 py-2 bg-teal-600 text-white rounded-md hover:bg-teal-700"
+          className="px-15 py-2 bg-teal-600 text-white rounded-md hover:bg-teal-700"
         >
           Save Profile
         </Link>
