@@ -29,7 +29,8 @@ const Navbar = () => {
               data.name || "User"
             )}`
         );
-      } catch {
+      } catch (err) {
+        console.error("Error during checkLogin:", err);
         setIsLoggedIn(false);
         setUserName("");
         setIsAdmin(false);
@@ -100,7 +101,7 @@ const Navbar = () => {
             </Link>
           </div>
 
-          {/* Main navigation links */}
+          {/* Desktop Links */}
           <div className="hidden md:flex flex-1 justify-center gap-8 mr-4">
             <Link to="/" className="nav-link hover:text-teal-500">
               Home
@@ -138,7 +139,7 @@ const Navbar = () => {
             )}
           </div>
 
-          {/* Dark mode toggle & auth buttons */}
+          {/* Dark mode + User dropdown (Desktop) */}
           <div className="hidden md:flex items-center gap-1 sm:gap-3">
             <button
               onClick={() => setDarkMode(!darkMode)}
@@ -172,7 +173,9 @@ const Navbar = () => {
                   className="min-w-[90px] min-h-[30px] px-3 py-1 text-xs sm:min-w-[110px] sm:min-h-[38px] sm:px-4 sm:py-2 sm:text-sm rounded-md border border-gray-300 dark:border-gray-600 
                              text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 
                              transition flex items-center gap-2 whitespace-nowrap"
-                  onClick={() => setShowDropdown((prev) => !prev)}
+                  onClick={() => {
+                    setShowDropdown(prev => !prev);
+                  }}
                   aria-haspopup="true"
                   aria-expanded={showDropdown}
                 >
@@ -191,21 +194,25 @@ const Navbar = () => {
                                overflow-hidden z-50"
                   >
                     <button
-                      onClick={() => {
-                        console.log("Desktop Profile click triggered");
+                      onClick={(e) => {
+                        e.stopPropagation();
                         setShowDropdown(false);
+                        // Optional tiny delay so dropdown closes before navigation
                         setTimeout(() => {
                           navigate("/profile");
-                        }, 50);
+                        }, 0);
                       }}
                       className="w-full text-left px-4 py-3 text-sm text-gray-700 dark:text-gray-200
-             hover:bg-gray-100 dark:hover:bg-gray-700 transition block"
+                                 hover:bg-gray-100 dark:hover:bg-gray-700 transition block"
                     >
                       Profile
                     </button>
 
                     <button
-                      onClick={handleLogout}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleLogout();
+                      }}
                       className="w-full text-left px-4 py-2 text-sm text-red-600 dark:text-red-400 
                                  hover:bg-gray-100 dark:hover:bg-gray-700 transition block"
                     >
@@ -217,7 +224,7 @@ const Navbar = () => {
             )}
           </div>
 
-          {/* Mobile menu toggle */}
+          {/* Mobile version */}
           <div className="flex items-center gap-2 md:hidden pr-2">
             <button
               onClick={() => setDarkMode(!darkMode)}
@@ -253,12 +260,14 @@ const Navbar = () => {
                 className="relative w-full max-w-xs mx-auto"
               >
                 <button
-                  onClick={() => setShowDropdown((prev) => !prev)}
+                  onClick={() => {
+                    setShowDropdown(prev => !prev);
+                  }}
                   aria-haspopup="true"
                   aria-expanded={showDropdown}
                   className="w-full max-w-xs min-w-0 px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600
-      text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700
-      flex items-center gap-2 text-sm font-medium truncate transition"
+                    text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700
+                    flex items-center gap-2 text-sm font-medium truncate transition"
                   title={`Hi, ${userName}`}
                 >
                   <img
@@ -272,32 +281,33 @@ const Navbar = () => {
                 {showDropdown && (
                   <div
                     className="absolute left-0 right-0 mt-1 w-full max-w-xs bg-white dark:bg-gray-800
-        border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg
-        overflow-hidden z-50"
+                      border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg
+                      overflow-hidden z-50"
+                >
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setShowDropdown(false);
+                      setIsMobileMenuOpen(false);
+                      navigate("/profile");
+                    }}
+                    className="w-full text-left px-4 py-3 text-sm text-gray-700 dark:text-gray-200
+                      hover:bg-gray-100 dark:hover:bg-gray-700 transition block"
                   >
-                    <button
-                      onClick={() => {
-                        setShowDropdown(false);
-                        navigate("/profile");
-                        setIsMobileMenuOpen(false);
-                      }}
-                      className="w-full text-left px-4 py-3 text-sm text-gray-700 dark:text-gray-200
-          hover:bg-gray-100 dark:hover:bg-gray-700 transition block"
-                    >
-                      Profile
-                    </button>
-                    <button
-                      onClick={() => {
-                        handleLogout();
-                        setIsMobileMenuOpen(false);
-                      }}
-                      className="w-full text-left px-4 py-3 text-sm text-red-600 dark:text-red-400
-          hover:bg-gray-100 dark:hover:bg-gray-700 transition block"
-                    >
-                      Logout
-                    </button>
-                  </div>
-                )}
+                    Profile
+                  </button>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleLogout();
+                      setIsMobileMenuOpen(false);
+                    }}
+                    className="w-full text-left px-4 py-3 text-sm text-red-600 dark:text-red-400
+                      hover:bg-gray-100 dark:hover:bg-gray-700 transition block"
+                  >
+                    Logout
+                  </button>
+                </div>
               </div>
             )}
 
@@ -313,7 +323,6 @@ const Navbar = () => {
           </div>
         </div>
 
-        {/* Mobile navigation menu */}
         {isMobileMenuOpen && (
           <div className="md:hidden flex flex-col gap-4 pb-4 animate-slide-down">
             <Link
