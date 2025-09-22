@@ -1,4 +1,3 @@
-// src/pages/Profile.jsx
 import React, { useState, useEffect } from "react";
 import API from "../utils/api";
 
@@ -66,7 +65,7 @@ const Profile = () => {
         "https://internshiphub-backend.onrender.com/api/users/me",
         profile
       );
-      alert("Profile updated!");
+      alert("✅ Profile updated! Recommendations will improve.");
     } catch (err) {
       alert(err.response?.data?.message || "Failed to update profile");
     }
