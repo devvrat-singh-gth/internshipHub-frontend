@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import API from "../utils/api";
+import { Link } from "react-router-dom";
 
 const SECTORS = [
   "IT",
@@ -140,12 +141,13 @@ const Profile = () => {
           />
         </div>
 
-        <button
+        <Link
+          to="/home"
           type="submit"
           className="px-6 py-2 bg-teal-600 text-white rounded-md hover:bg-teal-700"
         >
           Save Profile
-        </button>
+        </Link>
       </form>
     </div>
   );
