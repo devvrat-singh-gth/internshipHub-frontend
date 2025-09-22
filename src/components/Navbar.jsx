@@ -174,7 +174,7 @@ const Navbar = () => {
                              text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 
                              transition flex items-center gap-2 whitespace-nowrap"
                   onClick={() => {
-                    setShowDropdown(prev => !prev);
+                    setShowDropdown((prev) => !prev);
                   }}
                   aria-haspopup="true"
                   aria-expanded={showDropdown}
@@ -258,7 +258,7 @@ const Navbar = () => {
               >
                 <button
                   onClick={() => {
-                    setShowDropdown(prev => !prev);
+                    setShowDropdown((prev) => !prev);
                   }}
                   aria-haspopup="true"
                   aria-expanded={showDropdown}
@@ -280,31 +280,32 @@ const Navbar = () => {
                     className="absolute left-0 right-0 mt-1 w-full max-w-xs bg-white dark:bg-gray-800
                       border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg
                       overflow-hidden z-50"
-                >
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setShowDropdown(false);
-                      setIsMobileMenuOpen(false);
-                      navigate("/profile");
-                    }}
-                    className="w-full text-left px-4 py-3 text-sm text-gray-700 dark:text-gray-200
-                      hover:bg-gray-100 dark:hover:bg-gray-700 transition block"
                   >
-                    Profile
-                  </button>
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleLogout();
-                      setIsMobileMenuOpen(false);
-                    }}
-                    className="w-full text-left px-4 py-3 text-sm text-red-600 dark:text-red-400
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setShowDropdown(false);
+                        setIsMobileMenuOpen(false);
+                        navigate("/profile");
+                      }}
+                      className="w-full text-left px-4 py-3 text-sm text-gray-700 dark:text-gray-200
                       hover:bg-gray-100 dark:hover:bg-gray-700 transition block"
-                  >
-                    Logout
-                  </button>
-                </div>
+                    >
+                      Profile
+                    </button>
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleLogout();
+                        setIsMobileMenuOpen(false);
+                      }}
+                      className="w-full text-left px-4 py-3 text-sm text-red-600 dark:text-red-400
+                      hover:bg-gray-100 dark:hover:bg-gray-700 transition block"
+                    >
+                      Logout
+                    </button>
+                  </div>
+                )}
               </div>
             )}
 
