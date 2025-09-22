@@ -222,9 +222,12 @@ const Navbar = () => {
                   >
                     <Link
                       to="/profile"
-                      onClick={(() => setShowDropdown(false), 50)}
+                      onClick={() => {
+                        // Delay dropdown closing slightly to allow navigation to complete
+                        setTimeout(() => setShowDropdown(false), 50);
+                      }}
                       className="block px-4 py-3 text-sm text-gray-700 dark:text-gray-200
-                                 hover:bg-gray-100 dark:hover:bg-gray-700 transition w-full text-left"
+             hover:bg-gray-100 dark:hover:bg-gray-700 transition w-full text-left"
                     >
                       Profile
                     </Link>
