@@ -192,8 +192,8 @@ const Navbar = () => {
                   >
                     <button
                       onClick={() => {
-                        setShowDropdown(false);
                         navigate("/profile");
+                        setShowDropdown(false);
                       }}
                       className="w-full text-left px-4 py-3 text-sm text-gray-700 dark:text-gray-200
           hover:bg-gray-100 dark:hover:bg-gray-700 transition block"
