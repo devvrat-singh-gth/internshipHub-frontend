@@ -1,4 +1,4 @@
-just add the profile and logout in the userdropdownmenu const functionality so that the desktop and mobile dont need to be written separatedly, just make sure it is responsive and send full import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Slack } from "lucide-react";
 import API from "../utils/api";
@@ -96,28 +96,72 @@ const Navbar = () => {
     navigate("/");
   };
 
-  const UserDropdownToggle = ({ onClick, showDropdown, isMobile = false }) => (
-    <button
-      onClick={onClick}
-      aria-haspopup="true"
-      aria-expanded={showDropdown}
-      title={`Hi, ${userName}`}
-      className={`flex items-center gap-2 truncate ${
-        isMobile
-          ? "w-full h-10 px-3 rounded-md border border-gray-300 dark:border-gray-600 text-sm font-medium"
-          : "min-w-[90px] min-h-[30px] px-3 py-1 text-xs sm:min-w-[110px] sm:min-h-[38px] sm:px-4 sm:py-2 sm:text-sm rounded-md border border-gray-300 dark:border-gray-600"
-      } text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 transition`}
-    >
-      <img
-        src={profilePic}
-        alt="avatar"
-        className="w-6 h-6 rounded-full object-cover flex-shrink-0"
-      />
-      <span className={isMobile ? "flex-grow truncate" : "truncate"}>
-        Hi, {userName} ▼
-      </span>
-    </button>
-  );
+  // Combined user dropdown toggle + menu
+  const UserDropdown = ({ isMobile = false }) => {
+    return (
+      <div
+        ref={dropdownRef}
+        className="relative"
+        style={isMobile ? { minWidth: "140px" } : {}}
+      >
+        <button
+          onClick={() => setShowDropdown((prev) => !prev)}
+          aria-haspopup="true"
+          aria-expanded={showDropdown}
+          title={`Hi, ${userName}`}
+          className={`flex items-center gap-2 truncate ${
+            isMobile
+              ? "w-full h-10 px-3 rounded-md border border-gray-300 dark:border-gray-600 text-sm font-medium"
+              : "min-w-[90px] min-h-[30px] px-3 py-1 text-xs sm:min-w-[110px] sm:min-h-[38px] sm:px-4 sm:py-2 sm:text-sm rounded-md border border-gray-300 dark:border-gray-600"
+          } text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 transition`}
+        >
+          <img
+            src={profilePic}
+            alt="avatar"
+            className="w-6 h-6 rounded-full object-cover flex-shrink-0"
+          />
+          <span className={isMobile ? "flex-grow truncate" : "truncate"}>
+            Hi, {userName} ▼
+          </span>
+        </button>
+
+        {showDropdown && (
+          <div
+            className={`absolute ${
+              isMobile
+                ? "left-0 right-0 mt-1 w-full max-w-xs"
+                : "right-0 sm:right-2 mt-2 w-44"
+            } bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg overflow-hidden z-50`}
+            role="menu"
+            aria-label="User menu"
+          >
+            <Link
+              to="/profile"
+              onClick={(e) => {
+                e.stopPropagation();
+                setShowDropdown(false);
+                if (isMobile) setIsMobileMenuOpen(false);
+              }}
+              className="block px-4 py-3 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 transition w-full text-left"
+            >
+              Profile
+            </Link>
+
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                handleLogout();
+                if (isMobile) setIsMobileMenuOpen(false);
+              }}
+              className="w-full text-left px-4 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-gray-100 dark:hover:bg-gray-700 transition block"
+            >
+              Logout
+            </button>
+          </div>
+        )}
+      </div>
+    );
+  };
 
   return (
     <header className="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 z-50 shadow-sm">
@@ -203,46 +247,7 @@ const Navbar = () => {
                 </button>
               </>
             ) : (
-              <div ref={dropdownRef} className="relative">
-                <UserDropdownToggle
-                  onClick={() => setShowDropdown((prev) => !prev)}
-                  showDropdown={showDropdown}
-                  isMobile={false}
-                />
-
-                {showDropdown && (
-                  <div
-                    className="absolute right-0 sm:right-2 mt-2 w-44 bg-white dark:bg-gray-800 
-                               border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg 
-                               overflow-hidden z-50"
-                    role="menu"
-                    aria-label="User menu"
-                  >
-                    <Link
-                      to="/profile"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        setShowDropdown(false);
-                      }}
-                      className="block px-4 py-3 text-sm text-gray-700 dark:text-gray-200
-  hover:bg-gray-100 dark:hover:bg-gray-700 transition w-full text-left"
-                    >
-                      Profile
-                    </Link>
-
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleLogout();
-                      }}
-                      className="w-full text-left px-4 py-2 text-sm text-red-600 dark:text-red-400 
-                                 hover:bg-gray-100 dark:hover:bg-gray-700 transition block"
-                    >
-                      Logout
-                    </button>
-                  </div>
-                )}
-              </div>
+              <UserDropdown isMobile={false} />
             )}
           </div>
 
@@ -277,51 +282,7 @@ const Navbar = () => {
                 </button>
               </>
             ) : (
-              <div
-                ref={dropdownRef}
-                className="relative"
-                style={{ minWidth: "140px" }}
-              >
-                <UserDropdownToggle
-                  onClick={() => setShowDropdown((prev) => !prev)}
-                  showDropdown={showDropdown}
-                  isMobile={true}
-                />
-
-                {showDropdown && (
-                  <div
-                    className="absolute left-0 right-0 mt-1 w-full max-w-xs bg-white dark:bg-gray-800
-                      border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg
-                      overflow-hidden z-50"
-                    role="menu"
-                    aria-label="Mobile user menu"
-                  >
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        setShowDropdown(false);
-                        setIsMobileMenuOpen(false);
-                        navigate("/profile");
-                      }}
-                      className="w-full text-left px-4 py-3 text-sm text-gray-700 dark:text-gray-200
-                      hover:bg-gray-100 dark:hover:bg-gray-700 transition block"
-                    >
-                      Profile
-                    </button>
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleLogout();
-                        setIsMobileMenuOpen(false);
-                      }}
-                      className="w-full text-left px-4 py-3 text-sm text-red-600 dark:text-red-400
-                      hover:bg-gray-100 dark:hover:bg-gray-700 transition block"
-                    >
-                      Logout
-                    </button>
-                  </div>
-                )}
-              </div>
+              <UserDropdown isMobile={true} />
             )}
 
             <button
@@ -336,6 +297,7 @@ const Navbar = () => {
           </div>
         </div>
 
+        {/* Mobile navigation menu */}
         {isMobileMenuOpen && (
           <div className="md:hidden flex flex-col gap-4 pb-4 animate-slide-down">
             <Link
