@@ -55,7 +55,7 @@ const EditInternshipForm = () => {
           duration: (data.duration || "").trim(),
           image: data.image || "",
           sector: data.sector || "",
-          skills: Array.isArray(data.skills) ? data.skills : [], // ✅ Ensure it's array
+          skills: Array.isArray(data.skills) ? data.skills : [],
         });
       } catch (err) {
         console.error("Error fetching internship", err);
@@ -104,6 +104,7 @@ const EditInternshipForm = () => {
       <h2 className="text-2xl font-bold mb-4 text-teal-600">Edit Internship</h2>
 
       <form onSubmit={handleSubmit} className="space-y-4">
+        {/* Title */}
         <input
           type="text"
           name="title"
@@ -114,6 +115,7 @@ const EditInternshipForm = () => {
           className="w-full border px-3 py-2 rounded dark:bg-gray-700 dark:text-white"
         />
 
+        {/* Company */}
         <input
           type="text"
           name="company"
@@ -124,6 +126,7 @@ const EditInternshipForm = () => {
           className="w-full border px-3 py-2 rounded dark:bg-gray-700 dark:text-white"
         />
 
+        {/* Location */}
         <input
           type="text"
           name="location"
@@ -133,6 +136,7 @@ const EditInternshipForm = () => {
           className="w-full border px-3 py-2 rounded dark:bg-gray-700 dark:text-white"
         />
 
+        {/* Stipend */}
         <input
           type="text"
           name="stipend"
@@ -142,6 +146,7 @@ const EditInternshipForm = () => {
           className="w-full border px-3 py-2 rounded dark:bg-gray-700 dark:text-white"
         />
 
+        {/* Duration */}
         <select
           name="duration"
           value={formData.duration}
@@ -156,6 +161,7 @@ const EditInternshipForm = () => {
           <option value="6+ months">6+ months</option>
         </select>
 
+        {/* Description */}
         <textarea
           name="description"
           placeholder="Job Description"
@@ -166,7 +172,7 @@ const EditInternshipForm = () => {
           className="w-full border px-3 py-2 rounded dark:bg-gray-700 dark:text-white"
         ></textarea>
 
-        {/* ✅ Sector Dropdown */}
+        {/* ✅ Sector Dropdown with saved value pre-selected */}
         <div>
           <label className="block mb-2 font-medium text-gray-700 dark:text-gray-300">
             Sector
@@ -186,7 +192,7 @@ const EditInternshipForm = () => {
           </select>
         </div>
 
-        {/* ✅ Skills Checkboxes */}
+        {/* ✅ Skills Checkboxes with saved values pre-checked */}
         <div>
           <label className="block mb-2 font-medium text-gray-700 dark:text-gray-300">
             Skills
@@ -215,6 +221,7 @@ const EditInternshipForm = () => {
           />
         </div>
 
+        {/* Image URL input */}
         <input
           type="text"
           name="image"
@@ -224,6 +231,7 @@ const EditInternshipForm = () => {
           className="w-full border px-3 py-2 rounded dark:bg-gray-700 dark:text-white"
         />
 
+        {/* Submit */}
         <button
           type="submit"
           className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700"
