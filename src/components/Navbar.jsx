@@ -244,43 +244,51 @@ const Navbar = () => {
                 </button>
               </>
             ) : (
-              <div ref={dropdownRef} className="relative">
+              <div
+                ref={dropdownRef}
+                className="relative w-full max-w-xs mx-auto"
+              >
                 <button
                   onClick={() => setShowDropdown((prev) => !prev)}
                   aria-haspopup="true"
                   aria-expanded={showDropdown}
-                  className="w-24 h-8 rounded-md border border-gray-300 dark:border-gray-600
-                    text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700
-                    flex items-center justify-center gap-1 text-xs font-medium transition"
+                  className="w-full max-w-xs min-w-0 px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600
+      text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700
+      flex items-center gap-2 text-sm font-medium truncate transition"
+                  title={`Hi, ${userName}`}
                 >
                   <img
                     src={profilePic}
                     alt="avatar"
-                    className="w-5 h-5 rounded-full object-cover"
+                    className="w-6 h-6 rounded-full object-cover flex-shrink-0"
                   />
-                  <span className="truncate">Hi, {userName} ▼</span>
+                  <span className="flex-grow truncate">Hi, {userName} ▼</span>
                 </button>
 
                 {showDropdown && (
                   <div
-                    className="absolute right-0 mt-2 w-44 bg-white dark:bg-gray-800
-                      border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg
-                      overflow-hidden z-50"
+                    className="absolute left-0 right-0 mt-1 w-full max-w-xs bg-white dark:bg-gray-800
+        border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg
+        overflow-hidden z-50"
                   >
                     <button
                       onClick={() => {
                         setShowDropdown(false);
                         navigate("/profile");
+                        setIsMobileMenuOpen(false);
                       }}
-                      className="w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-200 
-                                 hover:bg-gray-100 dark:hover:bg-gray-700 transition block"
+                      className="w-full text-left px-4 py-3 text-sm text-gray-700 dark:text-gray-200
+          hover:bg-gray-100 dark:hover:bg-gray-700 transition block"
                     >
                       Profile
                     </button>
                     <button
-                      onClick={handleLogout}
-                      className="w-full text-left px-4 py-2 text-sm text-red-600 dark:text-red-400 
-                                 hover:bg-gray-100 dark:hover:bg-gray-700 transition block"
+                      onClick={() => {
+                        handleLogout();
+                        setIsMobileMenuOpen(false);
+                      }}
+                      className="w-full text-left px-4 py-3 text-sm text-red-600 dark:text-red-400
+          hover:bg-gray-100 dark:hover:bg-gray-700 transition block"
                     >
                       Logout
                     </button>
