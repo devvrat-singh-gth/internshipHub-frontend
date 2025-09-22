@@ -84,6 +84,9 @@ const Navbar = () => {
     navigate("/");
   };
 
+  // Helper to detect desktop screen (Tailwind md breakpoint = 768px)
+  const isDesktop = () => window.innerWidth >= 768;
+
   return (
     <header className="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 z-50 shadow-sm">
       <nav className="max-w-7xl mx-auto px-0 md:px-6">
@@ -175,9 +178,14 @@ const Navbar = () => {
                              transition flex items-center gap-2 whitespace-nowrap"
                   onClick={() => {
                     if (showDropdown) {
-                      // Only on desktop, clicking button when dropdown is open navigates to profile
-                      navigate("/profile");
-                      setShowDropdown(false);
+                      // FIXED: Only navigate on desktop when dropdown already open
+                      if (isDesktop()) {
+                        navigate("/profile");
+                        setShowDropdown(false);
+                      } else {
+                        // On mobile, just toggle dropdown
+                        setShowDropdown(false);
+                      }
                     } else {
                       setShowDropdown(true);
                     }
