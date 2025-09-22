@@ -190,16 +190,15 @@ const Navbar = () => {
                                border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg 
                                overflow-hidden z-50"
                   >
-                    <button
-                      onClick={() => {
-                        setShowDropdown(false);
-                        navigate("/profile");
-                      }}
+                    <Link
+                      to="/profile"
+                      onClick={() => setShowDropdown(false)}
                       className="w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-200 
-                                 hover:bg-gray-100 dark:hover:bg-gray-700 transition block"
+             hover:bg-gray-100 dark:hover:bg-gray-700 transition block"
                     >
                       Profile
-                    </button>
+                    </Link>
+
                     <button
                       onClick={handleLogout}
                       className="w-full text-left px-4 py-2 text-sm text-red-600 dark:text-red-400 
