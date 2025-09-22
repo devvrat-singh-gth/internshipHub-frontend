@@ -56,10 +56,22 @@ const Navbar = () => {
         setShowDropdown(false);
       }
     };
+
+    const handleEsc = (e) => {
+      if (e.key === "Escape") {
+        setShowDropdown(false);
+      }
+    };
+
     if (showDropdown) {
       document.addEventListener("mousedown", handleClickOutside);
+      document.addEventListener("keydown", handleEsc);
     }
-    return () => document.removeEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("keydown", handleEsc);
+    };
   }, [showDropdown]);
 
   useEffect(() => {
@@ -84,10 +96,8 @@ const Navbar = () => {
     navigate("/");
   };
 
-  // Helper to detect desktop screen (Tailwind md breakpoint = 768px)
   const isDesktop = () => window.innerWidth >= 768;
 
-  // Reusable User Dropdown Toggle Button for desktop & mobile
   const UserDropdownToggle = ({ onClick, showDropdown, isMobile = false }) => (
     <button
       onClick={onClick}
@@ -197,18 +207,7 @@ const Navbar = () => {
             ) : (
               <div ref={dropdownRef} className="relative">
                 <UserDropdownToggle
-                  onClick={() => {
-                    if (showDropdown) {
-                      if (isDesktop()) {
-                        navigate("/profile");
-                        setShowDropdown(false);
-                      } else {
-                        setShowDropdown(false);
-                      }
-                    } else {
-                      setShowDropdown(true);
-                    }
-                  }}
+                  onClick={() => setShowDropdown((prev) => !prev)}
                   showDropdown={showDropdown}
                   isMobile={false}
                 />
@@ -218,18 +217,17 @@ const Navbar = () => {
                     className="absolute right-0 sm:right-2 mt-2 w-44 bg-white dark:bg-gray-800 
                                border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg 
                                overflow-hidden z-50"
+                    role="menu"
+                    aria-label="User menu"
                   >
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        setShowDropdown(false);
-                        navigate("/profile");
-                      }}
-                      className="w-full text-left px-4 py-3 text-sm text-gray-700 dark:text-gray-200
-                                 hover:bg-gray-100 dark:hover:bg-gray-700 transition block"
+                    <Link
+                      to="/profile"
+                      onClick={() => setShowDropdown(false)}
+                      className="block px-4 py-3 text-sm text-gray-700 dark:text-gray-200
+                                 hover:bg-gray-100 dark:hover:bg-gray-700 transition w-full text-left"
                     >
                       Profile
-                    </button>
+                    </Link>
 
                     <button
                       onClick={(e) => {
@@ -294,13 +292,15 @@ const Navbar = () => {
                     className="absolute left-0 right-0 mt-1 w-full max-w-xs bg-white dark:bg-gray-800
                       border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg
                       overflow-hidden z-50"
+                    role="menu"
+                    aria-label="Mobile user menu"
                   >
                     <button
                       onClick={(e) => {
                         e.stopPropagation();
                         setShowDropdown(false);
                         setIsMobileMenuOpen(false);
-                        navigate("/profile"); // Mobile dropdown profile button navigates
+                        navigate("/profile");
                       }}
                       className="w-full text-left px-4 py-3 text-sm text-gray-700 dark:text-gray-200
                       hover:bg-gray-100 dark:hover:bg-gray-700 transition block"
