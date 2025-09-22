@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { UserCheck, Slack } from "lucide-react";
+import { Slack } from "lucide-react";
 import API from "../utils/api";
 
 const Navbar = () => {
@@ -175,11 +175,10 @@ const Navbar = () => {
                              transition flex items-center gap-2 whitespace-nowrap"
                   onClick={() => {
                     if (showDropdown) {
-                      // If dropdown open, navigate to profile on click
+                      // Only on desktop, clicking button when dropdown is open navigates to profile
                       navigate("/profile");
                       setShowDropdown(false);
                     } else {
-                      // Otherwise toggle dropdown
                       setShowDropdown(true);
                     }
                   }}
@@ -233,7 +232,7 @@ const Navbar = () => {
             <button
               onClick={() => setDarkMode(!darkMode)}
               aria-label="Toggle Dark Mode"
-              className="w-8 h-8 rounded-md border border-gray-300 dark:border-gray-600
+              className="w-10 h-10 rounded-md border border-gray-300 dark:border-gray-600
                 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700
                 flex justify-center items-center transition"
             >
@@ -244,7 +243,7 @@ const Navbar = () => {
               <>
                 <button
                   onClick={() => navigate("/login")}
-                  className="w-16 h-8 rounded-md border border-gray-300 dark:border-gray-600
+                  className="w-16 h-10 rounded-md border border-gray-300 dark:border-gray-600
                     text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700
                     text-xs font-medium transition"
                 >
@@ -252,7 +251,7 @@ const Navbar = () => {
                 </button>
                 <button
                   onClick={() => navigate("/register")}
-                  className="w-16 h-8 rounded-md bg-teal-500 text-white
+                  className="w-16 h-10 rounded-md bg-teal-500 text-white
                     hover:bg-teal-600 active:bg-teal-700 text-xs font-medium transition"
                 >
                   Sign Up
@@ -261,7 +260,8 @@ const Navbar = () => {
             ) : (
               <div
                 ref={dropdownRef}
-                className="relative w-full max-w-xs mx-auto"
+                className="relative"
+                style={{ minWidth: "140px" }}
               >
                 <button
                   onClick={() => {
@@ -269,7 +269,7 @@ const Navbar = () => {
                   }}
                   aria-haspopup="true"
                   aria-expanded={showDropdown}
-                  className="w-full max-w-xs min-w-0 px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600
+                  className="w-full h-10 px-3 rounded-md border border-gray-300 dark:border-gray-600
                     text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700
                     flex items-center gap-2 text-sm font-medium truncate transition"
                   title={`Hi, ${userName}`}
@@ -293,7 +293,7 @@ const Navbar = () => {
                         e.stopPropagation();
                         setShowDropdown(false);
                         setIsMobileMenuOpen(false);
-                        navigate("/profile");
+                        navigate("/profile"); // Mobile dropdown profile button navigates
                       }}
                       className="w-full text-left px-4 py-3 text-sm text-gray-700 dark:text-gray-200
                       hover:bg-gray-100 dark:hover:bg-gray-700 transition block"
@@ -319,7 +319,7 @@ const Navbar = () => {
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               aria-label="Toggle Mobile Menu"
-              className="w-8 h-8 rounded-md border border-gray-300 dark:border-gray-600
+              className="w-10 h-10 rounded-md border border-gray-300 dark:border-gray-600
                 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700
                 flex justify-center items-center transition"
             >
