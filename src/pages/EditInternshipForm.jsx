@@ -1,4 +1,3 @@
-// src/pages/EditInternshipForm.jsx
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import API from "../utils/api";
@@ -65,12 +64,12 @@ const EditInternshipForm = () => {
     fetchInternship();
   }, [id]);
 
-  // ✅ Handle text inputs
+  // ✅ Handle input
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  // ✅ Handle skills checkboxes
+  // ✅ Handle skills
   const handleCheckbox = (skill) => {
     setFormData((prev) => ({
       ...prev,
@@ -80,15 +79,21 @@ const EditInternshipForm = () => {
     }));
   };
 
-  // ✅ Submit update
+  // ✅ Submit
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const payload = { ...formData, image: formData.image || DEFAULT_IMAGE };
+      const payload = {
+        ...formData,
+        image: formData.image || DEFAULT_IMAGE,
+        skills: Array.isArray(formData.skills) ? formData.skills : [],
+      };
 
+      const token = localStorage.getItem("token");
       await API.put(
         `https://internshiphub-backend.onrender.com/api/internships/${id}`,
-        payload
+        payload,
+        { headers: { Authorization: `Bearer ${token}` } }
       );
 
       toast.success("Internship updated successfully!");
@@ -172,11 +177,9 @@ const EditInternshipForm = () => {
           className="w-full border px-3 py-2 rounded dark:bg-gray-700 dark:text-white"
         ></textarea>
 
-        {/* ✅ Sector Dropdown with saved value pre-selected */}
+        {/* Sector */}
         <div>
-          <label className="block mb-2 font-medium text-gray-700 dark:text-gray-300">
-            Sector
-          </label>
+          <label className="block mb-2 font-medium">Sector</label>
           <select
             name="sector"
             value={formData.sector}
@@ -192,11 +195,9 @@ const EditInternshipForm = () => {
           </select>
         </div>
 
-        {/* ✅ Skills Checkboxes with saved values pre-checked */}
+        {/* Skills */}
         <div>
-          <label className="block mb-2 font-medium text-gray-700 dark:text-gray-300">
-            Skills
-          </label>
+          <label className="block mb-2 font-medium">Skills</label>
           <div className="flex flex-wrap gap-4">
             {SKILLS.map((skill) => (
               <label key={skill} className="flex items-center space-x-2">
@@ -212,7 +213,7 @@ const EditInternshipForm = () => {
         </div>
 
         {/* Image Preview */}
-        <div className="text-sm text-gray-600 dark:text-gray-300">
+        <div className="text-sm">
           Preview:
           <img
             src={formData.image || DEFAULT_IMAGE}
@@ -221,7 +222,7 @@ const EditInternshipForm = () => {
           />
         </div>
 
-        {/* Image URL input */}
+        {/* Image URL */}
         <input
           type="text"
           name="image"
