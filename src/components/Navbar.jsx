@@ -193,11 +193,11 @@ const Navbar = () => {
                                border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg 
                                overflow-hidden z-50"
                   >
-                  <button
+                    <button
                       onClick={(e) => {
                         e.stopPropagation();
                         setShowDropdown(false);
-                        navigate("/profile");  // Removed setTimeout, direct navigation on click
+                        navigate("/profile");
                       }}
                       className="w-full text-left px-4 py-3 text-sm text-gray-700 dark:text-gray-200
                                  hover:bg-gray-100 dark:hover:bg-gray-700 transition block"
