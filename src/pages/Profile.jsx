@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom"; // ✅ Import useNavigate
 import API from "../utils/api";
-import { Link } from "react-router-dom";
 
 const SECTORS = [
   "IT",
@@ -25,6 +25,8 @@ const Profile = () => {
     sector: "",
     location: "",
   });
+
+  const navigate = useNavigate(); // ✅ Initialize navigate
 
   // Load profile from backend
   useEffect(() => {
@@ -67,6 +69,8 @@ const Profile = () => {
         profile
       );
       alert("✅ Profile updated! Recommendations will improve.");
+
+      navigate("/home"); // ✅ Redirect after successful update
     } catch (err) {
       alert(err.response?.data?.message || "Failed to update profile");
     }
@@ -141,13 +145,12 @@ const Profile = () => {
           />
         </div>
 
-        <Link
-          to="/home"
+        <button
           type="submit"
-          className="pt-10 px-6 py-2 bg-teal-600 text-white rounded-md hover:bg-teal-700"
+          className="px-6 py-2 bg-teal-600 text-white rounded-md hover:bg-teal-700"
         >
           Save Profile
-        </Link>
+        </button>
       </form>
     </div>
   );
