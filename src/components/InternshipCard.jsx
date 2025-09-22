@@ -1,3 +1,4 @@
+// src/components/InternshipCard.jsx
 import React from "react";
 import getImage from "../utils/getImage";
 
@@ -8,7 +9,8 @@ const InternshipCard = ({ internship, onSave }) => {
                  border border-gray-200 dark:border-gray-700 rounded-lg 
                  shadow-sm hover:shadow-md transition p-6 h-full"
     >
-      <div className="w-full aspect-[4/3] overflow-hidden rounded-t-md">
+      {/* Image */}
+      <div className="w-full aspect-[4/3] overflow-hidden rounded-t-md mb-4">
         <img
           src={getImage(internship, "internship")}
           alt={internship.title}
@@ -20,8 +22,8 @@ const InternshipCard = ({ internship, onSave }) => {
       </div>
 
       {/* Main Info */}
-      <div className="flex-grow">
-        <h4 className="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-2">
+      <div className="flex-grow space-y-2">
+        <h4 className="text-xl font-semibold text-gray-900 dark:text-gray-100">
           {internship.title}
         </h4>
         <p className="text-gray-700 dark:text-gray-300">
@@ -36,6 +38,27 @@ const InternshipCard = ({ internship, onSave }) => {
         <p className="text-gray-700 dark:text-gray-300">
           <strong>Stipend:</strong> {internship.stipend || "N/A"}
         </p>
+
+        {/* ✅ Show Sector */}
+        {internship.sector && (
+          <p className="text-sm text-blue-600 dark:text-blue-400 font-medium">
+            Sector: {internship.sector}
+          </p>
+        )}
+
+        {/* ✅ Show Skills */}
+        {internship.skills && internship.skills.length > 0 && (
+          <div className="flex flex-wrap gap-2 mt-2">
+            {internship.skills.map((skill) => (
+              <span
+                key={skill}
+                className="px-2 py-1 text-xs font-medium rounded bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200"
+              >
+                {skill}
+              </span>
+            ))}
+          </div>
+        )}
       </div>
 
       {/* Save Button */}

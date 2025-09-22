@@ -38,7 +38,7 @@ const EditInternshipForm = () => {
     skills: [],
   });
 
-  // ✅ Fetch existing internship details
+  // ✅ Fetch internship details
   useEffect(() => {
     const fetchInternship = async () => {
       try {
@@ -55,7 +55,7 @@ const EditInternshipForm = () => {
           duration: (data.duration || "").trim(),
           image: data.image || "",
           sector: data.sector || "",
-          skills: data.skills || [], // ✅ Load stored skills
+          skills: Array.isArray(data.skills) ? data.skills : [], // ✅ Ensure it's array
         });
       } catch (err) {
         console.error("Error fetching internship", err);
@@ -65,7 +65,7 @@ const EditInternshipForm = () => {
     fetchInternship();
   }, [id]);
 
-  // ✅ Handle form input
+  // ✅ Handle text inputs
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -166,7 +166,7 @@ const EditInternshipForm = () => {
           className="w-full border px-3 py-2 rounded dark:bg-gray-700 dark:text-white"
         ></textarea>
 
-        {/* ✅ Sector Dropdown with pre-selected value */}
+        {/* ✅ Sector Dropdown */}
         <div>
           <label className="block mb-2 font-medium text-gray-700 dark:text-gray-300">
             Sector
@@ -186,7 +186,7 @@ const EditInternshipForm = () => {
           </select>
         </div>
 
-        {/* ✅ Skills Checkboxes with pre-checked values */}
+        {/* ✅ Skills Checkboxes */}
         <div>
           <label className="block mb-2 font-medium text-gray-700 dark:text-gray-300">
             Skills
