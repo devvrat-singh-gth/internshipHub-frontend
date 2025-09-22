@@ -6,8 +6,26 @@ import { toast } from "react-toastify";
 
 const DEFAULT_IMAGE = "https://source.unsplash.com/featured/?internship,job";
 
+const SECTORS = [
+  "IT",
+  "Finance",
+  "Marketing",
+  "Education",
+  "Government",
+  "Social Work",
+];
+const SKILLS = [
+  "React",
+  "Python",
+  "Data Analysis",
+  "Communication",
+  "Leadership",
+];
+
 const EditInternshipForm = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     title: "",
     company: "",
@@ -16,9 +34,9 @@ const EditInternshipForm = () => {
     description: "",
     duration: "",
     image: "",
+    sector: "",
+    skills: [],
   });
-
-  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchInternship = async () => {
@@ -34,6 +52,8 @@ const EditInternshipForm = () => {
           description: data.description || "",
           duration: (data.duration || "").trim(),
           image: data.image || "",
+          sector: data.sector || "",
+          skills: data.skills || [],
         });
       } catch (err) {
         console.error("Error fetching internship", err);
@@ -43,31 +63,23 @@ const EditInternshipForm = () => {
     fetchInternship();
   }, [id]);
 
-  useEffect(() => {
-    if (!formData.image && formData.title) {
-      const timeout = setTimeout(() => {
-        const keyword = encodeURIComponent(formData.title);
-        setFormData((prev) => ({
-          ...prev,
-          image: `https://source.unsplash.com/800x600/?${keyword},internship`,
-        }));
-      }, 1000);
-      return () => clearTimeout(timeout);
-    }
-  }, [formData.title]);
-
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleCheckbox = (skill) => {
+    setFormData((prev) => ({
+      ...prev,
+      skills: prev.skills.includes(skill)
+        ? prev.skills.filter((s) => s !== skill)
+        : [...prev.skills, skill],
+    }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const payload = {
-        ...formData,
-        image: formData.image || DEFAULT_IMAGE,
-      };
-
+      const payload = { ...formData, image: formData.image || DEFAULT_IMAGE };
       await API.put(
         `https://internshiphub-backend.onrender.com/api/internships/${id}`,
         payload
@@ -92,7 +104,7 @@ const EditInternshipForm = () => {
           value={formData.title}
           onChange={handleChange}
           required
-          className="w-full border px-3 py-2 rounded dark:bg-gray-700 dark:text-white"
+          className="w-full border px-3 py-2 rounded"
         />
         <input
           type="text"
@@ -101,7 +113,7 @@ const EditInternshipForm = () => {
           value={formData.company}
           onChange={handleChange}
           required
-          className="w-full border px-3 py-2 rounded dark:bg-gray-700 dark:text-white"
+          className="w-full border px-3 py-2 rounded"
         />
         <input
           type="text"
@@ -109,7 +121,7 @@ const EditInternshipForm = () => {
           placeholder="Location"
           value={formData.location}
           onChange={handleChange}
-          className="w-full border px-3 py-2 rounded dark:bg-gray-700 dark:text-white"
+          className="w-full border px-3 py-2 rounded"
         />
         <input
           type="text"
@@ -117,7 +129,7 @@ const EditInternshipForm = () => {
           placeholder="Stipend"
           value={formData.stipend}
           onChange={handleChange}
-          className="w-full border px-3 py-2 rounded dark:bg-gray-700 dark:text-white"
+          className="w-full border px-3 py-2 rounded"
         />
 
         <select
@@ -125,7 +137,7 @@ const EditInternshipForm = () => {
           value={formData.duration}
           onChange={handleChange}
           required
-          className="w-full border px-3 py-2 rounded dark:bg-gray-700 dark:text-white"
+          className="w-full border px-3 py-2 rounded"
         >
           <option value="">Select Duration</option>
           <option value="1 month">1 month</option>
@@ -137,31 +149,47 @@ const EditInternshipForm = () => {
         <textarea
           name="description"
           placeholder="Job Description"
+          rows="4"
           value={formData.description}
           onChange={handleChange}
-          rows="4"
           required
-          className="w-full border px-3 py-2 rounded dark:bg-gray-700 dark:text-white"
-        ></textarea>
+          className="w-full border px-3 py-2 rounded"
+        />
 
-        {/* Image Preview */}
-        <div className="text-sm text-gray-600 dark:text-gray-300">
-          Preview:
-          <img
-            src={formData.image || DEFAULT_IMAGE}
-            alt="Internship"
-            className="mt-2 w-32 h-20 object-cover rounded border"
-          />
+        {/* Sector Dropdown */}
+        <div>
+          <label className="block mb-2 font-medium">Sector</label>
+          <select
+            name="sector"
+            value={formData.sector}
+            onChange={handleChange}
+            className="w-full p-3 rounded border"
+          >
+            <option value="">Select Sector</option>
+            {SECTORS.map((sec) => (
+              <option key={sec} value={sec}>
+                {sec}
+              </option>
+            ))}
+          </select>
         </div>
 
-        <input
-          type="text"
-          name="image"
-          placeholder="Image URL (optional)"
-          value={formData.image}
-          onChange={handleChange}
-          className="w-full border px-3 py-2 rounded dark:bg-gray-700 dark:text-white"
-        />
+        {/* Skills Checkboxes */}
+        <div>
+          <label className="block mb-2 font-medium">Skills</label>
+          <div className="flex flex-wrap gap-4">
+            {SKILLS.map((skill) => (
+              <label key={skill} className="flex items-center space-x-2">
+                <input
+                  type="checkbox"
+                  checked={formData.skills.includes(skill)}
+                  onChange={() => handleCheckbox(skill)}
+                />
+                <span>{skill}</span>
+              </label>
+            ))}
+          </div>
+        </div>
 
         <button
           type="submit"
