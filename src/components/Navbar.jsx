@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { UserCheck, Slack } from "lucide-react";
-
 import API from "../utils/api";
 
 const Navbar = () => {
@@ -11,6 +10,7 @@ const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [darkMode, setDarkMode] = useState(false);
   const [userName, setUserName] = useState("");
+  const [profilePic, setProfilePic] = useState("");
 
   const navigate = useNavigate();
   const dropdownRef = useRef(null);
@@ -23,15 +23,23 @@ const Navbar = () => {
         setIsLoggedIn(true);
         setUserName(data.name || "User");
         setIsAdmin(data.type === "admin");
+        setProfilePic(
+          data.profilePic ||
+            `https://api.dicebear.com/7.x/initials/svg?seed=${encodeURIComponent(
+              data.name || "User"
+            )}`
+        );
       } catch {
         setIsLoggedIn(false);
         setUserName("");
         setIsAdmin(false);
+        setProfilePic("");
       }
     } else {
       setIsLoggedIn(false);
       setUserName("");
       setIsAdmin(false);
+      setProfilePic("");
     }
   };
 
@@ -76,10 +84,8 @@ const Navbar = () => {
 
   return (
     <header className="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 z-50 shadow-sm">
-      {/* ✅ nav padding adjusted */}
       <nav className="max-w-7xl mx-auto px-0 md:px-6">
         <div className="flex justify-between items-center py-4">
-          {/* ✅ removed pl-2 so brand hugs the left edge */}
           <div className="flex items-center flex-shrink-0 pl-2 md:pl-0">
             <Link
               to={isLoggedIn ? "/home" : "/"}
@@ -92,7 +98,6 @@ const Navbar = () => {
             </Link>
           </div>
 
-          {/* Center: Desktop Navigation Links */}
           <div className="hidden md:flex flex-1 justify-center gap-8 mr-4">
             <Link to="/" className="nav-link hover:text-teal-500">
               Home
@@ -130,9 +135,7 @@ const Navbar = () => {
             )}
           </div>
 
-          {/* Right side: Desktop Navigation + Controls */}
           <div className="hidden md:flex items-center gap-1 sm:gap-3">
-            {/* Dark Mode Toggle */}
             <button
               onClick={() => setDarkMode(!darkMode)}
               className="min-w-[34px] min-h-[30px] p-1 sm:min-w-[42px] sm:min-h-[38px] sm:p-2 rounded-md border border-gray-300 dark:border-gray-600 
@@ -164,12 +167,16 @@ const Navbar = () => {
                 <button
                   className="min-w-[90px] min-h-[30px] px-3 py-1 text-xs sm:min-w-[110px] sm:min-h-[38px] sm:px-4 sm:py-2 sm:text-sm rounded-md border border-gray-300 dark:border-gray-600 
                              text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 
-                             transition flex items-center gap-1 sm:gap-2 whitespace-nowrap"
+                             transition flex items-center gap-2 whitespace-nowrap"
                   onClick={() => setShowDropdown((prev) => !prev)}
                   aria-haspopup="true"
                   aria-expanded={showDropdown}
                 >
-                  <UserCheck className="w-4 h-4 sm:w-5 sm:h-5" />
+                  <img
+                    src={profilePic}
+                    alt="avatar"
+                    className="w-6 h-6 rounded-full object-cover"
+                  />
                   <span className="truncate">Hi, {userName} ▼</span>
                 </button>
 
@@ -178,7 +185,6 @@ const Navbar = () => {
                     className="absolute right-0 sm:right-2 mt-2 w-40 bg-white dark:bg-gray-800 
                                border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg 
                                overflow-hidden animate-fade-in z-50"
-                    style={{ minWidth: "10rem" }}
                   >
                     <Link
                       to="/profile"
@@ -202,9 +208,7 @@ const Navbar = () => {
             )}
           </div>
 
-          {/* Mobile Controls: Dark mode toggle, Login/Signup or User Dropdown, Hamburger */}
           <div className="flex items-center gap-2 md:hidden pr-2">
-            {/* Dark Mode Toggle - smaller size on mobile */}
             <button
               onClick={() => setDarkMode(!darkMode)}
               aria-label="Toggle Dark Mode"
@@ -239,11 +243,15 @@ const Navbar = () => {
                   onClick={() => setShowDropdown((prev) => !prev)}
                   aria-haspopup="true"
                   aria-expanded={showDropdown}
-                  className="w-20 h-8 rounded-md border border-gray-300 dark:border-gray-600
+                  className="w-24 h-8 rounded-md border border-gray-300 dark:border-gray-600
                     text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700
                     flex items-center justify-center gap-1 text-xs font-medium transition"
                 >
-                  <UserCheck className="w-4 h-4" />
+                  <img
+                    src={profilePic}
+                    alt="avatar"
+                    className="w-5 h-5 rounded-full object-cover"
+                  />
                   <span className="truncate">Hi, {userName} ▼</span>
                 </button>
 
@@ -252,7 +260,6 @@ const Navbar = () => {
                     className="absolute right-0 mt-2 w-40 bg-white dark:bg-gray-800
                       border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg
                       overflow-hidden animate-fade-in z-50"
-                    style={{ minWidth: "10rem" }}
                   >
                     <Link
                       to="/profile"
@@ -275,7 +282,6 @@ const Navbar = () => {
               </div>
             )}
 
-            {/* Hamburger menu - smaller size */}
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               aria-label="Toggle Mobile Menu"
@@ -288,7 +294,6 @@ const Navbar = () => {
           </div>
         </div>
 
-        {/* Mobile Menu */}
         {isMobileMenuOpen && (
           <div className="md:hidden flex flex-col gap-4 pb-4 animate-slide-down">
             <Link
