@@ -55,8 +55,9 @@ const Navbar = () => {
         setShowDropdown(false);
       }
     };
-    if (showDropdown)
+    if (showDropdown) {
       document.addEventListener("mousedown", handleClickOutside);
+    }
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [showDropdown]);
 
@@ -86,6 +87,7 @@ const Navbar = () => {
     <header className="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 z-50 shadow-sm">
       <nav className="max-w-7xl mx-auto px-0 md:px-6">
         <div className="flex justify-between items-center py-4">
+          {/* Logo */}
           <div className="flex items-center flex-shrink-0 pl-2 md:pl-0">
             <Link
               to={isLoggedIn ? "/home" : "/"}
@@ -98,6 +100,7 @@ const Navbar = () => {
             </Link>
           </div>
 
+          {/* Main navigation links */}
           <div className="hidden md:flex flex-1 justify-center gap-8 mr-4">
             <Link to="/" className="nav-link hover:text-teal-500">
               Home
@@ -135,6 +138,7 @@ const Navbar = () => {
             )}
           </div>
 
+          {/* Dark mode toggle & auth buttons */}
           <div className="hidden md:flex items-center gap-1 sm:gap-3">
             <button
               onClick={() => setDarkMode(!darkMode)}
@@ -182,32 +186,34 @@ const Navbar = () => {
 
                 {showDropdown && (
                   <div
-                    className="absolute right-0 sm:right-2 mt-2 w-40 bg-white dark:bg-gray-800 
+                    className="absolute right-0 sm:right-2 mt-2 w-44 bg-white dark:bg-gray-800 
                                border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg 
-                               overflow-hidden animate-fade-in z-50"
+                               overflow-hidden z-50"
                   >
-                    <Link
-                      to="/profile"
-                      className="block w-full px-4 py-2 text-sm text-gray-700 dark:text-gray-200 
-                                 hover:bg-gray-100 dark:hover:bg-gray-700 transition"
-                      onClick={() => setShowDropdown(false)}
+                    <button
+                      onClick={() => {
+                        setShowDropdown(false);
+                        navigate("/profile");
+                      }}
+                      className="w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-200 
+                                 hover:bg-gray-100 dark:hover:bg-gray-700 transition block"
                     >
                       Profile
-                    </Link>
-                    <Link
-                      to="/"
-                      className="w-full px-4 py-2 text-sm text-left text-red-600 dark:text-red-400 
-                                 hover:bg-gray-100 dark:hover:bg-gray-700 transition"
+                    </button>
+                    <button
                       onClick={handleLogout}
+                      className="w-full text-left px-4 py-2 text-sm text-red-600 dark:text-red-400 
+                                 hover:bg-gray-100 dark:hover:bg-gray-700 transition block"
                     >
                       Logout
-                    </Link>
+                    </button>
                   </div>
                 )}
               </div>
             )}
           </div>
 
+          {/* Mobile menu toggle */}
           <div className="flex items-center gap-2 md:hidden pr-2">
             <button
               onClick={() => setDarkMode(!darkMode)}
@@ -257,26 +263,27 @@ const Navbar = () => {
 
                 {showDropdown && (
                   <div
-                    className="absolute right-0 mt-2 w-40 bg-white dark:bg-gray-800
+                    className="absolute right-0 mt-2 w-44 bg-white dark:bg-gray-800
                       border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg
-                      overflow-hidden animate-fade-in z-50"
+                      overflow-hidden z-50"
                   >
-                    <Link
-                      to="/profile"
-                      className="block w-full px-4 py-2 text-sm text-gray-700 dark:text-gray-200
-                        hover:bg-gray-100 dark:hover:bg-gray-700 transition"
-                      onClick={() => setShowDropdown(false)}
+                    <button
+                      onClick={() => {
+                        setShowDropdown(false);
+                        navigate("/profile");
+                      }}
+                      className="w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-200 
+                                 hover:bg-gray-100 dark:hover:bg-gray-700 transition block"
                     >
                       Profile
-                    </Link>
-                    <Link
-                      to="/"
-                      className="w-full px-4 py-2 text-sm text-left text-red-600 dark:text-red-400
-                        hover:bg-gray-100 dark:hover:bg-gray-700 transition"
+                    </button>
+                    <button
                       onClick={handleLogout}
+                      className="w-full text-left px-4 py-2 text-sm text-red-600 dark:text-red-400 
+                                 hover:bg-gray-100 dark:hover:bg-gray-700 transition block"
                     >
                       Logout
-                    </Link>
+                    </button>
                   </div>
                 )}
               </div>
@@ -294,6 +301,7 @@ const Navbar = () => {
           </div>
         </div>
 
+        {/* Mobile navigation menu */}
         {isMobileMenuOpen && (
           <div className="md:hidden flex flex-col gap-4 pb-4 animate-slide-down">
             <Link
