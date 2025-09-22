@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+just add the profile and logout in the userdropdownmenu const functionality so that the desktop and mobile dont need to be written separatedly, just make sure it is responsive and send full import React, { useState, useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Slack } from "lucide-react";
 import API from "../utils/api";
