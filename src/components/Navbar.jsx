@@ -174,7 +174,14 @@ const Navbar = () => {
                              text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 
                              transition flex items-center gap-2 whitespace-nowrap"
                   onClick={() => {
-                    setShowDropdown((prev) => !prev);
+                    if (showDropdown) {
+                      // If dropdown open, navigate to profile on click
+                      navigate("/profile");
+                      setShowDropdown(false);
+                    } else {
+                      // Otherwise toggle dropdown
+                      setShowDropdown(true);
+                    }
                   }}
                   aria-haspopup="true"
                   aria-expanded={showDropdown}
