@@ -38,12 +38,14 @@ const EditInternshipForm = () => {
     skills: [],
   });
 
+  // ✅ Fetch existing internship details
   useEffect(() => {
     const fetchInternship = async () => {
       try {
         const { data } = await API.get(
           `https://internshiphub-backend.onrender.com/api/internships/${id}`
         );
+
         setFormData({
           title: data.title || "",
           company: data.company || "",
@@ -53,7 +55,7 @@ const EditInternshipForm = () => {
           duration: (data.duration || "").trim(),
           image: data.image || "",
           sector: data.sector || "",
-          skills: data.skills || [],
+          skills: data.skills || [], // ✅ Load stored skills
         });
       } catch (err) {
         console.error("Error fetching internship", err);
@@ -63,10 +65,12 @@ const EditInternshipForm = () => {
     fetchInternship();
   }, [id]);
 
+  // ✅ Handle form input
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  // ✅ Handle skills checkboxes
   const handleCheckbox = (skill) => {
     setFormData((prev) => ({
       ...prev,
@@ -76,14 +80,17 @@ const EditInternshipForm = () => {
     }));
   };
 
+  // ✅ Submit update
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const payload = { ...formData, image: formData.image || DEFAULT_IMAGE };
+
       await API.put(
         `https://internshiphub-backend.onrender.com/api/internships/${id}`,
         payload
       );
+
       toast.success("Internship updated successfully!");
       navigate("/admin");
     } catch (err) {
@@ -104,8 +111,9 @@ const EditInternshipForm = () => {
           value={formData.title}
           onChange={handleChange}
           required
-          className="w-full border px-3 py-2 rounded"
+          className="w-full border px-3 py-2 rounded dark:bg-gray-700 dark:text-white"
         />
+
         <input
           type="text"
           name="company"
@@ -113,23 +121,25 @@ const EditInternshipForm = () => {
           value={formData.company}
           onChange={handleChange}
           required
-          className="w-full border px-3 py-2 rounded"
+          className="w-full border px-3 py-2 rounded dark:bg-gray-700 dark:text-white"
         />
+
         <input
           type="text"
           name="location"
           placeholder="Location"
           value={formData.location}
           onChange={handleChange}
-          className="w-full border px-3 py-2 rounded"
+          className="w-full border px-3 py-2 rounded dark:bg-gray-700 dark:text-white"
         />
+
         <input
           type="text"
           name="stipend"
           placeholder="Stipend"
           value={formData.stipend}
           onChange={handleChange}
-          className="w-full border px-3 py-2 rounded"
+          className="w-full border px-3 py-2 rounded dark:bg-gray-700 dark:text-white"
         />
 
         <select
@@ -137,7 +147,7 @@ const EditInternshipForm = () => {
           value={formData.duration}
           onChange={handleChange}
           required
-          className="w-full border px-3 py-2 rounded"
+          className="w-full border px-3 py-2 rounded dark:bg-gray-700 dark:text-white"
         >
           <option value="">Select Duration</option>
           <option value="1 month">1 month</option>
@@ -149,21 +159,23 @@ const EditInternshipForm = () => {
         <textarea
           name="description"
           placeholder="Job Description"
-          rows="4"
           value={formData.description}
           onChange={handleChange}
+          rows="4"
           required
-          className="w-full border px-3 py-2 rounded"
-        />
+          className="w-full border px-3 py-2 rounded dark:bg-gray-700 dark:text-white"
+        ></textarea>
 
-        {/* Sector Dropdown */}
+        {/* ✅ Sector Dropdown with pre-selected value */}
         <div>
-          <label className="block mb-2 font-medium">Sector</label>
+          <label className="block mb-2 font-medium text-gray-700 dark:text-gray-300">
+            Sector
+          </label>
           <select
             name="sector"
             value={formData.sector}
             onChange={handleChange}
-            className="w-full p-3 rounded border"
+            className="w-full p-3 rounded border dark:bg-gray-700 dark:text-white"
           >
             <option value="">Select Sector</option>
             {SECTORS.map((sec) => (
@@ -174,9 +186,11 @@ const EditInternshipForm = () => {
           </select>
         </div>
 
-        {/* Skills Checkboxes */}
+        {/* ✅ Skills Checkboxes with pre-checked values */}
         <div>
-          <label className="block mb-2 font-medium">Skills</label>
+          <label className="block mb-2 font-medium text-gray-700 dark:text-gray-300">
+            Skills
+          </label>
           <div className="flex flex-wrap gap-4">
             {SKILLS.map((skill) => (
               <label key={skill} className="flex items-center space-x-2">
@@ -190,6 +204,25 @@ const EditInternshipForm = () => {
             ))}
           </div>
         </div>
+
+        {/* Image Preview */}
+        <div className="text-sm text-gray-600 dark:text-gray-300">
+          Preview:
+          <img
+            src={formData.image || DEFAULT_IMAGE}
+            alt="Internship"
+            className="mt-2 w-32 h-20 object-cover rounded border"
+          />
+        </div>
+
+        <input
+          type="text"
+          name="image"
+          placeholder="Image URL (optional)"
+          value={formData.image}
+          onChange={handleChange}
+          className="w-full border px-3 py-2 rounded dark:bg-gray-700 dark:text-white"
+        />
 
         <button
           type="submit"
