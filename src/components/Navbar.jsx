@@ -87,6 +87,30 @@ const Navbar = () => {
   // Helper to detect desktop screen (Tailwind md breakpoint = 768px)
   const isDesktop = () => window.innerWidth >= 768;
 
+  // Reusable User Dropdown Toggle Button for desktop & mobile
+  const UserDropdownToggle = ({ onClick, showDropdown, isMobile = false }) => (
+    <button
+      onClick={onClick}
+      aria-haspopup="true"
+      aria-expanded={showDropdown}
+      title={`Hi, ${userName}`}
+      className={`flex items-center gap-2 truncate ${
+        isMobile
+          ? "w-full h-10 px-3 rounded-md border border-gray-300 dark:border-gray-600 text-sm font-medium"
+          : "min-w-[90px] min-h-[30px] px-3 py-1 text-xs sm:min-w-[110px] sm:min-h-[38px] sm:px-4 sm:py-2 sm:text-sm rounded-md border border-gray-300 dark:border-gray-600"
+      } text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 transition`}
+    >
+      <img
+        src={profilePic}
+        alt="avatar"
+        className="w-6 h-6 rounded-full object-cover flex-shrink-0"
+      />
+      <span className={isMobile ? "flex-grow truncate" : "truncate"}>
+        Hi, {userName} ▼
+      </span>
+    </button>
+  );
+
   return (
     <header className="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 z-50 shadow-sm">
       <nav className="max-w-7xl mx-auto px-0 md:px-6">
@@ -172,34 +196,22 @@ const Navbar = () => {
               </>
             ) : (
               <div ref={dropdownRef} className="relative">
-                <button
-                  className="min-w-[90px] min-h-[30px] px-3 py-1 text-xs sm:min-w-[110px] sm:min-h-[38px] sm:px-4 sm:py-2 sm:text-sm rounded-md border border-gray-300 dark:border-gray-600 
-                             text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 
-                             transition flex items-center gap-2 whitespace-nowrap"
+                <UserDropdownToggle
                   onClick={() => {
                     if (showDropdown) {
-                      // FIXED: Only navigate on desktop when dropdown already open
                       if (isDesktop()) {
                         navigate("/profile");
                         setShowDropdown(false);
                       } else {
-                        // On mobile, just toggle dropdown
                         setShowDropdown(false);
                       }
                     } else {
                       setShowDropdown(true);
                     }
                   }}
-                  aria-haspopup="true"
-                  aria-expanded={showDropdown}
-                >
-                  <img
-                    src={profilePic}
-                    alt="avatar"
-                    className="w-6 h-6 rounded-full object-cover"
-                  />
-                  <span className="truncate">Hi, {userName} ▼</span>
-                </button>
+                  showDropdown={showDropdown}
+                  isMobile={false}
+                />
 
                 {showDropdown && (
                   <div
@@ -271,24 +283,11 @@ const Navbar = () => {
                 className="relative"
                 style={{ minWidth: "140px" }}
               >
-                <button
-                  onClick={() => {
-                    setShowDropdown((prev) => !prev);
-                  }}
-                  aria-haspopup="true"
-                  aria-expanded={showDropdown}
-                  className="w-full h-10 px-3 rounded-md border border-gray-300 dark:border-gray-600
-                    text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700
-                    flex items-center gap-2 text-sm font-medium truncate transition"
-                  title={`Hi, ${userName}`}
-                >
-                  <img
-                    src={profilePic}
-                    alt="avatar"
-                    className="w-6 h-6 rounded-full object-cover flex-shrink-0"
-                  />
-                  <span className="flex-grow truncate">Hi, {userName} ▼</span>
-                </button>
+                <UserDropdownToggle
+                  onClick={() => setShowDropdown((prev) => !prev)}
+                  showDropdown={showDropdown}
+                  isMobile={true}
+                />
 
                 {showDropdown && (
                   <div
