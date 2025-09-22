@@ -96,8 +96,6 @@ const Navbar = () => {
     navigate("/");
   };
 
-  const isDesktop = () => window.innerWidth >= 768;
-
   const UserDropdownToggle = ({ onClick, showDropdown, isMobile = false }) => (
     <button
       onClick={onClick}
@@ -220,17 +218,18 @@ const Navbar = () => {
                     role="menu"
                     aria-label="User menu"
                   >
-                    <Link
-                      to="/profile"
-                      onClick={() => {
-                        // Delay dropdown closing slightly to allow navigation to complete
-                        setTimeout(() => setShowDropdown(false), 50);
+                    {/* ✅ FIXED PART HERE */}
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setShowDropdown(false);
+                        navigate("/profile");
                       }}
-                      className="block px-4 py-3 text-sm text-gray-700 dark:text-gray-200
-             hover:bg-gray-100 dark:hover:bg-gray-700 transition w-full text-left"
+                      className="w-full text-left px-4 py-3 text-sm text-gray-700 dark:text-gray-200
+                      hover:bg-gray-100 dark:hover:bg-gray-700 transition block"
                     >
                       Profile
-                    </Link>
+                    </button>
 
                     <button
                       onClick={(e) => {
