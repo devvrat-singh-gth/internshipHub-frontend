@@ -192,14 +192,15 @@ const Navbar = () => {
                   >
                     <button
                       onClick={() => {
-                        navigate("/profile");
                         setShowDropdown(false);
+                        setTimeout(() => navigate("/profile"), 50); // slight delay ensures smooth navigation
                       }}
                       className="w-full text-left px-4 py-3 text-sm text-gray-700 dark:text-gray-200
-          hover:bg-gray-100 dark:hover:bg-gray-700 transition block"
+    hover:bg-gray-100 dark:hover:bg-gray-700 transition block"
                     >
                       Profile
                     </button>
+
                     <button
                       onClick={handleLogout}
                       className="w-full text-left px-4 py-2 text-sm text-red-600 dark:text-red-400 
