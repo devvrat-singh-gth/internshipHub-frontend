@@ -21,9 +21,17 @@ This repository contains the **frontend** built using React.
 - Axios
 - React Router
 
+---
+
 ## Setup Instructions
 
-1. Clone the repo
-```bash
-git clone <your-frontend-repo-link>
-cd frontend
+1. **Clone the repo**
+   ```bash
+   git clone https://github.com/devvrat-singh-gth/internshipHub-frontend
+   cd internshipHub-frontend
+2. **Install Dependencies**
+   ```bash
+   npm install
+4. **Run local server**
+   ```bash
+   npm run dev
