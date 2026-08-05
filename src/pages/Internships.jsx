@@ -101,29 +101,23 @@ const Internships = () => {
       return false;
     }
 
-    // type
-    if (selectedTypes.length > 0 && !selectedTypes.includes(intn.type)) {
+    // type (Safely handles legacy data missing this field)
+    if (selectedTypes.length > 0 && (!intn.type || !selectedTypes.includes(intn.type))) {
       return false;
     }
 
-    // company type
-    if (
-      selectedCompanies.length > 0 &&
-      !selectedCompanies.includes(intn.companyType)
-    ) {
+    // company type (Safely handles legacy data missing this field)
+    if (selectedCompanies.length > 0 && (!intn.companyType || !selectedCompanies.includes(intn.companyType))) {
       return false;
     }
 
-    // role
-    if (selectedRoles.length > 0 && !selectedRoles.includes(intn.role)) {
+    // role (Safely handles legacy data missing this field)
+    if (selectedRoles.length > 0 && (!intn.role || !selectedRoles.includes(intn.role))) {
       return false;
     }
 
-    // stipend (basic demo: just matches exact string)
-    if (
-      selectedStipends.length > 0 &&
-      !selectedStipends.includes(intn.stipend)
-    ) {
+    // stipend (Safely handles legacy data missing this field)
+    if (selectedStipends.length > 0 && (!intn.stipend || !selectedStipends.includes(intn.stipend))) {
       return false;
     }
 
@@ -134,6 +128,7 @@ const Internships = () => {
 
     return true;
   });
+
 
   const renderFilters = () => (
     <aside className="min-w-[350px] md:min-w-[200px] lg:min-w-[300px] w-full bg-white dark:bg-gray-800 rounded-lg shadow p-6 shrink-0">
