@@ -6,7 +6,7 @@ const Footer = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 py-12">
           <div>
             <h3 className="text-xl font-semibold text-teal-600 mb-3">
-              InternshipHub
+              InternAdda
             </h3>
             <p className="text-gray-600 dark:text-gray-400">
               Your gateway to amazing internship opportunities.
