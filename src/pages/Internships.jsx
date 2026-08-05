@@ -100,11 +100,13 @@ const Internships = () => {
     ) {
       return false;
     }
-
-    // type (Safely handles legacy data missing this field)
-    if (selectedTypes.length > 0 && (!intn.type || !selectedTypes.includes(intn.type))) {
-      return false;
-    }
+// Type filter uses existing location field
+if (
+  selectedTypes.length > 0 &&
+  !selectedTypes.includes(intn.location)
+) {
+  return false;
+}
 
     // company type (Safely handles legacy data missing this field)
     if (selectedCompanies.length > 0 && (!intn.companyType || !selectedCompanies.includes(intn.companyType))) {
@@ -116,10 +118,42 @@ const Internships = () => {
       return false;
     }
 
-    // stipend (Safely handles legacy data missing this field)
-    if (selectedStipends.length > 0 && (!intn.stipend || !selectedStipends.includes(intn.stipend))) {
-      return false;
+if (selectedStipends.length > 0) {
+  const stipendText = (intn.stipend || "").toLowerCase();
+
+  let stipendAmount = 0;
+
+  if (stipendText.includes("unpaid")) {
+    stipendAmount = 0;
+  } else {
+    stipendAmount = parseInt(
+      stipendText.replace(/,/g, "").replace(/[^0-9]/g, "")
+    ) || 0;
+  }
+
+  const matchesStipend = selectedStipends.some((range) => {
+    switch (range) {
+      case "Unpaid":
+        return stipendAmount === 0;
+
+      case "0–5k":
+        return stipendAmount > 0 && stipendAmount <= 5000;
+
+      case "5k–10k":
+        return stipendAmount > 5000 && stipendAmount <= 10000;
+
+      case "10k+":
+        return stipendAmount > 10000;
+
+      default:
+        return false;
     }
+  });
+
+  if (!matchesStipend) {
+    return false;
+  }
+}
 
     // duration
     if (duration && intn.duration !== duration) {
