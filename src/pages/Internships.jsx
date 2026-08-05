@@ -154,7 +154,6 @@ if (selectedStipends.length > 0) {
     return false;
   }
 }
-
     // duration
     if (duration && intn.duration !== duration) {
       return false;
