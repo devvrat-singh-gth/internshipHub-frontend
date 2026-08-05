@@ -129,7 +129,6 @@ const Internships = () => {
     return true;
   });
 
-
   const renderFilters = () => (
     <aside className="min-w-[350px] md:min-w-[200px] lg:min-w-[300px] w-full bg-white dark:bg-gray-800 rounded-lg shadow p-6 shrink-0">
       <div className="flex justify-between items-center mb-6">
